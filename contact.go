@@ -12,7 +12,7 @@ type ContactService interface {
 	Get(contactID string, contact interface{}, option *RequestQueryOption) (*ResponseResource, error)
 	Create(contact interface{}) (*ResponseResource, error)
 	Update(contactID string, contact interface{}) (*ResponseResource, error)
-	AssociateAnotherObj(contactID string, conf *AssociateConfig) (*ResponseResource, error)
+	AssociateAnotherObj(contactID string, conf *AssociationConfig) (*ResponseResource, error)
 }
 
 // ContactServiceOp handles communication with the product related methods of the HubSpot API.
@@ -354,9 +354,9 @@ func (s *ContactServiceOp) Update(contactID string, contact interface{}) (*Respo
 
 // AssociateAnotherObj associates Contact with another HubSpot objects.
 // If you want to associate a custom object, please use a defined value in HubSpot.
-func (s *ContactServiceOp) AssociateAnotherObj(contactID string, conf *AssociateConfig) (*ResponseResource, error) {
+func (s *ContactServiceOp) AssociateAnotherObj(contactID string, conf *AssociationConfig) (*ResponseResource, error) {
 	resource := &ResponseResource{Properties: &Contact{}}
-	if err := s.client.Put(s.contactPath+"/"+contactID+"/"+conf.makeAssociatePath(), nil, resource); err != nil {
+	if err := s.client.Put(s.contactPath+"/"+contactID+"/"+conf.makeAssociationPath(), nil, resource); err != nil {
 		return nil, err
 	}
 	return resource, nil

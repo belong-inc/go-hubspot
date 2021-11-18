@@ -114,7 +114,7 @@ func ExampleContactServiceOp_Get() {
 func ExampleContactServiceOp_AssociateAnotherObj() {
 	cli, _ := hubspot.NewClient(hubspot.SetAPIKey("apikey"))
 
-	res, err := cli.CRM.Contact.AssociateAnotherObj("contact001", &hubspot.AssociateConfig{
+	res, err := cli.CRM.Contact.AssociateAnotherObj("contact001", &hubspot.AssociationConfig{
 		ToObject:   hubspot.ObjectTypeDeal,
 		ToObjectID: "deal001",
 		Type:       hubspot.AssociationTypeContactToDeal,
@@ -351,7 +351,7 @@ func ExampleDealServiceOp_Get_custom() {
 func ExampleDealServiceOp_AssociateAnotherObj() {
 	cli, _ := hubspot.NewClient(hubspot.SetAPIKey("apikey"))
 
-	res, err := cli.CRM.Deal.AssociateAnotherObj("deal001", &hubspot.AssociateConfig{
+	res, err := cli.CRM.Deal.AssociateAnotherObj("deal001", &hubspot.AssociationConfig{
 		ToObject:   hubspot.ObjectTypeContact,
 		ToObjectID: "contact001",
 		Type:       hubspot.AssociationTypeDealToContact,

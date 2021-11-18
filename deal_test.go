@@ -388,7 +388,7 @@ func TestDealServiceOp_AssociateAnotherObj(t *testing.T) {
 	}
 	type args struct {
 		dealID string
-		conf   *hubspot.AssociateConfig
+		conf   *hubspot.AssociationConfig
 	}
 	tests := []struct {
 		name    string
@@ -409,7 +409,7 @@ func TestDealServiceOp_AssociateAnotherObj(t *testing.T) {
 			},
 			args: args{
 				dealID: "512",
-				conf: &hubspot.AssociateConfig{
+				conf: &hubspot.AssociationConfig{
 					ToObject:   hubspot.ObjectTypeContact,
 					ToObjectID: "20074",
 					Type:       hubspot.AssociationTypeDealToContact,
@@ -420,9 +420,9 @@ func TestDealServiceOp_AssociateAnotherObj(t *testing.T) {
 				Archived: false,
 				Associations: &hubspot.Associations{
 					Contacts: struct {
-						Results []hubspot.AssociateResult `json:"results"`
+						Results []hubspot.AssociationResult `json:"results"`
 					}{
-						Results: []hubspot.AssociateResult{
+						Results: []hubspot.AssociationResult{
 							{ID: "20074", Type: "deal_to_contact"},
 						},
 					},
@@ -450,7 +450,7 @@ func TestDealServiceOp_AssociateAnotherObj(t *testing.T) {
 			},
 			args: args{
 				dealID: "512",
-				conf: &hubspot.AssociateConfig{
+				conf: &hubspot.AssociationConfig{
 					ToObject:   hubspot.ObjectTypeContact,
 					ToObjectID: "20074",
 					Type:       "test",

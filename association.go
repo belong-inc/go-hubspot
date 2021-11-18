@@ -10,7 +10,7 @@ import (
 // Reference: https://developers.hubspot.com/docs/api/crm/associations
 
 const (
-	associateBasePath = "associations"
+	associationBasePath = "associations"
 )
 
 // ObjectType is the name used in object association.
@@ -40,26 +40,26 @@ const (
 	AssociationTypeDealToTicket     AssociationType = "deal_to_ticket"
 )
 
-type AssociateConfig struct {
+type AssociationConfig struct {
 	ToObject   ObjectType
 	ToObjectID string
 	Type       AssociationType
 }
 
-func (c *AssociateConfig) makeAssociatePath() string {
-	return fmt.Sprintf("%s/%s/%s/%s", associateBasePath, c.ToObject, c.ToObjectID, c.Type)
+func (c *AssociationConfig) makeAssociationPath() string {
+	return fmt.Sprintf("%s/%s/%s/%s", associationBasePath, c.ToObject, c.ToObjectID, c.Type)
 }
 
 type Associations struct {
 	Contacts struct {
-		Results []AssociateResult `json:"results"`
+		Results []AssociationResult `json:"results"`
 	} `json:"contacts"`
 	Deals struct {
-		Results []AssociateResult `json:"results"`
+		Results []AssociationResult `json:"results"`
 	} `json:"deals"`
 }
 
-type AssociateResult struct {
+type AssociationResult struct {
 	ID   string `json:"id"`
 	Type string `json:"type"`
 }

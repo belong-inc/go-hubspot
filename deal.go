@@ -12,7 +12,7 @@ type DealService interface {
 	Get(dealID string, deal interface{}, option *RequestQueryOption) (*ResponseResource, error)
 	Create(deal interface{}) (*ResponseResource, error)
 	Update(dealID string, deal interface{}) (*ResponseResource, error)
-	AssociateAnotherObj(dealID string, conf *AssociateConfig) (*ResponseResource, error)
+	AssociateAnotherObj(dealID string, conf *AssociationConfig) (*ResponseResource, error)
 }
 
 // DealServiceOp handles communication with the product related methods of the HubSpot API.
@@ -130,9 +130,9 @@ func (s *DealServiceOp) Update(dealID string, deal interface{}) (*ResponseResour
 
 // AssociateAnotherObj associates Deal with another HubSpot objects.
 // If you want to associate a custom object, please use a defined value in HubSpot.
-func (s *DealServiceOp) AssociateAnotherObj(dealID string, conf *AssociateConfig) (*ResponseResource, error) {
+func (s *DealServiceOp) AssociateAnotherObj(dealID string, conf *AssociationConfig) (*ResponseResource, error) {
 	resource := &ResponseResource{Properties: &Deal{}}
-	if err := s.client.Put(s.dealPath+"/"+dealID+"/"+conf.makeAssociatePath(), nil, resource); err != nil {
+	if err := s.client.Put(s.dealPath+"/"+dealID+"/"+conf.makeAssociationPath(), nil, resource); err != nil {
 		return nil, err
 	}
 	return resource, nil
