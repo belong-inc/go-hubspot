@@ -1,0 +1,18 @@
+run:
+  timeout: 2m
+  skip-dirs:
+    - scripts
+
+linters:
+  enable:
+    - goimports
+    - govet
+    - errcheck
+    - staticcheck
+    - gosimple
+    - bodyclose
+    - misspell
+    - gofumpt
+    - goconst
+    - unconvert
+  disable-all: true
