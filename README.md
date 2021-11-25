@@ -89,7 +89,7 @@ res, _ := client.CRM.Contact.Create(req)
 // Type assertion to convert `interface` to `hubspot.Contact`.
 contact, ok := res.Properties.(*hubspot.Contact)
 if !ok {
-    return errors.New("unable to type assertion")
+    return errors.New("unable to assert type")
 }
 
 // Use contact fields.
