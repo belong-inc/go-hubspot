@@ -52,7 +52,7 @@ client, _ := hubspot.NewClient(hubspot.SetOAuth(&hubspot.OAuthConfig{
 client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
 
 // Get a Contact object whose id is `contactID`.
-// Contact instance needs to be provided as to bind response value.
+// Contact instance needs to be provided to bind response value.
 res, _ := client.CRM.Contact.Get("contactID", &hubspot.Contact{}, nil)
 
 // Type assertion to convert `interface` to `hubspot.Contact`.
