@@ -115,7 +115,7 @@ client.CRM.Contact.AssociateAnotherObj("contact001", &hubspot.AssociationConfig{
 ## API call using custom fields
 
 Custom fields are added out of existing object such as Deal or Contact.  
-Therefor a new struct needs to be created which contain default fields and additional custom field, and set to Properties field of a request.
+Therefore a new struct needs to be created which contain default fields and additional custom field, and set to Properties field of a request.
 
 ### Get deal with custom fields.
 
