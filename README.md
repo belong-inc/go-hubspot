@@ -51,9 +51,9 @@ client, _ := hubspot.NewClient(hubspot.SetOAuth(&hubspot.OAuthConfig{
 // Initialize hubspot client with auth method.
 client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
 
-// Get a Contact object whose id is `contactID`.
+// Get a Contact object whose id is `yourContactID`.
 // Contact instance needs to be provided to bind response value.
-res, _ := client.CRM.Contact.Get("contactID", &hubspot.Contact{}, nil)
+res, _ := client.CRM.Contact.Get("yourContactID", &hubspot.Contact{}, nil)
 
 // Type assertion to convert `interface` to `hubspot.Contact`.
 contact, ok := res.Properties.(*hubspot.Contact)
@@ -75,11 +75,11 @@ client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
 
 // Create request payload.
 req := &hubspot.Contact{
-    Email:       hubspot.NewString("hubspot@example.com"),
-    FirstName:   hubspot.NewString("Bryan"),
-    LastName:    hubspot.NewString("Cooper"),
-    MobilePhone: hubspot.NewString("(877) 929-0687"),
-    Website:     hubspot.NewString("example.com"),
+    Email:       hubspot.NewString("yourEmail"),
+    FirstName:   hubspot.NewString("yourFirstName"),
+    LastName:    hubspot.NewString("yourLastName"),
+    MobilePhone: hubspot.NewString("yourMobilePhone"),
+    Website:     hubspot.NewString("yourWebsite"),
     Zip:         nil,
 }
 
@@ -105,9 +105,9 @@ fmt.Println(contact.FirstName, contact.LastName)
 client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
 
 // Call associate api.
-client.CRM.Contact.AssociateAnotherObj("contact001", &hubspot.AssociationConfig{
+client.CRM.Contact.AssociateAnotherObj("yourContactID", &hubspot.AssociationConfig{
     ToObject:   hubspot.ObjectTypeDeal,
-    ToObjectID: "dealID",
+    ToObjectID: "yourDealID",
     Type:       hubspot.AssociationTypeContactToDeal,
 })
 ```
@@ -129,9 +129,9 @@ type CustomDeal struct {
 // Initialize hubspot client with auth method.
 client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
 
-// Get a Deal object whose id is `dealID`.
+// Get a Deal object whose id is `yourDealID`.
 // CustomDeal instance needs to be provided as to bind response value contained custom fields.
-res, _ := client.CRM.Deal.Get("dealID", &CustomDeal{}, &hubspot.RequestQueryOption{
+res, _ := client.CRM.Deal.Get("yourDealID", &CustomDeal{}, &hubspot.RequestQueryOption{
     CustomProperties: []string{
         "custom_a",
         "custom_b",
@@ -164,14 +164,14 @@ client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
 
 req := &CustomDeal{
     Deal: hubspot.Deal{
-        Amount:      hubspot.NewString("1000"),
-        DealName:    hubspot.NewString("deal001"),
-        DealStage:   hubspot.NewString("stageA"),
-        DealOwnerID: hubspot.NewString("admin"),
-        PipeLine:    hubspot.NewString("default"),
+        Amount:      hubspot.NewString("yourAmount"),
+        DealName:    hubspot.NewString("yourDealName"),
+        DealStage:   hubspot.NewString("yourDealStage"),
+        DealOwnerID: hubspot.NewString("yourDealOwnerID"),
+        PipeLine:    hubspot.NewString("yourPipeLine"),
     },
-    CustomA: "custom field A",
-    CustomB: "custom field B",
+    CustomA: "yourCustomFieldA",
+    CustomB: "yourCustomFieldB",
 }
 
 // Call create deal api with custom struct.
