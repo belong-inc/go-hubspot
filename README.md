@@ -2,8 +2,8 @@
 [![godoc](https://godoc.org/github.com/belong-inc/go-hubspot?status.svg)](https://pkg.go.dev/github.com/belong-inc/go-hubspot)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-HubSpot Go Library that works with [HubSpot API v3](https://developers.hubspot.com/docs/api/overview). HubSpot
-officially supports client library of Node.js, PHP, Ruby, and Python but not Go.
+HubSpot Go Library that works with [HubSpot API v3](https://developers.hubspot.com/docs/api/overview).  
+HubSpot officially supports client library of Node.js, PHP, Ruby, and Python but not Go.
 
 Note: go-hubspot currently doesn't cover all the APIs but mainly implemented CRM APIs. Implemented APIs are used in
 production.
@@ -51,17 +51,18 @@ client, _ := hubspot.NewClient(hubspot.SetOAuth(&hubspot.OAuthConfig{
 // Initialize hubspot client with auth method.
 client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
 
-// Call get contact api with struct to store response.
+// Get a Contact object whose id is `contactID`.
+// Contact instance needs to be provided as to bind response value.
 res, _ := client.CRM.Contact.Get("contactID", &hubspot.Contact{}, nil)
 
 // Type assertion to convert `interface` to `hubspot.Contact`.
-properties, ok := res.Properties.(*hubspot.Contact)
+contact, ok := res.Properties.(*hubspot.Contact)
 if !ok {
     return errors.New("unable to type assertion")
 }
 
-// Use properties.
-fmt.Println(properties.FirstName, properties.LastName)
+// Use contact fields.
+fmt.Println(contact.FirstName, contact.LastName)
 ```
 
 ---
@@ -73,7 +74,7 @@ fmt.Println(properties.FirstName, properties.LastName)
 client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
 
 // Create request payload.
-contact := &hubspot.Contact{
+req := &hubspot.Contact{
     Email:       hubspot.NewString("hubspot@example.com"),
     FirstName:   hubspot.NewString("Bryan"),
     LastName:    hubspot.NewString("Cooper"),
@@ -83,16 +84,16 @@ contact := &hubspot.Contact{
 }
 
 // Call create contact api.
-res, _ := client.CRM.Contact.Create(contact)
+res, _ := client.CRM.Contact.Create(req)
 
 // Type assertion to convert `interface` to `hubspot.Contact`.
-properties, ok := res.Properties.(*hubspot.Contact)
+contact, ok := res.Properties.(*hubspot.Contact)
 if !ok {
     return errors.New("unable to type assertion")
 }
 
-// Use properties.
-fmt.Println(properties.FirstName, properties.LastName)
+// Use contact fields.
+fmt.Println(contact.FirstName, contact.LastName)
 ```
 
 ---
@@ -113,6 +114,9 @@ client.CRM.Contact.AssociateAnotherObj("contact001", &hubspot.AssociationConfig{
 
 ## API call using custom fields
 
+Custom fields are added out of existing object such as Deal or Contact.  
+Therefor a new struct needs to be created which contain default fields and additional custom field, and set to Properties field of a request.
+
 ### Get deal with custom fields.
 
 ```go
@@ -125,7 +129,8 @@ type CustomDeal struct {
 // Initialize hubspot client with auth method.
 client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
 
-// Call get deal api with custom struct and custom property names.
+// Get a Deal object whose id is `dealID`.
+// CustomDeal instance needs to be provided as to bind response value contained custom fields.
 res, _ := client.CRM.Deal.Get("dealID", &CustomDeal{}, &hubspot.RequestQueryOption{
     CustomProperties: []string{
         "custom_a",
@@ -134,13 +139,13 @@ res, _ := client.CRM.Deal.Get("dealID", &CustomDeal{}, &hubspot.RequestQueryOpti
 })
 
 // Type assertion to convert `interface` to `CustomDeal`.
-properties, ok := res.Properties.(*CustomDeal)
+customDeal, ok := res.Properties.(*CustomDeal)
 if !ok {
     return errors.New("unable to type assertion")
 }
 
-// Use properties.
-fmt.Println(properties.CustomA, properties.CustomB)
+// Use custom deal fields.
+fmt.Println(customDeal.CustomA, customDeal.CustomB)
 ```
 
 ---
@@ -157,7 +162,7 @@ type CustomDeal struct {
 // Initialize hubspot client with auth method.
 client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
 
-deal := &CustomDeal{
+req := &CustomDeal{
     Deal: hubspot.Deal{
         Amount:      hubspot.NewString("1000"),
         DealName:    hubspot.NewString("deal001"),
@@ -170,16 +175,16 @@ deal := &CustomDeal{
 }
 
 // Call create deal api with custom struct.
-res, _ := client.CRM.Deal.Create(deal)
+res, _ := client.CRM.Deal.Create(req)
 
 // Type assertion to convert `interface` to `CustomDeal`.
-properties, ok := res.Properties.(*CustomDeal)
+customDeal, ok := res.Properties.(*CustomDeal)
 if !ok {
     return errors.New("unable to type assertion")
 }
 
-// Use properties.
-fmt.Println(properties.CustomA, properties.CustomB)
+// Use custom deal fields.
+fmt.Println(customDeal.CustomA, customDeal.CustomB)
 ```
 
 # API availability
