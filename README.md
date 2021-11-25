@@ -141,7 +141,7 @@ res, _ := client.CRM.Deal.Get("dealID", &CustomDeal{}, &hubspot.RequestQueryOpti
 // Type assertion to convert `interface` to `CustomDeal`.
 customDeal, ok := res.Properties.(*CustomDeal)
 if !ok {
-    return errors.New("unable to type assertion")
+    return errors.New("unable to assert type")
 }
 
 // Use custom deal fields.
