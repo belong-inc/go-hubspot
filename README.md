@@ -208,3 +208,8 @@ fmt.Println(customDeal.CustomA, customDeal.CustomB)
 |API key      | Available |
 |OAuth        | Available |
 |Private apps | Not Implemented |
+
+# Contributing
+
+Contributions are generally welcome.  
+Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) when making your contribution.

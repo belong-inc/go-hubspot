@@ -1,9 +1,5 @@
-What to do  
-- Please describe the purpose and what changes of this pull request.
-- If you have any reference links, please include them.
+## What to do  
 
-Background  
-- Please describe why you need to make this modification.
+## Background  
 
-Acceptance criteria  
-- Please describe what can be considered complete.
+## Acceptance criteria  

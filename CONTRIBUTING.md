@@ -5,7 +5,7 @@ First off, thank you for considering contributing to go-hubspot.
 ## Reporting bug & Feature request
 
 If you've noticed a bug or have a feature request, please make an [issue](https://github.com/belong-inc/go-hubspot/issues).  
-Some of the issue contents are being or have been fixed, so it is recommended to check for similar issues.  
+Some issue contents are being or have been fixed, so it is recommended to check for similar issues.  
 
 ## Code change flow
 
@@ -27,6 +27,18 @@ You will also need to lint and test your changes. Make sure to run `make lint` a
 ### Make a pull request
 
 When you have finished modifying and testing the code, please create a pull request with a description of the content. The lint and test will be executed by Github actions, but it's the same confirmation as local execution, so if it's already executed, no problem is expected.
+
+When creating a pull request, we ask for the following items to be included. The items are described in the template.
+
+- What to do  
+  - Please describe the purpose and what changes of this pull request.
+  - If you have any reference links, please include them.
+
+- Background  
+  - Please describe why you need to make this modification.
+
+- Acceptance criteria  
+  - Please describe what can be considered complete.
 
 ### Merging a pull request (maintainer only)
 
