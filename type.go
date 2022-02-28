@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+// HsStr is defined to identify HubSpot's empty string from null.
+// If you want to set a HubSpot's value, use NewString(), if null, use `nil` in the request field.
 type HsStr string
 
 // BlankStr should be used to include empty string in HubSpot fields.
@@ -12,18 +14,21 @@ type HsStr string
 var BlankStr = NewString("")
 
 // NewString returns pointer HsStr(string).
-// Use it to convert values that are not held in variables.
 // Make sure to use BlankStr for empty string.
 func NewString(s string) *HsStr {
-	h := HsStr(s)
-	return &h
+	v := HsStr(s)
+	return &v
 }
 
 // String implemented Stringer.
-func (hs HsStr) String() string {
-	return string(hs)
+func (hs *HsStr) String() string {
+	if hs == nil {
+		return ""
+	}
+	return string(*hs)
 }
 
+// HsBool is defined to marshal the HubSpot boolean fields of `true`, `"true"`, and so on, into a bool type.
 type HsBool bool
 
 // UnmarshalJSON implemented json.Unmarshaler.
@@ -38,7 +43,15 @@ func (hb *HsBool) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// HsTime is defined to identify HubSpot time fields with null and empty string.
+// If you want to set a HubSpot's value, use NewTime(), if null, use `nil` in the request field.
 type HsTime time.Time
+
+// NewTime returns pointer HsTime(time.Time).
+func NewTime(t time.Time) *HsTime {
+	v := HsTime(t)
+	return &v
+}
 
 // UnmarshalJSON implemented json.Unmarshaler.
 // This is because there are cases where the Time value returned by HubSpot is null or empty string.
@@ -57,11 +70,13 @@ func (ht *HsTime) UnmarshalJSON(b []byte) error {
 }
 
 // String implemented Stringer.
-// If the value is zero, it will be displayed as `<nil>`.
 func (ht *HsTime) String() string {
+	if ht == nil {
+		return "nil"
+	}
 	v := time.Time(*ht)
 	if v.IsZero() {
-		return "<nil>"
+		return ""
 	}
 	return v.String()
 }
@@ -69,6 +84,9 @@ func (ht *HsTime) String() string {
 // ToTime convert HsTime to time.Time.
 // If the value is zero, it will be return nil.
 func (ht *HsTime) ToTime() *time.Time {
+	if ht == nil {
+		return nil
+	}
 	v := time.Time(*ht)
 	if v.IsZero() {
 		return nil
