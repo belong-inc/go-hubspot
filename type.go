@@ -15,13 +15,16 @@ var BlankStr = NewString("")
 // Use it to convert values that are not held in variables.
 // Make sure to use BlankStr for empty string.
 func NewString(s string) *HsStr {
-	h := HsStr(s)
-	return &h
+	v := HsStr(s)
+	return &v
 }
 
 // String implemented Stringer.
-func (hs HsStr) String() string {
-	return string(hs)
+func (hs *HsStr) String() string {
+	if hs == nil {
+		return ""
+	}
+	return string(*hs)
 }
 
 type HsBool bool
@@ -39,6 +42,13 @@ func (hb *HsBool) UnmarshalJSON(b []byte) error {
 }
 
 type HsTime time.Time
+
+// NewTime returns pointer HsTime(time.Time).
+// Use it to convert values that are not held in variables.
+func NewTime(t time.Time) *HsTime {
+	v := HsTime(t)
+	return &v
+}
 
 // UnmarshalJSON implemented json.Unmarshaler.
 // This is because there are cases where the Time value returned by HubSpot is null or empty string.
@@ -59,6 +69,9 @@ func (ht *HsTime) UnmarshalJSON(b []byte) error {
 // String implemented Stringer.
 // If the value is zero, it will be displayed as `<nil>`.
 func (ht *HsTime) String() string {
+	if ht == nil {
+		return "<nil>"
+	}
 	v := time.Time(*ht)
 	if v.IsZero() {
 		return "<nil>"
@@ -69,6 +82,9 @@ func (ht *HsTime) String() string {
 // ToTime convert HsTime to time.Time.
 // If the value is zero, it will be return nil.
 func (ht *HsTime) ToTime() *time.Time {
+	if ht == nil {
+		return nil
+	}
 	v := time.Time(*ht)
 	if v.IsZero() {
 		return nil
