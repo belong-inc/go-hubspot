@@ -55,12 +55,12 @@ func TestHsTime_String(t *testing.T) {
 		{
 			name: "Success case of nil receiver",
 			ht:   nil,
-			want: "<nil>",
+			want: "nil",
 		},
 		{
 			name: "Success case of zero value",
 			ht:   &hubspot.HsTime{},
-			want: "<nil>",
+			want: "",
 		},
 	}
 	for _, tt := range tests {
