@@ -377,7 +377,8 @@ func ExampleDealServiceOp_AssociateAnotherObj() {
 func ExampleMarketingEmailOp_GetStatistics() {
 	cli, _ := hubspot.NewClient(hubspot.SetAPIKey(os.Getenv("API_KEY")))
 
-	res, err := cli.Marketing.Email.GetStatistics(27276134275, &hubspot.Statistics{}, nil)
+	emailID := 0 // Set proper value.
+	res, err := cli.Marketing.Email.GetStatistics(emailID, &hubspot.Statistics{}, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
