@@ -138,6 +138,7 @@ func TestNewClient(t *testing.T) {
 				want.ExportSetAPIVersion(tt.settings.apiVersion)
 				want.ExportSetBaseURL(tt.settings.baseURL)
 				want.CRM = hubspot.ExportNewCRM(want)
+				want.Marketing = hubspot.ExportNewMarketing(want)
 				tt.settings.authMethod(want)
 			}
 
@@ -165,6 +166,7 @@ func TestClient_NewRequest(t *testing.T) {
 		apiVersion string
 		authMethod hubspot.AuthMethod
 		crm        *hubspot.CRM
+		marketing  *hubspot.Marketing
 	}
 	type args struct {
 		method string
