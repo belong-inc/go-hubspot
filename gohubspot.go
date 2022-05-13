@@ -34,7 +34,8 @@ type Client struct {
 
 	authenticator Authenticator
 
-	CRM *CRM
+	CRM       *CRM
+	Marketing *Marketing
 }
 
 // RequestPayload is common request structure for HubSpot APIs.
@@ -77,6 +78,7 @@ func NewClient(setAuthMethod AuthMethod, opts ...Option) (*Client, error) {
 
 	// Since the baseURL and apiVersion may change, initialize the service after applying the options.
 	c.CRM = newCRM(c)
+	c.Marketing = newMarketing(c)
 
 	return c, nil
 }
