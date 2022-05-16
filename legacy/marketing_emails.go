@@ -246,7 +246,7 @@ type MarketingEmailHelper interface {
 	GetStatisticsPath() string
 }
 
-type marketingEmaiHelperOp struct {
+type marketingEmailHelperOp struct {
 	marketingEmailsBasePath string
 }
 
