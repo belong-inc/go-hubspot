@@ -23,8 +23,8 @@ type (
 // As of May 2022, HubSpot provides only API v1 therefore the implementation is based on document in
 // https://legacydocs.hubspot.com/docs/methods/cms_email/get-the-statistics-for-a-marketing-email.
 type MarketingEmailService interface {
-	GetStatistics(emailID int, statistics interface{}, option *RequestQueryOption) (*ResponseResource, error)
-	ListStatistics(statistics interface{}, option *RequestQueryOption) (*ResponseResource, error)
+	GetStatistics(emailID int, statistics interface{}) (*ResponseResource, error)
+	ListStatistics(statistics interface{}, option *BulkRequestQueryOption) (*ResponseResource, error)
 }
 
 type MarketingEmailOp struct {
@@ -44,15 +44,15 @@ func NewMarketingEmail(client *Client) MarketingEmailService {
 }
 
 // GetStatistics get a Statistics for given emailID.
-func (m *MarketingEmailOp) GetStatistics(emailID int, resource interface{}, option *RequestQueryOption) (*ResponseResource, error) {
-	if err := m.client.Get(m.legacyAPIHelper.GetStatisticsPath()+fmt.Sprintf("/%d", emailID), resource, option.setupProperties(defaultContactFields)); err != nil {
+func (m *MarketingEmailOp) GetStatistics(emailID int, resource interface{}) (*ResponseResource, error) {
+	if err := m.client.Get(m.legacyAPIHelper.GetStatisticsPath()+fmt.Sprintf("/%d", emailID), resource, nil); err != nil {
 		return nil, err
 	}
 	return &ResponseResource{Properties: resource}, nil
 }
 
 // ListStatistics get a list of Statistics.
-func (m MarketingEmailOp) ListStatistics(resource interface{}, option *RequestQueryOption) (*ResponseResource, error) {
+func (m *MarketingEmailOp) ListStatistics(resource interface{}, option *BulkRequestQueryOption) (*ResponseResource, error) {
 	if err := m.client.Get(m.legacyAPIHelper.GetStatisticsPath(), resource, option); err != nil {
 		return nil, err
 	}

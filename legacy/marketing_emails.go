@@ -250,12 +250,12 @@ type marketingEmailHelperOp struct {
 	marketingEmailsBasePath string
 }
 
-func (m *marketingEmaiHelperOp) GetStatisticsPath() string {
+func (m *marketingEmailHelperOp) GetStatisticsPath() string {
 	return m.marketingEmailsBasePath + "/with-statistics"
 }
 
-var _ MarketingEmailHelper = (*marketingEmaiHelperOp)(nil)
+var _ MarketingEmailHelper = (*marketingEmailHelperOp)(nil)
 
 func NewMarketingEmailHelper() MarketingEmailHelper {
-	return &marketingEmaiHelperOp{marketingEmailsBasePath: marketingEmailsBasePath}
+	return &marketingEmailHelperOp{marketingEmailsBasePath: marketingEmailsBasePath}
 }

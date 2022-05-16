@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/belong-inc/go-hubspot"
+	hubspot "github.com/belong-inc/go-hubspot"
 	"github.com/google/go-cmp/cmp"
 )
 

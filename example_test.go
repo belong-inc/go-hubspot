@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/belong-inc/go-hubspot"
+	hubspot "github.com/belong-inc/go-hubspot"
 )
 
 type ExampleContact struct {
@@ -378,7 +378,7 @@ func ExampleMarketingEmailOp_GetStatistics() {
 	cli, _ := hubspot.NewClient(hubspot.SetAPIKey(os.Getenv("API_KEY")))
 
 	emailID := 0 // Set proper value.
-	res, err := cli.Marketing.Email.GetStatistics(emailID, &hubspot.Statistics{}, nil)
+	res, err := cli.Marketing.Email.GetStatistics(emailID, &hubspot.Statistics{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -400,7 +400,7 @@ func ExampleMarketingEmailOp_ListStatistics() {
 	cli, _ := hubspot.NewClient(hubspot.SetAPIKey(os.Getenv("API_KEY")))
 
 	statistics := make([]hubspot.Statistics, 0, 50)
-	res, err := cli.Marketing.Email.ListStatistics(&hubspot.BulkStatisticsResponse{Objects: statistics}, nil)
+	res, err := cli.Marketing.Email.ListStatistics(&hubspot.BulkStatisticsResponse{Objects: statistics}, &hubspot.BulkRequestQueryOption{Limit: 10})
 	if err != nil {
 		log.Fatal(err)
 	}

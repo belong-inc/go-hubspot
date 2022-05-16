@@ -220,7 +220,7 @@ func isErrorStatusCode(code int) bool {
 }
 
 // Get performs a GET request for the given path and saves the result in the given resource.
-func (c *Client) Get(path string, resource interface{}, option *RequestQueryOption) error {
+func (c *Client) Get(path string, resource interface{}, option interface{}) error {
 	return c.CreateAndDo(http.MethodGet, path, nil, option, resource)
 }
 
