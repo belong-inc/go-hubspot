@@ -189,17 +189,17 @@ fmt.Println(customDeal.CustomA, customDeal.CustomB)
 
 # API availability
 
-|Category     | API     | Availability |
-|-------------|---------|--------------|
-|CRM          | Deal    |  Available |
-|CRM          | Contact |  Available |
-|CMS          | All     |  Not Implemented |
-|Conversations| All     |  Not Implemented |
-|Events       | All     |  Not Implemented |
-|Marketing    | All     |  Not Implemented |
-|Files        | All     |  Not Implemented |
-|Settings     | All     |  Not Implemented |
-|Webhooks     | All     |  Not Implemented |
+|Category     | API             | Availability    |
+|-------------|-----------------|-----------------|
+|CRM          | Deal            | Available       |
+|CRM          | Contact         | Available       |
+|CMS          | All             | Not Implemented |
+|Conversations| All             | Not Implemented |
+|Events       | All             | Not Implemented |
+|Marketing    | Marketing Email | Available       |
+|Files        | All             | Not Implemented |
+|Settings     | All             | Not Implemented |
+|Webhooks     | All             | Not Implemented |
 
 # Authentication availability
 
