@@ -56,4 +56,4 @@ $(GOFMPT): | $(BIN) ## Install gofumpt
 
 .PHONY: fmt
 fmt: | $(GOFMPT) ## format files via gofumpt and list impacted files
-	$(BIN)/gofumpt -l -w .
+	@$(BIN)/gofumpt -l -w . ./legacy
