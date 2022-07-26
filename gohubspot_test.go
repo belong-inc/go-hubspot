@@ -304,7 +304,7 @@ func TestClient_NewRequest(t *testing.T) {
 				return
 			}
 			if tt.want.method != got.Method {
-				t.Errorf("NewRequest() mwthod mismatch: want %s got %s", tt.want.method, got.Method)
+				t.Errorf("NewRequest() method mismatch: want %s got %s", tt.want.method, got.Method)
 				return
 			}
 			if tt.want.url != got.URL.String() {
@@ -360,7 +360,7 @@ func TestClient_CreateAndDo(t *testing.T) {
 			},
 			args: args{
 				method:   http.MethodGet,
-				relPath:  "crm/v3/objets/deals",
+				relPath:  "crm/v3/objects/deals",
 				data:     nil,
 				option:   nil,
 				resource: &hubspot.ResponseResource{Properties: &hubspot.Deal{}},
@@ -398,7 +398,7 @@ func TestClient_CreateAndDo(t *testing.T) {
 			},
 			args: args{
 				method:  http.MethodGet,
-				relPath: "crm/v3/objets/deals",
+				relPath: "crm/v3/objects/deals",
 				data: &hubspot.Deal{
 					Amount:      hubspot.NewString("1500.00"),
 					DealName:    hubspot.NewString("Custom data integrations"),
