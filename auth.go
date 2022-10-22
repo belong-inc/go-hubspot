@@ -69,6 +69,6 @@ type PrivateAppToken struct {
 
 func (p *PrivateAppToken) SetAuthentication(r *http.Request) error {
 	h := r.Header
-	h.Set("Authorization", "Bearer " + p.authToken)
+	h.Set("Authorization", "Bearer "+p.authToken)
 	return nil
 }
