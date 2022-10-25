@@ -31,6 +31,14 @@ func SetAPIKey(key string) AuthMethod {
 	}
 }
 
+func SetPrivateAppToken(token string) AuthMethod {
+	return func(c *Client) {
+		c.authenticator = &PrivateAppToken{
+			accessToken: token,
+		}
+	}
+}
+
 type OAuth struct {
 	retriever OAuthTokenRetriever
 }
@@ -52,5 +60,15 @@ func (a *APIKey) SetAuthentication(r *http.Request) error {
 	q := r.URL.Query()
 	q.Set("hapikey", a.apikey)
 	r.URL.RawQuery = q.Encode()
+	return nil
+}
+
+type PrivateAppToken struct {
+	accessToken string
+}
+
+func (p *PrivateAppToken) SetAuthentication(r *http.Request) error {
+	h := r.Header
+	h.Set("Authorization", "Bearer "+p.accessToken)
 	return nil
 }
