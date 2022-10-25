@@ -23,6 +23,7 @@ func SetOAuth(config *OAuthConfig) AuthMethod {
 	}
 }
 
+// Deprecated: Use hubspot.SetPrivateAppToken.
 func SetAPIKey(key string) AuthMethod {
 	return func(c *Client) {
 		c.authenticator = &APIKey{

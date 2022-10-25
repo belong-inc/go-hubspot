@@ -56,7 +56,7 @@ type ResponseResource struct {
 
 // NewClient returns a new HubSpot API client with APIKey or OAuthConfig.
 // HubSpot officially recommends authentication with OAuth.
-// e.g. hubspot.NewClient(hubspot.SetAPIKey("key"))
+// e.g. hubspot.NewClient(hubspot.SetPrivateAppToken("key"))
 func NewClient(setAuthMethod AuthMethod, opts ...Option) (*Client, error) {
 	if setAuthMethod == nil {
 		return nil, errors.New("the authentication method is not set")
