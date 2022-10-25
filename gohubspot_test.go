@@ -78,44 +78,57 @@ func TestNewClient(t *testing.T) {
 			wantErr: nil,
 		},
 		{
+			name: "Success new client and set private app token",
+			args: args{
+				setAuthMethod: hubspot.SetPrivateAppToken("token"),
+			},
+			settings: settings{
+				client:     http.DefaultClient,
+				baseURL:    hubspot.ExportBaseURL,
+				apiVersion: hubspot.ExportAPIVersion,
+				authMethod: hubspot.SetPrivateAppToken("token"),
+			},
+			wantErr: nil,
+		},
+		{
 			name: "Success new client with custom http client",
 			args: args{
-				setAuthMethod: hubspot.SetAPIKey("key"),
+				setAuthMethod: hubspot.SetPrivateAppToken("token"),
 				opts:          []hubspot.Option{hubspot.WithHTTPClient(&http.Client{Timeout: 100 * time.Second})},
 			},
 			settings: settings{
 				client:     &http.Client{Timeout: 100 * time.Second},
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetAPIKey("key"),
+				authMethod: hubspot.SetPrivateAppToken("token"),
 			},
 			wantErr: nil,
 		},
 		{
 			name: "Success new client with custom base url",
 			args: args{
-				setAuthMethod: hubspot.SetAPIKey("key"),
+				setAuthMethod: hubspot.SetPrivateAppToken("token"),
 				opts:          []hubspot.Option{hubspot.WithBaseURL(&url.URL{Scheme: "http", Host: "example.com"})},
 			},
 			settings: settings{
 				client:     http.DefaultClient,
 				baseURL:    &url.URL{Scheme: "http", Host: "example.com"},
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetAPIKey("key"),
+				authMethod: hubspot.SetPrivateAppToken("token"),
 			},
 			wantErr: nil,
 		},
 		{
 			name: "Success new client with custom api version",
 			args: args{
-				setAuthMethod: hubspot.SetAPIKey("key"),
+				setAuthMethod: hubspot.SetPrivateAppToken("token"),
 				opts:          []hubspot.Option{hubspot.WithAPIVersion("v0")},
 			},
 			settings: settings{
 				client:     http.DefaultClient,
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: "v0",
-				authMethod: hubspot.SetAPIKey("key"),
+				authMethod: hubspot.SetPrivateAppToken("token"),
 			},
 			wantErr: nil,
 		},
@@ -279,6 +292,35 @@ func TestClient_NewRequest(t *testing.T) {
 			},
 			wantErr: nil,
 		},
+		{
+			name: "Created http.POST request with PrivateApp token",
+			settings: settings{
+				client:     hubspot.NewMockHTTPClient(&hubspot.MockConfig{}),
+				baseURL:    hubspot.ExportBaseURL,
+				apiVersion: hubspot.ExportAPIVersion,
+				authMethod: hubspot.SetPrivateAppToken("token"),
+				crm:        nil,
+			},
+			args: args{
+				method: http.MethodPost,
+				path:   "objects/test",
+				body: &body{
+					ID:   "001",
+					Name: "example",
+				},
+				option: nil,
+			},
+			want: wantReq{
+				method: http.MethodPost,
+				url:    "https://api.hubapi.com/objects/test",
+				body:   []byte(`{"id":"001","name":"example"}`),
+				header: http.Header{
+					"Content-Type":  []string{"application/json"},
+					"Authorization": []string{"Bearer token"},
+				},
+			},
+			wantErr: nil,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -355,7 +397,7 @@ func TestClient_CreateAndDo(t *testing.T) {
 				}),
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetAPIKey("test"),
+				authMethod: hubspot.SetPrivateAppToken("test"),
 				crm:        nil,
 			},
 			args: args{
@@ -393,7 +435,7 @@ func TestClient_CreateAndDo(t *testing.T) {
 				}),
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetAPIKey("test"),
+				authMethod: hubspot.SetPrivateAppToken("test"),
 				crm:        nil,
 			},
 			args: args{

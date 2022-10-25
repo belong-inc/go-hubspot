@@ -20,11 +20,13 @@ $ go get github.com/belong-inc/go-hubspot
 
 ### API key
 
+**Deprecated**
+
 You should take api key in advance. Follow steps
 in [here](https://knowledge.hubspot.com/integrations/how-do-i-get-my-hubspot-api-key).
 
 ```go
-// Initialize hubspot client with apikey
+// Initialize hubspot client with apikey.
 client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
 ```
 
@@ -43,13 +45,23 @@ client, _ := hubspot.NewClient(hubspot.SetOAuth(&hubspot.OAuthConfig{
 }))
 ```
 
+### Private app
+
+You should take access token in advance. Follow steps
+in [here](https://developers.hubspot.com/docs/api/private-apps).
+
+```go
+// Initialize hubspot client with private app access token.
+client, _ := hubspot.NewClient(hubspot.SetPrivateAppToken("YOUR_ACCESS_TOKEN"))
+```
+
 ## API call
 
 ### Get contact
 
 ```go
 // Initialize hubspot client with auth method.
-client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
+client, _ := hubspot.NewClient(hubspot.SetPrivateAppToken("YOUR_ACCESS_TOKEN"))
 
 // Get a Contact object whose id is `yourContactID`.
 // Contact instance needs to be provided to bind response value.
@@ -71,7 +83,7 @@ fmt.Println(contact.FirstName, contact.LastName)
 
 ```go
 // Initialize hubspot client with auth method.
-client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
+client, _ := hubspot.NewClient(hubspot.SetPrivateAppToken("YOUR_ACCESS_TOKEN"))
 
 // Create request payload.
 req := &hubspot.Contact{
@@ -102,7 +114,7 @@ fmt.Println(contact.FirstName, contact.LastName)
 
 ```go
 // Initialize hubspot client with auth method.
-client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
+client, _ := hubspot.NewClient(hubspot.SetPrivateAppToken("YOUR_ACCESS_TOKEN"))
 
 // Call associate api.
 client.CRM.Contact.AssociateAnotherObj("yourContactID", &hubspot.AssociationConfig{
@@ -127,7 +139,7 @@ type CustomDeal struct {
 }
 
 // Initialize hubspot client with auth method.
-client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
+client, _ := hubspot.NewClient(hubspot.SetPrivateAppToken("YOUR_ACCESS_TOKEN"))
 
 // Get a Deal object whose id is `yourDealID`.
 // CustomDeal instance needs to be provided as to bind response value contained custom fields.
@@ -160,7 +172,7 @@ type CustomDeal struct {
 }
 
 // Initialize hubspot client with auth method.
-client, _ := hubspot.NewClient(hubspot.SetAPIKey("YOUR_API_KEY"))
+client, _ := hubspot.NewClient(hubspot.SetPrivateAppToken("YOUR_ACCESS_TOKEN"))
 
 req := &CustomDeal{
     Deal: hubspot.Deal{
@@ -205,9 +217,9 @@ fmt.Println(customDeal.CustomA, customDeal.CustomB)
 
 |Type         | Availability |
 |-------------|--------------|
-|API key      | Available |
-|OAuth        | Available |
-|Private apps | Not Implemented |
+|API key      | Deprecated   |
+|OAuth        | Available    |
+|Private apps | Available    |
 
 # Contributing
 
