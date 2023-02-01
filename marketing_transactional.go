@@ -9,7 +9,7 @@ const transactionalBasePath = "transactional"
 // It can also be associated with other CRM objects such as contact and company.
 // Reference: https://developers.hubspot.com/docs/api/crm/deals
 type TransactionalService interface {
-	SingleEmailSend(props *SingleSendProperties) (*SingleEmailSendResponse, error)
+	SendSingleEmail(props *SendSingleEmailProperties) (*SendSingleEmailResponse, error)
 }
 
 // DealServiceOp handles communication with the product related methods of the HubSpot API.
@@ -20,7 +20,7 @@ type TransactionalServiceOp struct {
 
 var _ TransactionalService = (*TransactionalServiceOp)(nil)
 
-type SingleSendMessage struct {
+type SendSingleEmailMessage struct {
 	To      string   `json:"to"`
 	From    string   `json:"from,omitempty"`
 	SendId  string   `json:"sendId,omitempty"`
@@ -29,21 +29,21 @@ type SingleSendMessage struct {
 	Bcc     string   `json:"bcc,omitempty"`
 }
 
-type SingleSendProperties struct {
-	EmailId           string             `json:"emailId"`
-	Message           *SingleSendMessage `json:"message"`
-	ContactProperties *Contact           `json:"contactProperties,omitempty"`
-	CustomProperties  interface{}        `json:"customProperties,omitempty"`
+type SendSingleEmailProperties struct {
+	EmailId           string                  `json:"emailId"`
+	Message           *SendSingleEmailMessage `json:"message"`
+	ContactProperties *Contact                `json:"contactProperties,omitempty"`
+	CustomProperties  interface{}             `json:"customProperties,omitempty"`
 }
 
-type SingleEmailSendResponse struct {
+type SendSingleEmailResponse struct {
 	RequestedAt string `json:"requestedAt"`
 	StatusId    string `json:"statusId"`
 	Status      string `json:"status"`
 }
 
-func (s *TransactionalServiceOp) SingleEmailSend(props *SingleSendProperties) (*SingleEmailSendResponse, error) {
-	resource := &SingleEmailSendResponse{}
+func (s *TransactionalServiceOp) SendSingleEmail(props *SendSingleEmailProperties) (*SendSingleEmailResponse, error) {
+	resource := &SendSingleEmailResponse{}
 	if err := s.client.Post(fmt.Sprintf("%s/single-email/send", s.transactionalPath), props, resource); err != nil {
 		return nil, err
 	}
