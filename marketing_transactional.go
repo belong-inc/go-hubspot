@@ -10,7 +10,7 @@ type TransactionalService interface {
 	SendSingleEmail(props *SendSingleEmailProperties) (*SendSingleEmailResponse, error)
 }
 
-// Provides the default implementation of TransactionService.
+// TransactionalServiceOp provides the default implementation of TransactionService.
 type TransactionalServiceOp struct {
 	transactionalPath string
 	client            *Client
