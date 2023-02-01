@@ -11,7 +11,6 @@ type Marketing struct {
 	Transactional TransactionalServiceOp
 }
 
-// "/marketing/v3/transactional/single-email/send"
 func newMarketing(c *Client) *Marketing {
 	return &Marketing{
 		Email: NewMarketingEmail(c),
