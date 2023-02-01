@@ -4,15 +4,13 @@ import "fmt"
 
 const transactionalBasePath = "transactional"
 
-// DealService is an interface of deal endpoints of the HubSpot API.
-// HubSpot deal can be used to manage transactions.
-// It can also be associated with other CRM objects such as contact and company.
-// Reference: https://developers.hubspot.com/docs/api/crm/deals
+// TransactionalService is an interface for the marketing/transactional service of the HubSpot API.
+// Reference: https://developers.hubspot.com/docs/api/marketing/transactional-emails
 type TransactionalService interface {
 	SendSingleEmail(props *SendSingleEmailProperties) (*SendSingleEmailResponse, error)
 }
 
-// DealServiceOp handles communication with the product related methods of the HubSpot API.
+// Provides the default implementation of TransactionService.
 type TransactionalServiceOp struct {
 	transactionalPath string
 	client            *Client
