@@ -23,9 +23,8 @@ type SendSingleEmailMessage struct {
 	From    string   `json:"from,omitempty"`
 	SendId  string   `json:"sendId,omitempty"`
 	ReplyTo []string `json:"replyTo,omitempty"`
-	Cc      []string   `json:"cc,omitempty"`
-	Bcc     []string   `json:"bcc,omitempty"`
-	Bcc     string   `json:"bcc,omitempty"`
+	Cc      []string `json:"cc,omitempty"`
+	Bcc     []string `json:"bcc,omitempty"`
 }
 
 type SendSingleEmailProperties struct {
