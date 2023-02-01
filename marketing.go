@@ -8,13 +8,13 @@ const (
 
 type Marketing struct {
 	Email         MarketingEmailService
-	Transactional TransactionalServiceOp
+	Transactional TransactionalService
 }
 
 func newMarketing(c *Client) *Marketing {
 	return &Marketing{
 		Email: NewMarketingEmail(c),
-		Transactional: TransactionalServiceOp{
+		Transactional: &TransactionalServiceOp{
 			client:            c,
 			transactionalPath: fmt.Sprintf("%s/%s/%s", marketingBasePath, c.apiVersion, transactionalBasePath),
 		},
