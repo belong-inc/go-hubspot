@@ -28,7 +28,7 @@ type SendSingleEmailMessage struct {
 }
 
 type SendSingleEmailProperties struct {
-	EmailId           string                  `json:"emailId"`
+	EmailId           int64                   `json:"emailId"`
 	Message           *SendSingleEmailMessage `json:"message"`
 	ContactProperties *Contact                `json:"contactProperties,omitempty"`
 	CustomProperties  interface{}             `json:"customProperties,omitempty"`
@@ -46,5 +46,4 @@ func (s *TransactionalServiceOp) SendSingleEmail(props *SendSingleEmailPropertie
 		return nil, err
 	}
 	return resource, nil
-
 }
