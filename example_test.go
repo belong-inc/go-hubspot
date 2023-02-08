@@ -453,3 +453,38 @@ func ExampleMarketingEmailOp_ListStatistics() {
 
 	// // Output:
 }
+
+func ExampleTransactionalServiceOp_SendSingleEmail() {
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
+
+	res, err := cli.Marketing.Transactional.SendSingleEmail(&hubspot.SendSingleEmailProperties{
+		EmailId: 0, // Set proper value.
+		Message: &hubspot.SendSingleEmailMessage{
+			To:      "to@example.com",
+			From:    "from@example.com",
+			SendId:  "SEND_ID",
+			ReplyTo: []string{"reply@example.com"},
+			Cc:      []string{"cc@example.com"},
+			Bcc:     []string{"bcc@example.com"},
+		},
+		ContactProperties: &hubspot.Contact{
+			FirstName:   hubspot.NewString("Bryan"),
+			LastName:    hubspot.NewString("Cooper"),
+			Email:       hubspot.NewString("hubspot@example.com"),
+			MobilePhone: hubspot.NewString("(877) 929-0687"),
+			Zip:         hubspot.NewString("1000001"),
+		},
+		CustomProperties: map[string]string{
+			"custom_email":     "hubspot@example.com",
+			"custom_firstname": "Bryan",
+			"custom_lastname":  "Cooper",
+		},
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%+v", res)
+
+	// // Output:
+}
