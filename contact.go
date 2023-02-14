@@ -12,6 +12,7 @@ type ContactService interface {
 	Get(contactID string, contact interface{}, option *RequestQueryOption) (*ResponseResource, error)
 	Create(contact interface{}) (*ResponseResource, error)
 	Update(contactID string, contact interface{}) (*ResponseResource, error)
+	Delete(contactID string) error
 	AssociateAnotherObj(contactID string, conf *AssociationConfig) (*ResponseResource, error)
 }
 
@@ -352,6 +353,11 @@ func (s *ContactServiceOp) Update(contactID string, contact interface{}) (*Respo
 	return resource, nil
 }
 
+// Delete deletes a contact.
+func (s *ContactServiceOp) Delete(contactID string) error {
+	return s.client.Delete(s.contactPath + "/" + contactID)
+}
+
 // AssociateAnotherObj associates Contact with another HubSpot objects.
 // If you want to associate a custom object, please use a defined value in HubSpot.
 func (s *ContactServiceOp) AssociateAnotherObj(contactID string, conf *AssociationConfig) (*ResponseResource, error) {
@@ -360,12 +366,4 @@ func (s *ContactServiceOp) AssociateAnotherObj(contactID string, conf *Associati
 		return nil, err
 	}
 	return resource, nil
-}
-
-// Delete deletes a contact.
-func (s *ContactServiceOp) Delete(contactID string) error {
-	if err := s.client.Delete(s.contactPath + "/" + contactID); err != nil {
-		return err
-	}
-	return nil
 }
