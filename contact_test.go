@@ -604,6 +604,88 @@ func TestContactServiceOp_Get(t *testing.T) {
 	}
 }
 
+func TestContactServiceOp_Delete(t *testing.T) {
+	type fields struct {
+		contactPath string
+		client      *hubspot.Client
+	}
+	type args struct {
+		contactID string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *hubspot.ResponseResource
+		wantErr error
+	}{
+		{
+			name: "Successfully delete a contact",
+			fields: fields{
+				contactPath: hubspot.ExportContactBasePath,
+				client: hubspot.NewMockClient(&hubspot.MockConfig{
+					Status: http.StatusCreated,
+					Header: http.Header{},
+					Body:   []byte(`{"id":"contact001","properties":{"createdate":"2019-10-30T03:30:17.883Z","email":"hubspot@example.com","firstname":"Bryan","hs_is_unworked":"true","lastmodifieddate":"2019-12-07T16:50:06.678Z","lastname":"Cooper","mobilephone":"(877) 929-0687","website":"https://example.com"},"createdAt":"2019-10-30T03:30:17.883Z","updatedAt":"2019-12-07T16:50:06.678Z","archived":false}`),
+				}),
+			},
+			args: args{
+				contactID: "contact001",
+			},
+			want: &hubspot.ResponseResource{
+				ID:       "contact001",
+				Archived: false,
+				Properties: &hubspot.Contact{
+					Email:            hubspot.NewString("hubspot@example.com"),
+					FirstName:        hubspot.NewString("Bryan"),
+					HsIsUnworked:     hubspot.NewString("true"),
+					LastName:         hubspot.NewString("Cooper"),
+					MobilePhone:      hubspot.NewString("(877) 929-0687"),
+					Website:          hubspot.NewString("https://example.com"),
+					CreateDate:       &createdAt,
+					LastModifiedDate: &modifyDate,
+				},
+				CreatedAt: &createdAt,
+				UpdatedAt: &updatedAt,
+			},
+			wantErr: nil,
+		},
+		{
+			name: "Received invalid request",
+			fields: fields{
+				contactPath: hubspot.ExportDealBasePath,
+				client: hubspot.NewMockClient(&hubspot.MockConfig{
+					Status: http.StatusBadRequest,
+					Header: http.Header{},
+					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
+				}),
+			},
+			args: args{
+				contactID: "contact001",
+			},
+			want: nil,
+			wantErr: &hubspot.APIError{
+				HTTPStatusCode: http.StatusBadRequest,
+				Message:        "Invalid input (details will vary based on the error)",
+				CorrelationID:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
+				Category:       "VALIDATION_ERROR",
+				Links: hubspot.ErrLinks{
+					KnowledgeBase: "https://www.hubspot.com/products/service/knowledge-base",
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := tt.fields.client.CRM.Contact.Delete(tt.args.contactID)
+			if !reflect.DeepEqual(tt.wantErr, err) {
+				t.Errorf("Delete() error mismatch: want %s got %s", tt.wantErr, err)
+				return
+			}
+		})
+	}
+}
+
 func TestContactServiceOp_AssociateAnotherObj(t *testing.T) {
 	type fields struct {
 		contactPath string
