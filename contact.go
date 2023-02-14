@@ -361,3 +361,11 @@ func (s *ContactServiceOp) AssociateAnotherObj(contactID string, conf *Associati
 	}
 	return resource, nil
 }
+
+// Delete deletes a contact.
+func (s *ContactServiceOp) Delete(contactID string) error {
+	if err := s.client.Delete(s.contactPath + "/" + contactID); err != nil {
+		return err
+	}
+	return nil
+}
