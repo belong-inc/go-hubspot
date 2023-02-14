@@ -337,9 +337,9 @@ func TestClient_NewRequest(t *testing.T) {
 			)
 			// Because we are using interface, we need to explicitly specify nil, which has no type information.
 			if tt.args.body == nil {
-				got, err = c.NewRequest(tt.args.method, tt.args.path, nil, tt.args.option)
+				got, err = c.NewRequest(tt.args.method, tt.args.path, nil, tt.args.option, "application/json")
 			} else {
-				got, err = c.NewRequest(tt.args.method, tt.args.path, tt.args.body, tt.args.option)
+				got, err = c.NewRequest(tt.args.method, tt.args.path, tt.args.body, tt.args.option, "application/json")
 			}
 			if !reflect.DeepEqual(tt.wantErr, err) {
 				t.Errorf("NewRequest() error mismatch: want %s got %s", tt.wantErr, err)
@@ -479,7 +479,7 @@ func TestClient_CreateAndDo(t *testing.T) {
 			c.ExportSetBaseURL(tt.settings.baseURL)
 			tt.settings.authMethod(c)
 
-			err := c.CreateAndDo(tt.args.method, tt.args.relPath, tt.args.data, tt.args.option, tt.args.resource)
+			err := c.CreateAndDo(tt.args.method, tt.args.relPath, "application/json", tt.args.data, tt.args.option, tt.args.resource)
 			if !reflect.DeepEqual(tt.wantErr, err) {
 				t.Errorf("CreateAndDo() error mismatch: want %s got %s", tt.wantErr, err)
 				return

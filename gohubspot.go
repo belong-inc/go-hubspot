@@ -85,18 +85,26 @@ func NewClient(setAuthMethod AuthMethod, opts ...Option) (*Client, error) {
 
 // NewRequest creates an API request.
 // After creating a request, add the authentication information according to the method specified in NewClient().
-func (c *Client) NewRequest(method, path string, body, option interface{}) (*http.Request, error) {
+func (c *Client) NewRequest(method, path string, body, option interface{}, contentType string) (*http.Request, error) {
 	rel, err := url.Parse(path)
 	if err != nil {
 		return nil, err
 	}
 
-	var js []byte = nil
+	var requestBody []byte = nil
 
 	if body != nil {
-		js, err = json.Marshal(body)
-		if err != nil {
-			return nil, err
+		if !strings.HasPrefix(contentType, "multipart") {
+			requestBody, err = json.Marshal(body)
+			if err != nil {
+				return nil, err
+			}
+		} else {
+			var ok bool
+			requestBody, ok = body.([]byte)
+			if !ok {
+				return nil, fmt.Errorf("error in typecasting mime body to []byte")
+			}
 		}
 	}
 
@@ -117,12 +125,12 @@ func (c *Client) NewRequest(method, path string, body, option interface{}) (*htt
 		u.RawQuery = q.Encode()
 	}
 
-	req, err := http.NewRequest(method, u.String(), bytes.NewBuffer(js))
+	req, err := http.NewRequest(method, u.String(), bytes.NewBuffer(requestBody))
 	if err != nil {
 		return nil, err
 	}
 
-	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Content-Type", contentType)
 
 	// Configure authentication settings using the method specified during NewClient().
 	if err := c.authenticator.SetAuthentication(req); err != nil {
@@ -138,12 +146,12 @@ func (c *Client) NewRequest(method, path string, body, option interface{}) (*htt
 // The options argument is used for specifying request options such as search parameters.
 // The resource argument is marshalled data returned from HubSpot.
 // If the resource contains a pointer to data, the data will be overwritten with the content of the response.
-func (c *Client) CreateAndDo(method, relPath string, data, option, resource interface{}) error {
+func (c *Client) CreateAndDo(method, relPath, contentType string, data, option, resource interface{}) error {
 	if strings.HasPrefix(relPath, "/") {
 		relPath = strings.TrimLeft(relPath, "/")
 	}
 
-	req, err := c.NewRequest(method, relPath, data, option)
+	req, err := c.NewRequest(method, relPath, data, option, contentType)
 	if err != nil {
 		return err
 	}
@@ -221,25 +229,30 @@ func isErrorStatusCode(code int) bool {
 
 // Get performs a GET request for the given path and saves the result in the given resource.
 func (c *Client) Get(path string, resource interface{}, option interface{}) error {
-	return c.CreateAndDo(http.MethodGet, path, nil, option, resource)
+	return c.CreateAndDo(http.MethodGet, path, "application/json", nil, option, resource)
 }
 
 // Post performs a POST request for the given path and saves the result in the given resource.
 func (c *Client) Post(path string, data, resource interface{}) error {
-	return c.CreateAndDo(http.MethodPost, path, data, nil, resource)
+	return c.CreateAndDo(http.MethodPost, path, "application/json", data, nil, resource)
 }
 
 // Put performs a PUT request for the given path and saves the result in the given resource.
 func (c *Client) Put(path string, data, resource interface{}) error {
-	return c.CreateAndDo(http.MethodPut, path, data, nil, resource)
+	return c.CreateAndDo(http.MethodPut, path, "application/json", data, nil, resource)
 }
 
 // Patch performs a PATCH request for the given path and saves the result in the given resource.
 func (c *Client) Patch(path string, data, resource interface{}) error {
-	return c.CreateAndDo(http.MethodPatch, path, data, nil, resource)
+	return c.CreateAndDo(http.MethodPatch, path, "application/json", data, nil, resource)
 }
 
 // Delete performs a DELETE request for the given path.
 func (c *Client) Delete(path string) error {
-	return c.CreateAndDo(http.MethodDelete, path, nil, nil, nil)
+	return c.CreateAndDo(http.MethodDelete, path, "application/json", nil, nil, nil)
+}
+
+func (c *Client) PostMultipart(path, boundary string, data, resource interface{}) error {
+	mimeType := fmt.Sprintf("multipart/form-data; boundary=%s", boundary)
+	return c.CreateAndDo(http.MethodPost, path, mimeType, data, nil, resource)
 }
