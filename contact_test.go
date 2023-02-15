@@ -616,7 +616,6 @@ func TestContactServiceOp_Delete(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		want    *hubspot.ResponseResource
 		wantErr error
 	}{
 		{
@@ -631,22 +630,6 @@ func TestContactServiceOp_Delete(t *testing.T) {
 			},
 			args: args{
 				contactID: "contact001",
-			},
-			want: &hubspot.ResponseResource{
-				ID:       "contact001",
-				Archived: false,
-				Properties: &hubspot.Contact{
-					Email:            hubspot.NewString("hubspot@example.com"),
-					FirstName:        hubspot.NewString("Bryan"),
-					HsIsUnworked:     hubspot.NewString("true"),
-					LastName:         hubspot.NewString("Cooper"),
-					MobilePhone:      hubspot.NewString("(877) 929-0687"),
-					Website:          hubspot.NewString("https://example.com"),
-					CreateDate:       &createdAt,
-					LastModifiedDate: &modifyDate,
-				},
-				CreatedAt: &createdAt,
-				UpdatedAt: &updatedAt,
 			},
 			wantErr: nil,
 		},
@@ -663,7 +646,6 @@ func TestContactServiceOp_Delete(t *testing.T) {
 			args: args{
 				contactID: "contact001",
 			},
-			want: nil,
 			wantErr: &hubspot.APIError{
 				HTTPStatusCode: http.StatusBadRequest,
 				Message:        "Invalid input (details will vary based on the error)",
