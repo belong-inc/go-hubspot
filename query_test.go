@@ -3,7 +3,7 @@ package hubspot_test
 import (
 	"testing"
 
-	"github.com/belong-inc/go-hubspot"
+	"github.com/courtyard-nft/go-hubspot/"
 	"github.com/google/go-cmp/cmp"
 )
 
