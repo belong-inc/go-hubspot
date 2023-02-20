@@ -10,6 +10,7 @@ const (
 // Reference: https://developers.hubspot.com/docs/api/crm/contacts
 type ContactService interface {
 	Get(contactID string, contact interface{}, option *RequestQueryOption) (*ResponseResource, error)
+	GetByProperty(idProperty string, query string, contact interface{}, option *RequestQueryOption) (*ResponseResource, error)
 	Create(contact interface{}) (*ResponseResource, error)
 	Update(contactID string, contact interface{}) (*ResponseResource, error)
 	Delete(contactID string) error
@@ -324,6 +325,20 @@ var defaultContactFields = []string{
 func (s *ContactServiceOp) Get(contactID string, contact interface{}, option *RequestQueryOption) (*ResponseResource, error) {
 	resource := &ResponseResource{Properties: contact}
 	if err := s.client.Get(s.contactPath+"/"+contactID, resource, option.setupProperties(defaultContactFields)); err != nil {
+		return nil, err
+	}
+	return resource, nil
+}
+
+// Get gets a contact by propertyId.
+// eg: idProperty: email, query: test@test.com
+// In order to bind the get content, a structure must be specified as an argument.
+// Also, if you want to gets a custom field, you need to specify the field name.
+// If you specify a non-existent field, it will be ignored.
+// e.g. &hubspot.RequestQueryOption{ Properties: []string{"custom_a", "custom_b"}}
+func (s *ContactServiceOp) GetByProperty(idProperty string, query string, contact interface{}, option *RequestQueryOption) (*ResponseResource, error) {
+	resource := &ResponseResource{Properties: contact}
+	if err := s.client.Get(s.contactPath+"?"+idProperty+"="+query, resource, option.setupProperties(defaultContactFields)); err != nil {
 		return nil, err
 	}
 	return resource, nil
