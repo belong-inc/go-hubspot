@@ -17,6 +17,5 @@ Package legacy is the package for legacy APIs in Hubspot.
 
 Not all APIs of Hubspot have been migrated v3 therefore components for legacy API is put in this package.
 Docs are available in https://legacydocs.hubspot.com/docs/overview.
-
 */
 package legacy

@@ -32,7 +32,7 @@ test: ## run go test
 
 # Install golangci-lint
 GOLANGCLI_LINT := $(BIN)/golangci-lint
-GOLANGCLI_LINT_VERSION := v1.43.0
+GOLANGCLI_LINT_VERSION := v1.51.0
 $(GOLANGCLI_LINT): | $(BIN) ## Install golangci-lint
 	@curl -sSfL "https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh" | sh -s -- -b $(BIN) $(GOLANGCLI_LINT_VERSION)
 	@chmod +x "$(BIN)/golangci-lint"
@@ -44,7 +44,7 @@ lint: | $(GOLANGCLI_LINT) ## run golangci-lint with config .golangcli.yml
 # Install gofumpt
 # This setting is only available for Mac
 GOFMPT := $(BIN)/gofumpt
-GOFMPT_VERSION := v0.1.0
+GOFMPT_VERSION := v0.4.0
 ifeq "$(UNAME_OS)" "Darwin"
 	GOFMPT_BIN=gofumpt_$(GOFMPT_VERSION)_darwin_amd64
 endif

@@ -47,13 +47,13 @@ func createTestCsv(count int) *bytes.Buffer {
 	buf := &bytes.Buffer{}
 	csvwriter := csv.NewWriter(buf)
 	csvHeader := []string{"email", "firstname", "lastname"}
-	csvwriter.Write(csvHeader)
+	_ = csvwriter.Write(csvHeader)
 
 	for i := 0; i < count; i++ {
 		testFirst := fmt.Sprintf("FirstName3%d", i)
 		testLast := fmt.Sprintf("LastName%d", i)
 		testEmail := fmt.Sprintf("test%d@example.com", i)
-		csvwriter.Write([]string{testEmail, testFirst, testLast})
+		_ = csvwriter.Write([]string{testEmail, testFirst, testLast})
 	}
 	csvwriter.Flush()
 	return buf
@@ -104,5 +104,4 @@ func TestImportStart(t *testing.T) {
 	fmt.Printf("%+v\n", res)
 	fmt.Printf("%+v\n", err)
 	// t.Error(1)
-
 }
