@@ -47,7 +47,9 @@ func addJSONtoMultipart(writer *multipart.Writer, importRequest *CrmImportConfig
 	if err != nil {
 		return err
 	}
-	part.Write([]byte(data))
+	if _, err := part.Write(data); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -63,7 +65,9 @@ func addFilesToMultipart(writer *multipart.Writer, importRequest *CrmImportConfi
 		if err != nil {
 			return err
 		}
-		csvPart.Write(fileData)
+		if _, err := csvPart.Write(fileData); err != nil {
+			return err
+		}
 	}
 	return nil
 }

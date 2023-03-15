@@ -17,6 +17,5 @@ Package hubspot is the root of packages used to access Hubspot APIs.
 
 This library is targeting HubSpot API v3.
 Docs are available in https://developers.hubspot.com/docs/api/overview.
-
 */
 package hubspot
