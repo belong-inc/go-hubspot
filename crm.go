@@ -9,9 +9,11 @@ const (
 )
 
 type CRM struct {
-	Contact ContactService
-	Deal    DealService
-	Imports CrmImportsService
+	Contact    ContactService
+	Deal       DealService
+	Imports    CrmImportsService
+	Schemas    CrmSchemasService
+	Properties CrmPropertiesService
 }
 
 func newCRM(c *Client) *CRM {
@@ -28,6 +30,14 @@ func newCRM(c *Client) *CRM {
 		Imports: &CrmImportsServiceOp{
 			crmImportsPath: fmt.Sprintf("%s/%s", crmPath, crmImportsBasePath),
 			client:         c,
+		},
+		Schemas: &CrmSchemasServiceOp{
+			crmSchemasPath: fmt.Sprintf("%s/%s", crmPath, crmSchemasPath),
+			client:         c,
+		},
+		Properties: &CrmPropertiesServiceOp{
+			crmPropertiesPath: fmt.Sprintf("%s/%s", crmPath, crmPropertiesPath),
+			client:            c,
 		},
 	}
 }

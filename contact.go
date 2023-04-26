@@ -355,7 +355,7 @@ func (s *ContactServiceOp) Update(contactID string, contact interface{}) (*Respo
 
 // Delete deletes a contact.
 func (s *ContactServiceOp) Delete(contactID string) error {
-	return s.client.Delete(s.contactPath + "/" + contactID)
+	return s.client.Delete(s.contactPath+"/"+contactID, nil)
 }
 
 // AssociateAnotherObj associates Contact with another HubSpot objects.
