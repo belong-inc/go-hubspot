@@ -229,30 +229,30 @@ func isErrorStatusCode(code int) bool {
 
 // Get performs a GET request for the given path and saves the result in the given resource.
 func (c *Client) Get(path string, resource interface{}, option interface{}) error {
-	return c.CreateAndDo(http.MethodGet, path, "application/json", nil, option, resource)
+	return c.CreateAndDo(http.MethodGet, path, MIMETypeJSON, nil, option, resource)
 }
 
 // Post performs a POST request for the given path and saves the result in the given resource.
 func (c *Client) Post(path string, data, resource interface{}) error {
-	return c.CreateAndDo(http.MethodPost, path, "application/json", data, nil, resource)
+	return c.CreateAndDo(http.MethodPost, path, MIMETypeJSON, data, nil, resource)
 }
 
 // Put performs a PUT request for the given path and saves the result in the given resource.
 func (c *Client) Put(path string, data, resource interface{}) error {
-	return c.CreateAndDo(http.MethodPut, path, "application/json", data, nil, resource)
+	return c.CreateAndDo(http.MethodPut, path, MIMETypeJSON, data, nil, resource)
 }
 
 // Patch performs a PATCH request for the given path and saves the result in the given resource.
 func (c *Client) Patch(path string, data, resource interface{}) error {
-	return c.CreateAndDo(http.MethodPatch, path, "application/json", data, nil, resource)
+	return c.CreateAndDo(http.MethodPatch, path, MIMETypeJSON, data, nil, resource)
 }
 
 // Delete performs a DELETE request for the given path.
 func (c *Client) Delete(path string, option interface{}) error {
-	return c.CreateAndDo(http.MethodDelete, path, "application/json", nil, option, nil)
+	return c.CreateAndDo(http.MethodDelete, path, MIMETypeJSON, nil, option, nil)
 }
 
 func (c *Client) PostMultipart(path, boundary string, data, resource interface{}) error {
-	mimeType := fmt.Sprintf("multipart/form-data; boundary=%s", boundary)
+	mimeType := fmt.Sprintf("%s; boundary=%s", MIMETypeFormData, boundary)
 	return c.CreateAndDo(http.MethodPost, path, mimeType, data, nil, resource)
 }

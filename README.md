@@ -205,6 +205,9 @@ fmt.Println(customDeal.CustomA, customDeal.CustomB)
 |-------------|---------------------|-----------------|
 |CRM          | Deal                | Available       |
 |CRM          | Contact             | Available       |
+|CRM          | Imports             | Beta            |
+|CRM          | Schemas             | Beta            |
+|CRM          | Properties          | Beta            |
 |CMS          | All                 | Not Implemented |
 |Conversations| All                 | Not Implemented |
 |Events       | All                 | Not Implemented |
