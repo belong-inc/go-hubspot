@@ -248,8 +248,8 @@ func (c *Client) Patch(path string, data, resource interface{}) error {
 }
 
 // Delete performs a DELETE request for the given path.
-func (c *Client) Delete(path string) error {
-	return c.CreateAndDo(http.MethodDelete, path, "application/json", nil, nil, nil)
+func (c *Client) Delete(path string, option interface{}) error {
+	return c.CreateAndDo(http.MethodDelete, path, "application/json", nil, option, nil)
 }
 
 func (c *Client) PostMultipart(path, boundary string, data, resource interface{}) error {

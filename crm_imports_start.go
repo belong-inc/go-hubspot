@@ -10,9 +10,10 @@ import (
 )
 
 type CrmImportConfig struct {
-	Name             string                `json:"name"`
-	ImportOperations map[string]string     `json:"importOperations"`
-	Files            []CrmImportFileConfig `json:"files"`
+	Name                    string                `json:"name"`
+	MarketableContactImport bool                  `json:"marketableContactImport"`
+	ImportOperations        map[string]string     `json:"importOperations"`
+	Files                   []CrmImportFileConfig `json:"files"`
 }
 
 type CrmImportFilePageConfig struct {

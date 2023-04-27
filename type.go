@@ -93,3 +93,10 @@ func (ht *HsTime) ToTime() *time.Time {
 	}
 	return &v
 }
+
+type HsInt int
+
+func NewInt(v int) *HsInt {
+	val := HsInt(v)
+	return &val
+}
