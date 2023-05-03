@@ -78,7 +78,7 @@ type CrmTicketAssociationType struct {
 
 type CrmTicketAssociation struct {
 	To    CrmTicketAssociationTarget `json:"to,omitempty"`
-	Types []CrmTicketAssociationType `json:"type,omitempty"`
+	Types []CrmTicketAssociationType `json:"types,omitempty"`
 }
 
 type CrmTicketCreateRequest struct {
