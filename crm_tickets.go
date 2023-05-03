@@ -68,7 +68,7 @@ func (s *CrmTicketsServivceOp) Get(ticketId string, option *RequestQueryOption) 
 }
 
 type CrmTicketAssociationTarget struct {
-	Id *HsInt `json:"id,omitempty"`
+	Id *HsStr `json:"id,omitempty"`
 }
 
 type CrmTicketAssociationType struct {
