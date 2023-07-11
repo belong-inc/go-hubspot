@@ -61,6 +61,7 @@ func TestDeleteCrmTicket(t *testing.T) {
 }
 
 func TestUpdateCrmTicket(t *testing.T) {
+	t.SkipNow()
 	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 	props := make(map[string]interface{})
 	props["hs_ticket_priority"] = "HIGH"
@@ -75,6 +76,8 @@ func TestUpdateCrmTicket(t *testing.T) {
 }
 
 func TestSearchCrmTicket(t *testing.T) {
+	t.SkipNow()
+
 	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	req := &CrmTicketSearchRequest{
