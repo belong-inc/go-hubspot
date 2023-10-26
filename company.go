@@ -25,13 +25,13 @@ type CompanyServiceOp struct {
 var _ CompanyService = (*CompanyServiceOp)(nil)
 
 type Company struct {
-	Address                                     *HsStr  `json:"address,omitempty"`
-    // TODO: default properties here
+	Address *HsStr `json:"address,omitempty"`
+	// TODO: default properties here
 }
 
 var defaultCompanyFields = []string{
 	"address",
-    // TODO: default props here
+	// TODO: default props here
 }
 
 // Get gets a Company.
