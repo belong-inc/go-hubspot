@@ -10,6 +10,7 @@ var (
 	ExportBaseURL         = defaultBaseURL
 	ExportContactBasePath = contactBasePath
 	ExportDealBasePath    = dealBasePath
+	ExportCompanyBasePath = companyBasePath
 )
 
 var (
