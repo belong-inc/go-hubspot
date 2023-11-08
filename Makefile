@@ -32,8 +32,8 @@ vendor: ## make go vendor
 	go mod vendor
 
 .PHONY: test
-test: ## run go test
-	go test ./...
+test: ## run go test. If you need test options, pass them in like OPTIONS="-v"
+	go test ./... $(OPTIONS)
 
 # Install golangci-lint
 GOLANGCLI_LINT := $(BIN)/golangci-lint
