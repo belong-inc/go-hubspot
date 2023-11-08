@@ -201,30 +201,31 @@ fmt.Println(customDeal.CustomA, customDeal.CustomB)
 
 # API availability
 
-|Category     | API                 | Availability    |
-|-------------|---------------------|-----------------|
-|CRM          | Deal                | Available       |
-|CRM          | Contact             | Available       |
-|CRM          | Imports             | Beta            |
-|CRM          | Schemas             | Beta            |
-|CRM          | Properties          | Beta            |
-|CRM          | Tickets             | Beta            |
-|CMS          | All                 | Not Implemented |
-|Conversations| All                 | Not Implemented |
-|Events       | All                 | Not Implemented |
-|Marketing    | Marketing Email     | Available       |
-|Marketing    | Transactional Email | Available       |
-|Files        | All                 | Not Implemented |
-|Settings     | All                 | Not Implemented |
-|Webhooks     | All                 | Not Implemented |
+| Category      | API                 | Availability    |
+|---------------|---------------------|-----------------|
+| CRM           | Deal                | Available       |
+| CRM           | Company             | Available       |
+| CRM           | Contact             | Available       |
+| CRM           | Imports             | Beta            |
+| CRM           | Schemas             | Beta            |
+| CRM           | Properties          | Beta            |
+| CRM           | Tickets             | Beta            |
+| CMS           | All                 | Not Implemented |
+| Conversations | All                 | Not Implemented |
+| Events        | All                 | Not Implemented |
+| Marketing     | Marketing Email     | Available       |
+| Marketing     | Transactional Email | Available       |
+| Files         | All                 | Not Implemented |
+| Settings      | All                 | Not Implemented |
+| Webhooks      | All                 | Not Implemented |
 
 # Authentication availability
 
-|Type         | Availability |
-|-------------|--------------|
-|API key      | Deprecated   |
-|OAuth        | Available    |
-|Private apps | Available    |
+| Type         | Availability |
+|--------------|--------------|
+| API key      | Deprecated   |
+| OAuth        | Available    |
+| Private apps | Available    |
 
 # Contributing
 
