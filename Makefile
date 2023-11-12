@@ -65,5 +65,5 @@ fmt: | $(GOFMPT) ## format files via gofumpt and list impacted files
 
 .PHONY: generate
 generate: ## generate go code (e.g. make generate OBJECT=Contact FILEPATH=contact.csv)
-	cd $(TOOLS)/model_generator && go run model_gen.go $(OBJECT) $(FILEPATH)
+	@cd $(TOOLS)/model_generator && go run model_gen.go $(OBJECT) $(FILEPATH)
 	$(MAKE) fmt

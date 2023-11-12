@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	"fmt"
 	"html/template"
-	"log"
 	"os"
 	"path/filepath"
 	"sort"
@@ -35,22 +34,25 @@ const (
 )
 
 func main() {
-	log.Printf("Running with arges: %s\n", os.Args[1:]) // Without command name.
+	fmt.Printf("Running with arges: %s\n", os.Args[1:]) // Without command name.
 
 	if len(os.Args) != 3 {
-		log.Fatal("Missing required parameters: <objectName> <csvFilePath>")
+		fmt.Println("Missing required parameters: <objectName> <csvFilePath>")
+		os.Exit(1)
 	}
 
 	objectName, csvFilePath := os.Args[1], os.Args[2]
 	file, err := os.Open(csvFilePath)
 	if err != nil {
-		log.Fatalf("Failed to open CSV file: %s", err)
+		fmt.Printf("Failed to open CSV file: %s", err)
+		os.Exit(1)
 	}
 	defer file.Close()
 
 	rows, err := csv.NewReader(file).ReadAll()
 	if err != nil {
-		log.Fatalf("Failed to read CSV file: %s", err)
+		fmt.Printf("Failed to read CSV file: %s", err)
+		os.Exit(1)
 	}
 	sort.Slice(rows, func(i, j int) bool {
 		// Order by InternalName ascending.
@@ -60,14 +62,16 @@ func main() {
 	modelFields, internalNames := makeModelAndInternalNames(rows)
 	out, err := filepath.Abs(fmt.Sprintf("../../%s_model.go", strings.ToLower(objectName)))
 	if err != nil {
-		log.Fatalf("Failed to get absolute path: %s", err)
+		fmt.Printf("Failed to get absolute path: %s", err)
+		os.Exit(1)
 	}
 
 	if err := createFileFromTmpl(out, objectName, modelFields, internalNames); err != nil {
-		log.Fatalf("Failed to create file from template: %s", err)
+		fmt.Printf("Failed to create file from template: %s", err)
+		os.Exit(1)
 	}
 
-	log.Printf("Generated code in: %s\n", out)
+	fmt.Printf("Generated code in: %s\n", out)
 }
 
 func createFileFromTmpl(outPath, objectName string, modelFields, internalNames []string) error {
