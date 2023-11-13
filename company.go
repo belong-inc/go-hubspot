@@ -24,16 +24,6 @@ type CompanyServiceOp struct {
 
 var _ CompanyService = (*CompanyServiceOp)(nil)
 
-type Company struct {
-	Address *HsStr `json:"address,omitempty"`
-	// TODO: default properties here
-}
-
-var defaultCompanyFields = []string{
-	"address",
-	// TODO: default props here
-}
-
 // Get gets a Company.
 // In order to bind the get content, a structure must be specified as an argument.
 // Also, if you want to gets a custom field, you need to specify the field name.

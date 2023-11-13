@@ -1,5 +1,10 @@
 # General
+SHELL := bash
+.SHELLFLAGS := -eu -o pipefail -c
+.DEFAULT_GOAL := help
+
 BIN := $(CURDIR)/.bin
+TOOLS := $(CURDIR)/tools
 PATH := $(abspath $(BIN)):$(PATH)
 
 UNAME_OS := $(shell uname -s)
@@ -27,8 +32,8 @@ vendor: ## make go vendor
 	go mod vendor
 
 .PHONY: test
-test: ## run go test
-	go test ./...
+test: ## run go test. If you need test options, pass them in like OPTIONS="-v"
+	go test ./... $(OPTIONS)
 
 # Install golangci-lint
 GOLANGCLI_LINT := $(BIN)/golangci-lint
@@ -57,3 +62,8 @@ $(GOFMPT): | $(BIN) ## Install gofumpt
 .PHONY: fmt
 fmt: | $(GOFMPT) ## format files via gofumpt and list impacted files
 	@$(BIN)/gofumpt -l -w . ./legacy
+
+.PHONY: generate
+generate: ## generate go code (e.g. make generate OBJECT=Contact FILEPATH=contact.csv)
+	@cd $(TOOLS)/model_generator && go run model_gen.go $(OBJECT) $(FILEPATH)
+	$(MAKE) fmt

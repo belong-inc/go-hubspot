@@ -11,7 +11,12 @@ import (
 
 func TestCompanyServiceOp_Create(t *testing.T) {
 	company := &hubspot.Company{
-		Address: hubspot.NewString("example address"),
+		City:     hubspot.NewString("Cambridge"),
+		Domain:   hubspot.NewString("biglytics.net"),
+		Industry: hubspot.NewString("Technology"),
+		Name:     hubspot.NewString("Biglytics"),
+		Phone:    hubspot.NewString("(877)929-0687"),
+		State:    hubspot.NewString("Massachusetts"),
 	}
 
 	type fields struct {
@@ -45,7 +50,14 @@ func TestCompanyServiceOp_Create(t *testing.T) {
 				ID:       "company001",
 				Archived: false,
 				Properties: &hubspot.Company{
-					Address: hubspot.NewString("example address"),
+					City:               hubspot.NewString("Cambridge"),
+					Createdate:         &createdAt,
+					Domain:             hubspot.NewString("biglytics.net"),
+					HsLastmodifieddate: &updatedAt,
+					Industry:           hubspot.NewString("Technology"),
+					Name:               hubspot.NewString("Biglytics"),
+					Phone:              hubspot.NewString("(877)929-0687"),
+					State:              hubspot.NewString("Massachusetts"),
 				},
 				CreatedAt: &createdAt,
 				UpdatedAt: &updatedAt,
@@ -93,7 +105,12 @@ func TestCompanyServiceOp_Create(t *testing.T) {
 
 func TestCompanyServiceOp_Update(t *testing.T) {
 	company := &hubspot.Company{
-		Address: hubspot.NewString("example address"),
+		City:     hubspot.NewString("Cambridge"),
+		Domain:   hubspot.NewString("biglytics.net"),
+		Industry: hubspot.NewString("Technology"),
+		Name:     hubspot.NewString("Biglytics"),
+		Phone:    hubspot.NewString("(877)929-0687"),
+		State:    hubspot.NewString("Massachusetts"),
 	}
 
 	type fields struct {
@@ -128,7 +145,14 @@ func TestCompanyServiceOp_Update(t *testing.T) {
 				ID:       "company001",
 				Archived: false,
 				Properties: &hubspot.Company{
-					Address: hubspot.NewString("example address"),
+					City:               hubspot.NewString("Cambridge"),
+					Createdate:         &createdAt,
+					Domain:             hubspot.NewString("biglytics.net"),
+					HsLastmodifieddate: &updatedAt,
+					Industry:           hubspot.NewString("Technology"),
+					Name:               hubspot.NewString("Biglytics"),
+					Phone:              hubspot.NewString("(877)929-0687"),
+					State:              hubspot.NewString("Massachusetts"),
 				},
 				CreatedAt: &createdAt,
 				UpdatedAt: &updatedAt,
@@ -178,6 +202,8 @@ func TestCompanyServiceOp_Update(t *testing.T) {
 func TestCompanyServiceOp_Get(t *testing.T) {
 	type CustomFields struct {
 		hubspot.Company
+		CustomName *hubspot.HsStr  `json:"custom_name,omitempty"`
+		CustomDate *hubspot.HsTime `json:"custom_date,omitempty"`
 	}
 
 	type fields struct {
@@ -203,18 +229,35 @@ func TestCompanyServiceOp_Get(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusOK,
 					Header: http.Header{},
-					Body:   []byte(`{"id":"company001","properties":{"city":"Cambridge","createdate":"2019-10-30T03:30:17.883Z","domain":"biglytics.net","hs_lastmodifieddate":"2019-12-07T16:50:06.678Z","industry":"Technology","name":"Biglytics","phone":"(877)929-0687","state":"Massachusetts","address":"address"},"createdAt":"2019-10-30T03:30:17.883Z","updatedAt":"2019-12-07T16:50:06.678Z"}`),
+					Body:   []byte(`{"id":"company001","properties":{"city":"Cambridge","createdate":"2019-10-30T03:30:17.883Z","domain":"biglytics.net","hs_lastmodifieddate":"2019-12-07T16:50:06.678Z","industry":"Technology","name":"Biglytics","phone":"(877)929-0687","state":"Massachusetts","custom_name":"biglytics","custom_date":"2019-10-30T03:30:17.883Z"},"createdAt":"2019-10-30T03:30:17.883Z","updatedAt":"2019-12-07T16:50:06.678Z"}`),
 				}),
 			},
 			args: args{
 				companyID: "company001",
-				company:   &hubspot.Company{},
+				company:   &CustomFields{},
+				option: &hubspot.RequestQueryOption{
+					Properties: []string{
+						"custom_name",
+						"custom_date",
+					},
+				},
 			},
 			want: &hubspot.ResponseResource{
 				ID:       "company001",
 				Archived: false,
-				Properties: &hubspot.Company{
-					Address: hubspot.NewString("address"),
+				Properties: &CustomFields{
+					Company: hubspot.Company{
+						City:               hubspot.NewString("Cambridge"),
+						Createdate:         &createdAt,
+						Domain:             hubspot.NewString("biglytics.net"),
+						HsLastmodifieddate: &updatedAt,
+						Industry:           hubspot.NewString("Technology"),
+						Name:               hubspot.NewString("Biglytics"),
+						Phone:              hubspot.NewString("(877)929-0687"),
+						State:              hubspot.NewString("Massachusetts"),
+					},
+					CustomName: hubspot.NewString("biglytics"),
+					CustomDate: &createdAt,
 				},
 				CreatedAt: &createdAt,
 				UpdatedAt: &updatedAt,
