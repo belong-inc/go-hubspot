@@ -10,6 +10,7 @@ const (
 // Reference: https://developers.hubspot.com/docs/api/crm/companies
 type CompanyService interface {
 	Get(companyID string, company interface{}, option *RequestQueryOption) (*ResponseResource, error)
+	GetAssociations(companyID, toObjectType string, result *AssociationsResponse) (*AssociationsResponse, error)
 	Create(company interface{}) (*ResponseResource, error)
 	Update(companyID string, company interface{}) (*ResponseResource, error)
 	Delete(companyID string) error
@@ -35,6 +36,14 @@ func (s *CompanyServiceOp) Get(companyID string, company interface{}, option *Re
 		return nil, err
 	}
 	return resource, nil
+}
+
+// GetAssociations gets company associations
+func (s *CompanyServiceOp) GetAssociations(companyID, toObjectType string, result *AssociationsResponse) (*AssociationsResponse, error) {
+	if err := s.client.Get(s.companyPath+"/"+companyID+"/associations/"+toObjectType, result, nil); err != nil {
+		return nil, err
+	}
+	return result, nil
 }
 
 // Create creates a new company.

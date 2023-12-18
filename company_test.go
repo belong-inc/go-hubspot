@@ -304,6 +304,115 @@ func TestCompanyServiceOp_Get(t *testing.T) {
 	}
 }
 
+func TestCompanyServiceOp_GetAssociations(t *testing.T) {
+	type fields struct {
+		companyPath string
+		client      *hubspot.Client
+	}
+	type args struct {
+		companyID    string
+		toObjectType string
+		result       *hubspot.AssociationsResponse
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *hubspot.AssociationsResponse
+		wantErr error
+	}{
+		{
+			name: "Successfully get associations",
+			fields: fields{
+				companyPath: hubspot.ExportCompanyBasePath,
+				client: hubspot.NewMockClient(&hubspot.MockConfig{
+					Status: http.StatusOK,
+					Header: http.Header{},
+					Body:   []byte(`{"results":[{"toObjectId":"company002","associationTypes":[{"category":"HUBSPOT_DEFINED","typeId":13,"label":"Child Company"},{"category":"HUBSPOT_DEFINED","typeId":450,"label":null}]},{"toObjectId":"company003","associationTypes":[{"category":"HUBSPOT_DEFINED","typeId":13,"label":"Child Company"},{"category":"HUBSPOT_DEFINED","typeId":450,"label":null}]}]}`),
+				}),
+			},
+			args: args{
+				companyID:    "company001",
+				toObjectType: "company",
+				result:       &hubspot.AssociationsResponse{},
+			},
+			want: &hubspot.AssociationsResponse{
+				Results: []hubspot.AssociationResult{
+					{
+						ID: "company002",
+						Type: []hubspot.AssocationType{
+							{
+								Category: "HUBSPOT_DEFINED",
+								TypeID:   13,
+								Label:    "Child Company",
+							},
+							{
+								Category: "HUBSPOT_DEFINED",
+								TypeID:   450,
+								Label:    "",
+							},
+						},
+					},
+					{
+						ID: "company003",
+						Type: []hubspot.AssocationType{
+							{
+								Category: "HUBSPOT_DEFINED",
+								TypeID:   13,
+								Label:    "Child Company",
+							},
+							{
+								Category: "HUBSPOT_DEFINED",
+								TypeID:   450,
+								Label:    "",
+							},
+						},
+					},
+				},
+			},
+			wantErr: nil,
+		},
+		{
+			name: "Received invalid request",
+			fields: fields{
+				companyPath: hubspot.ExportCompanyBasePath,
+				client: hubspot.NewMockClient(&hubspot.MockConfig{
+					Status: http.StatusBadRequest,
+					Header: http.Header{},
+					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
+				}),
+			},
+			args: args{
+				companyID:    "company001",
+				toObjectType: "company",
+				result:       nil,
+			},
+			want: nil,
+			wantErr: &hubspot.APIError{
+				HTTPStatusCode: http.StatusBadRequest,
+				Message:        "Invalid input (details will vary based on the error)",
+				CorrelationID:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
+				Category:       "VALIDATION_ERROR",
+				Links: hubspot.ErrLinks{
+					KnowledgeBase: "https://www.hubspot.com/products/service/knowledge-base",
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := tt.fields.client.CRM.Company.GetAssociations(tt.args.companyID, tt.args.toObjectType, tt.args.result)
+			if !reflect.DeepEqual(tt.wantErr, err) {
+				t.Errorf("Get() error mismatch: want %s got %s", tt.wantErr, err)
+				return
+			}
+			if diff := cmp.Diff(tt.want, got, cmpTimeOption); diff != "" {
+				t.Errorf("Get() response mismatch (-want +got):%s", diff)
+			}
+		})
+	}
+}
+
 func TestCompanyServiceOp_Delete(t *testing.T) {
 	type fields struct {
 		companyPath string

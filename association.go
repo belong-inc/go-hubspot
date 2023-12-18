@@ -70,3 +70,14 @@ type AssociationResult struct {
 	ID   string `json:"id"`
 	Type string `json:"type"`
 }
+
+type AssocationType struct {
+	Category string `json:"category"`
+	TypeID   int    `json:"typeId"`
+	Label    string `json:"label"`
+}
+
+// AssociationsResponse is the response from the GET associations endpoint.
+type AssociationsResponse struct {
+	Results []AssociationResult `json:"results"`
+}
