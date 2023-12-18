@@ -37,8 +37,8 @@ type Company struct {
 	HsAnalyticsLatestSourceData1            *HsStr  `json:"hs_analytics_latest_source_data_1,omitempty"`
 	HsAnalyticsLatestSourceData2            *HsStr  `json:"hs_analytics_latest_source_data_2,omitempty"`
 	HsAnalyticsLatestSourceTimestamp        *HsTime `json:"hs_analytics_latest_source_timestamp,omitempty"`
-	HsAnalyticsNumPageViews                 *HsInt  `json:"hs_analytics_num_page_views,omitempty"`
-	HsAnalyticsNumVisits                    *HsInt  `json:"hs_analytics_num_visits,omitempty"`
+	HsAnalyticsNumPageViews                 *HsStr  `json:"hs_analytics_num_page_views,omitempty"`
+	HsAnalyticsNumVisits                    *HsStr  `json:"hs_analytics_num_visits,omitempty"`
 	HsAnalyticsSource                       *HsStr  `json:"hs_analytics_source,omitempty"`
 	HsAnalyticsSourceData1                  *HsStr  `json:"hs_analytics_source_data_1,omitempty"`
 	HsAnalyticsSourceData2                  *HsStr  `json:"hs_analytics_source_data_2,omitempty"`
@@ -53,12 +53,12 @@ type Company struct {
 	HsLastmodifieddate                      *HsTime `json:"hs_lastmodifieddate,omitempty"`
 	HsLeadStatus                            *HsStr  `json:"hs_lead_status,omitempty"`
 	HsMergedObjectIds                       *HsStr  `json:"hs_merged_object_ids,omitempty"`
-	HsNumBlockers                           *HsInt  `json:"hs_num_blockers,omitempty"`
+	HsNumBlockers                           *HsStr  `json:"hs_num_blockers,omitempty"`
 	HsNumChildCompanies                     *HsInt  `json:"hs_num_child_companies,omitempty"`
 	HsNumContactsWithBuyingRoles            *HsInt  `json:"hs_num_contacts_with_buying_roles,omitempty"`
 	HsNumDecisionMakers                     *HsInt  `json:"hs_num_decision_makers,omitempty"`
 	HsNumOpenDeals                          *HsInt  `json:"hs_num_open_deals,omitempty"`
-	HsObjectId                              *HsInt  `json:"hs_object_id,omitempty"`
+	HsObjectId                              *HsStr  `json:"hs_object_id,omitempty"`
 	HsParentCompanyId                       *HsInt  `json:"hs_parent_company_id,omitempty"`
 	HsTotalDealValue                        *HsInt  `json:"hs_total_deal_value,omitempty"`
 	HubspotOwnerAssigneddate                *HsTime `json:"hubspot_owner_assigneddate,omitempty"`
