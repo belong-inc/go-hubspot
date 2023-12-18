@@ -42,6 +42,10 @@ const (
 
 	AssociationTypeCompanyToContact AssociationType = "company_to_contact"
 	AssociationTypeCompanyToDeal    AssociationType = "company_to_deal"
+
+	AssociationTypeCompanyToCompany     AssociationType = "company_to_company"
+	AssociationTypeChildToParentCompany AssociationType = "child_to_parent_company"
+	AssociationTypeParentToChildCompany AssociationType = "parent_to_child_company"
 )
 
 type AssociationConfig struct {
