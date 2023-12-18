@@ -328,7 +328,7 @@ func TestCompanyServiceOp_GetAssociations(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusOK,
 					Header: http.Header{},
-					Body:   []byte(`{"results":[{"toObjectId":"company002","associationTypes":[{"category":"HUBSPOT_DEFINED","typeId":13,"label":"Child Company"},{"category":"HUBSPOT_DEFINED","typeId":450,"label":null}]},{"toObjectId":"company003","associationTypes":[{"category":"HUBSPOT_DEFINED","typeId":13,"label":"Child Company"},{"category":"HUBSPOT_DEFINED","typeId":450,"label":null}]}]}`),
+					Body:   []byte(`{"results":[{"id":"company002","type":"parent_to_child_company"},{"id":"company003","type":"parent_to_child_company"}]}`),
 				}),
 			},
 			args: args{
@@ -339,34 +339,12 @@ func TestCompanyServiceOp_GetAssociations(t *testing.T) {
 			want: &hubspot.AssociationsResponse{
 				Results: []hubspot.AssociationResult{
 					{
-						ID: "company002",
-						Type: []hubspot.AssocationType{
-							{
-								Category: "HUBSPOT_DEFINED",
-								TypeID:   13,
-								Label:    "Child Company",
-							},
-							{
-								Category: "HUBSPOT_DEFINED",
-								TypeID:   450,
-								Label:    "",
-							},
-						},
+						ID:   "company002",
+						Type: string(hubspot.AssociationTypeParentToChildCompany),
 					},
 					{
-						ID: "company003",
-						Type: []hubspot.AssocationType{
-							{
-								Category: "HUBSPOT_DEFINED",
-								TypeID:   13,
-								Label:    "Child Company",
-							},
-							{
-								Category: "HUBSPOT_DEFINED",
-								TypeID:   450,
-								Label:    "",
-							},
-						},
+						ID:   "company003",
+						Type: string(hubspot.AssociationTypeParentToChildCompany),
 					},
 				},
 			},
