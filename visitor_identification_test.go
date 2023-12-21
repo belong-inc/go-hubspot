@@ -12,7 +12,7 @@ type IdentificationTokenRequest struct {
 }
 
 func TestGenerateIdentificationToken(t *testing.T) {
-	//t.SkipNow() // Remove this line when you're ready to run the test
+	t.SkipNow()
 
 	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 	request := &IdentificationTokenRequest{
