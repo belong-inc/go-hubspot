@@ -229,7 +229,7 @@ func TestCompanyServiceOp_Get(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusOK,
 					Header: http.Header{},
-					Body:   []byte(`{"id":"company001","properties":{"annualrevenue":"1000000","city":"Cambridge","createdate":"2019-10-30T03:30:17.883Z","domain":"biglytics.net","hs_lastmodifieddate":"2019-12-07T16:50:06.678Z","industry":"Technology","name":"Biglytics","phone":"(877)929-0687","state":"Massachusetts","custom_name":"biglytics","custom_date":"2019-10-30T03:30:17.883Z","hs_created_by_user_id":""},"createdAt":"2019-10-30T03:30:17.883Z","updatedAt":"2019-12-07T16:50:06.678Z"}`),
+					Body:   []byte(`{"id":"company001","properties":{"annualrevenue":"1000000","city":"Cambridge","createdate":"2019-10-30T03:30:17.883Z","domain":"biglytics.net","hs_lastmodifieddate":"2019-12-07T16:50:06.678Z","industry":"Technology","name":"Biglytics","phone":"(877)929-0687","state":"Massachusetts","custom_name":"biglytics","custom_date":"2019-10-30T03:30:17.883Z","hs_created_by_user_id":"","twitterfollowers":1000},"createdAt":"2019-10-30T03:30:17.883Z","updatedAt":"2019-12-07T16:50:06.678Z"}`),
 				}),
 			},
 			args: args{
@@ -257,6 +257,7 @@ func TestCompanyServiceOp_Get(t *testing.T) {
 						Phone:              hubspot.NewString("(877)929-0687"),
 						State:              hubspot.NewString("Massachusetts"),
 						HsCreatedByUserId:  hubspot.NewInt(0),
+						Twitterfollowers:   hubspot.NewInt(1000),
 					},
 					CustomName: hubspot.NewString("biglytics"),
 					CustomDate: &createdAt,
