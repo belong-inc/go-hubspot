@@ -71,9 +71,7 @@ func NewClient(setAuthMethod AuthMethod, opts ...Option) (*Client, error) {
 	}
 
 	// Initialize the VisitorIdentification field
-	c.VisitorIdentification = &VisitorIdentificationServiceOp{
-		client: c,
-	}
+	c.VisitorIdentification = &VisitorIdentificationServiceOp{client: c}
 
 	// Set the authentication method specified by the argument.
 	// Authentication method is either APIKey or OAuth.

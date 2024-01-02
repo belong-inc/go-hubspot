@@ -5,19 +5,14 @@ import (
 	"testing"
 )
 
-type IdentificationTokenRequest struct {
-	Email     string `json:"email"`
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-}
-
 func TestGenerateIdentificationToken(t *testing.T) {
 	t.SkipNow()
 
 	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
-	request := &IdentificationTokenRequest{
-		Email:     "test@example.com",
+	request := IdentificationTokenRequest{
 		FirstName: "Test",
+		LastName:  "User",
+		Email:     "test@example.com",
 	}
 
 	response, err := cli.VisitorIdentification.GenerateIdentificationToken(request)
