@@ -152,6 +152,7 @@ func TestNewClient(t *testing.T) {
 				want.ExportSetBaseURL(tt.settings.baseURL)
 				want.CRM = hubspot.ExportNewCRM(want)
 				want.Marketing = hubspot.ExportNewMarketing(want)
+				want.Conversation = hubspot.ExportNewConversation(want)
 				tt.settings.authMethod(want)
 			}
 

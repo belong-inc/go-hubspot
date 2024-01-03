@@ -34,10 +34,9 @@ type Client struct {
 
 	authenticator Authenticator
 
-	CRM       *CRM
-	Marketing *Marketing
-
-	VisitorIdentification VisitorIdentificationService
+	CRM          *CRM
+	Marketing    *Marketing
+	Conversation *Conversation
 }
 
 // RequestPayload is common request structure for HubSpot APIs.
@@ -70,9 +69,6 @@ func NewClient(setAuthMethod AuthMethod, opts ...Option) (*Client, error) {
 		apiVersion: defaultAPIVersion,
 	}
 
-	// Initialize the VisitorIdentification field
-	c.VisitorIdentification = &VisitorIdentificationServiceOp{client: c}
-
 	// Set the authentication method specified by the argument.
 	// Authentication method is either APIKey or OAuth.
 	setAuthMethod(c)
@@ -84,6 +80,7 @@ func NewClient(setAuthMethod AuthMethod, opts ...Option) (*Client, error) {
 	// Since the baseURL and apiVersion may change, initialize the service after applying the options.
 	c.CRM = newCRM(c)
 	c.Marketing = newMarketing(c)
+	c.Conversation = newConversation(c)
 
 	return c, nil
 }
