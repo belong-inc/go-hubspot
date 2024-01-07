@@ -1,9 +1,5 @@
 package hubspot
 
-const (
-	visitorIdentificationBasePath = "/conversations/v3/visitor-identification"
-)
-
 type IdentificationTokenResponse struct {
 	Token string `json:"token"`
 }
@@ -19,14 +15,15 @@ type VisitorIdentificationService interface {
 }
 
 type VisitorIdentificationServiceOp struct {
-	client *Client
+	client   *Client
+	basePath string
 }
 
 var _ VisitorIdentificationService = (*VisitorIdentificationServiceOp)(nil)
 
 func (s *VisitorIdentificationServiceOp) GenerateIdentificationToken(option IdentificationTokenRequest) (*IdentificationTokenResponse, error) {
 	response := &IdentificationTokenResponse{}
-	path := visitorIdentificationBasePath + "/tokens/create"
+	path := s.basePath + "/tokens/create"
 	if err := s.client.Post(path, option, response); err != nil {
 		return nil, err
 	}
