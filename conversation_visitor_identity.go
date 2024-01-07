@@ -5,8 +5,8 @@ type IdentificationTokenResponse struct {
 }
 
 type IdentificationTokenRequest struct {
-	FirstName string `json:"firstname"`
-	LastName  string `json:"lastname"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
 	Email     string `json:"email"`
 }
 
