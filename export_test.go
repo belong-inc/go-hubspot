@@ -14,8 +14,9 @@ var (
 )
 
 var (
-	ExportNewCRM       = newCRM
-	ExportNewMarketing = newMarketing
+	ExportNewCRM          = newCRM
+	ExportNewMarketing    = newMarketing
+	ExportNewConversation = newConversation
 
 	ExportSetupProperties = (*RequestQueryOption).setupProperties
 
