@@ -2,6 +2,8 @@ package hubspot
 
 import (
 	"encoding/json"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -57,9 +59,8 @@ func NewTime(t time.Time) *HsTime {
 // This is because there are cases where the Time value returned by HubSpot is null or empty string.
 // The time.Time does not support Parse with empty string.
 func (ht *HsTime) UnmarshalJSON(b []byte) error {
-	// FIXME: Initialization is performed on empty string.
 	if len(b) == 0 || string(b) == `""` {
-		return nil
+		return nil // NOTE: Initialization is performed on empty string.
 	}
 	v := &time.Time{}
 	if err := json.Unmarshal(b, v); err != nil {
@@ -99,4 +100,23 @@ type HsInt int
 func NewInt(v int) *HsInt {
 	val := HsInt(v)
 	return &val
+}
+
+// UnmarshalJSON implemented json.Unmarshaler.
+// This is because there are cases where the Int value returned by HubSpot is "" or "12345".
+func (hi *HsInt) UnmarshalJSON(b []byte) error {
+	if len(b) == 0 || string(b) == `""` {
+		return nil // NOTE: Initialization is performed on 0.
+	}
+	i, err := strconv.Atoi(strings.Replace(string(b), `"`, ``, -1))
+	if err != nil {
+		return err
+	}
+	*hi = HsInt(i)
+	return nil
+}
+
+// String implemented Stringer.
+func (hi *HsInt) String() string {
+	return strconv.Itoa(int(*hi))
 }
