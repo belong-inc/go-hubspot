@@ -311,7 +311,7 @@ func TestCompanyServiceOp_GetAssociations(t *testing.T) {
 	}
 	type args struct {
 		companyID    string
-		toObjectType string
+		toObjectType hubspot.ObjectType
 		result       *hubspot.AssociationsResponse
 	}
 	tests := []struct {
@@ -379,7 +379,7 @@ func TestCompanyServiceOp_GetAssociations(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := tt.fields.client.CRM.Company.GetAssociations(tt.args.companyID, tt.args.toObjectType, tt.args.result)
+			got, err := tt.fields.client.CRM.Company.GetAssociations(tt.args.companyID, tt.args.toObjectType)
 			if !reflect.DeepEqual(tt.wantErr, err) {
 				t.Errorf("Get() error mismatch: want %s got %s", tt.wantErr, err)
 				return
