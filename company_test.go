@@ -247,7 +247,7 @@ func TestCompanyServiceOp_Get(t *testing.T) {
 				Archived: false,
 				Properties: &CustomFields{
 					Company: hubspot.Company{
-						Annualrevenue:      hubspot.NewInt(1000000),
+						Annualrevenue:      hubspot.NewString("1000000"),
 						City:               hubspot.NewString("Cambridge"),
 						Createdate:         &createdAt,
 						Domain:             hubspot.NewString("biglytics.net"),
@@ -256,7 +256,7 @@ func TestCompanyServiceOp_Get(t *testing.T) {
 						Name:               hubspot.NewString("Biglytics"),
 						Phone:              hubspot.NewString("(877)929-0687"),
 						State:              hubspot.NewString("Massachusetts"),
-						HsCreatedByUserId:  hubspot.NewInt(0),
+						HsCreatedByUserId:  hubspot.NewString("0"),
 					},
 					CustomName: hubspot.NewString("biglytics"),
 					CustomDate: &createdAt,
@@ -292,7 +292,7 @@ func TestCompanyServiceOp_Get(t *testing.T) {
 				Archived: false,
 				Properties: &CustomFields{
 					Company: hubspot.Company{
-						Annualrevenue:      hubspot.NewInt(1000000),
+						Annualrevenue:      hubspot.NewString("1000000"),
 						City:               hubspot.NewString("Cambridge"),
 						Createdate:         &createdAt,
 						Domain:             hubspot.NewString("biglytics.net"),
@@ -301,7 +301,7 @@ func TestCompanyServiceOp_Get(t *testing.T) {
 						Name:               hubspot.NewString("Biglytics"),
 						Phone:              hubspot.NewString("(877)929-0687"),
 						State:              hubspot.NewString("Massachusetts"),
-						HsCreatedByUserId:  hubspot.NewInt(0),
+						HsCreatedByUserId:  hubspot.NewString("0"),
 					},
 					CustomName: hubspot.NewString("biglytics"),
 					CustomDate: &createdAt,
