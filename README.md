@@ -1,4 +1,5 @@
 # go-hubspot
+
 [![godoc](https://godoc.org/github.com/belong-inc/go-hubspot?status.svg)](https://pkg.go.dev/github.com/belong-inc/go-hubspot)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -128,7 +129,8 @@ client.CRM.Contact.AssociateAnotherObj("yourContactID", &hubspot.AssociationConf
 
 Custom fields are added out of existing object such as Deal or Contact.  
 Therefore a new struct needs to be created which contain default fields and additional custom field, and set to Properties field of a request.
-Before using custom  field through API, the field needs to be set up in HubSpot web site.
+Before using custom field through API, the field needs to be set up in HubSpot web site.
+
 ### Get deal with custom fields.
 
 ```go
@@ -201,28 +203,28 @@ fmt.Println(customDeal.CustomA, customDeal.CustomB)
 
 # API availability
 
-| Category      | API                 | Availability    |
-|---------------|---------------------|-----------------|
-| CRM           | Deal                | Available       |
-| CRM           | Company             | Available       |
-| CRM           | Contact             | Available       |
-| CRM           | Imports             | Beta            |
-| CRM           | Schemas             | Beta            |
-| CRM           | Properties          | Beta            |
-| CRM           | Tickets             | Beta            |
-| CMS           | All                 | Not Implemented |
-| Conversations | All                 | Not Implemented |
-| Events        | All                 | Not Implemented |
-| Marketing     | Marketing Email     | Available       |
-| Marketing     | Transactional Email | Available       |
-| Files         | All                 | Not Implemented |
-| Settings      | All                 | Not Implemented |
-| Webhooks      | All                 | Not Implemented |
+| Category      | API                    | Availability    |
+| ------------- | ---------------------- | --------------- |
+| CRM           | Deal                   | Available       |
+| CRM           | Company                | Available       |
+| CRM           | Contact                | Available       |
+| CRM           | Imports                | Beta            |
+| CRM           | Schemas                | Beta            |
+| CRM           | Properties             | Beta            |
+| CRM           | Tickets                | Beta            |
+| CMS           | All                    | Not Implemented |
+| Conversations | Visitor Identification | Available       |
+| Events        | All                    | Not Implemented |
+| Marketing     | Marketing Email        | Available       |
+| Marketing     | Transactional Email    | Available       |
+| Files         | All                    | Not Implemented |
+| Settings      | All                    | Not Implemented |
+| Webhooks      | All                    | Not Implemented |
 
 # Authentication availability
 
 | Type         | Availability |
-|--------------|--------------|
+| ------------ | ------------ |
 | API key      | Deprecated   |
 | OAuth        | Available    |
 | Private apps | Available    |
