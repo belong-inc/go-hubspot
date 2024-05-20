@@ -33,6 +33,12 @@ func (hs *HsStr) String() string {
 // HsBool is defined to marshal the HubSpot boolean fields of `true`, `"true"`, and so on, into a bool type.
 type HsBool bool
 
+// NewBoolean returns pointer HsBool(bool)
+func NewBoolean(b bool) *HsBool {
+	v := HsBool(b)
+	return &v
+}
+
 // UnmarshalJSON implemented json.Unmarshaler.
 // This is because there are cases where the Time value returned by HubSpot is null or "true" / "false".
 func (hb *HsBool) UnmarshalJSON(b []byte) error {

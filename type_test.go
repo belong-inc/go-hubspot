@@ -39,6 +39,26 @@ func TestHsStr_String(t *testing.T) {
 	}
 }
 
+func TestHsBool_Boolean(t *testing.T) {
+	tests := []struct {
+		input    bool
+		expected bool
+	}{
+		{true, true},
+		{false, false},
+	}
+
+	for _, test := range tests {
+		result := hubspot.NewBoolean(test.input)
+		if result == nil {
+			t.Errorf("NewBoolean(%v) = nil; want *HsBool with value %v", test.input, test.expected)
+		}
+		if *result != hubspot.HsBool(test.expected) {
+			t.Errorf("NewBoolean(%v) = %v; want %v", test.input, *result, test.expected)
+		}
+	}
+}
+
 var testDate = time.Date(2022, time.February, 28, 0, 0, 0, 0, time.UTC)
 
 func TestHsTime_String(t *testing.T) {
