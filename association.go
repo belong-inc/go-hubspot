@@ -42,6 +42,10 @@ const (
 
 	AssociationTypeCompanyToContact AssociationType = "company_to_contact"
 	AssociationTypeCompanyToDeal    AssociationType = "company_to_deal"
+
+	AssociationTypeCompanyToCompany     AssociationType = "company_to_company"
+	AssociationTypeChildToParentCompany AssociationType = "child_to_parent_company"
+	AssociationTypeParentToChildCompany AssociationType = "parent_to_child_company"
 )
 
 type AssociationConfig struct {
@@ -69,4 +73,9 @@ type Associations struct {
 type AssociationResult struct {
 	ID   string `json:"id"`
 	Type string `json:"type"`
+}
+
+// AssociationsResponse is the response from the GET associations endpoint.
+type AssociationsResponse struct {
+	Results []AssociationResult `json:"results"`
 }
