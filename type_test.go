@@ -50,9 +50,6 @@ func TestHsBool_Boolean(t *testing.T) {
 
 	for _, test := range tests {
 		result := hubspot.NewBoolean(test.input)
-		if result == nil {
-			t.Errorf("NewBoolean(%v) = nil; want *HsBool with value %v", test.input, test.expected)
-		}
 		if *result != hubspot.HsBool(test.expected) {
 			t.Errorf("NewBoolean(%v) = %v; want %v", test.input, *result, test.expected)
 		}
