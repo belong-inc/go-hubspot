@@ -42,9 +42,9 @@ type Company struct {
 	HsAnalyticsSource                       *HsStr  `json:"hs_analytics_source,omitempty"`
 	HsAnalyticsSourceData1                  *HsStr  `json:"hs_analytics_source_data_1,omitempty"`
 	HsAnalyticsSourceData2                  *HsStr  `json:"hs_analytics_source_data_2,omitempty"`
-	HsCreatedByUserId                       *HsInt  `json:"hs_created_by_user_id,omitempty"`
+	HsCreatedByUserID                       *HsInt  `json:"hs_created_by_user_id,omitempty"`
 	HsCreatedate                            *HsTime `json:"hs_createdate,omitempty"`
-	HsIdealCustomerProfile                  *HsStr  `json:"hs_ideal_customer_profile,omitempty"`
+	HsIDealCustomerProfile                  *HsStr  `json:"hs_ideal_customer_profile,omitempty"`
 	HsIsTargetAccount                       *HsBool `json:"hs_is_target_account,omitempty"`
 	HsLastBookedMeetingDate                 *HsTime `json:"hs_last_booked_meeting_date,omitempty"`
 	HsLastLoggedCallDate                    *HsTime `json:"hs_last_logged_call_date,omitempty"`
@@ -52,18 +52,18 @@ type Company struct {
 	HsLastSalesActivityTimestamp            *HsTime `json:"hs_last_sales_activity_timestamp,omitempty"`
 	HsLastmodifieddate                      *HsTime `json:"hs_lastmodifieddate,omitempty"`
 	HsLeadStatus                            *HsStr  `json:"hs_lead_status,omitempty"`
-	HsMergedObjectIds                       *HsStr  `json:"hs_merged_object_ids,omitempty"`
+	HsMergedObjectIDs                       *HsStr  `json:"hs_merged_object_ids,omitempty"`
 	HsNumBlockers                           *HsInt  `json:"hs_num_blockers,omitempty"`
 	HsNumChildCompanies                     *HsInt  `json:"hs_num_child_companies,omitempty"`
 	HsNumContactsWithBuyingRoles            *HsInt  `json:"hs_num_contacts_with_buying_roles,omitempty"`
 	HsNumDecisionMakers                     *HsInt  `json:"hs_num_decision_makers,omitempty"`
 	HsNumOpenDeals                          *HsInt  `json:"hs_num_open_deals,omitempty"`
-	HsObjectId                              *HsInt  `json:"hs_object_id,omitempty"`
-	HsParentCompanyId                       *HsInt  `json:"hs_parent_company_id,omitempty"`
+	HsObjectID                              *HsInt  `json:"hs_object_id,omitempty"`
+	HsParentCompanyID                       *HsInt  `json:"hs_parent_company_id,omitempty"`
 	HsTotalDealValue                        *HsInt  `json:"hs_total_deal_value,omitempty"`
 	HubspotOwnerAssigneddate                *HsTime `json:"hubspot_owner_assigneddate,omitempty"`
-	HubspotOwnerId                          *HsStr  `json:"hubspot_owner_id,omitempty"`
-	HubspotTeamId                           *HsStr  `json:"hubspot_team_id,omitempty"`
+	HubspotOwnerID                          *HsStr  `json:"hubspot_owner_id,omitempty"`
+	HubspotTeamID                           *HsStr  `json:"hubspot_team_id,omitempty"`
 	Industry                                *HsStr  `json:"industry,omitempty"`
 	IsPublic                                *HsBool `json:"is_public,omitempty"`
 	Lifecyclestage                          *HsStr  `json:"lifecyclestage,omitempty"`

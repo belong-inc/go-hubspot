@@ -18,7 +18,7 @@ type APIError struct {
 	HTTPStatusCode int         `json:"-"`
 	Status         string      `json:"status,omitempty"`
 	Message        string      `json:"message,omitempty"`
-	CorrelationID  string      `json:"correlationId,omitempty"`
+	CorrelationID  string      `json:"correlationID,omitempty"`
 	Context        ErrContext  `json:"context,omitempty"`
 	Category       string      `json:"category,omitempty"`
 	SubCategory    string      `json:"subCategory,omitempty"`

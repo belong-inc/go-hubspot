@@ -1,69 +1,72 @@
-# General
-SHELL := bash
-.SHELLFLAGS := -eu -o pipefail -c
-.DEFAULT_GOAL := help
+# Use default shell BASH.
+SHELL_PATH := /bin/bash
+SHELL := /usr/bin/env bash
 
-BIN := $(CURDIR)/.bin
-TOOLS := $(CURDIR)/tools
-PATH := $(abspath $(BIN)):$(PATH)
+# ==============================================================================
+# Define dependencies
 
-UNAME_OS := $(shell uname -s)
-UNAME_ARCH := $(shell uname -m)
+NAME            := go-hubspot
+GOBIN           := $$HOME/go/bin
+GOVULNCHECK     := $(GOBIN)/govulncheck
+STATICCHECK     := $(GOBIN)/staticcheck
+TOOLS           := tools
 
-$(BIN):
-	mkdir -p $(BIN)
+# ==============================================================================
+# Defining all make targets
 
-.PHONY: os
-os: ## show os name
-	@echo "$(UNAME_OS)"
+.DEFAULT_GOAL := all
 
-.PHONY: help
-help: ## print help
-	@grep -E '^[/a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
-
-# Go
-
-.PHONY: mod
-mod: ## download Go modules
-	go mod download
-
-.PHONY: vendor
-vendor: ## make go vendor
-	go mod vendor
-
-.PHONY: test
-test: ## run go test. If you need test options, pass them in like OPTIONS="-v"
-	go test ./... $(OPTIONS)
-
-# Install golangci-lint
-GOLANGCLI_LINT := $(BIN)/golangci-lint
-GOLANGCLI_LINT_VERSION := v1.51.0
-$(GOLANGCLI_LINT): | $(BIN) ## Install golangci-lint
-	@curl -sSfL "https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh" | sh -s -- -b $(BIN) $(GOLANGCLI_LINT_VERSION)
-	@chmod +x "$(BIN)/golangci-lint"
-
-.PHONY: lint
-lint: | $(GOLANGCLI_LINT) ## run golangci-lint with config .golangcli.yml
-	$(BIN)/golangci-lint run --verbose --config=.golangci.yml ./...
-
-# Install gofumpt
-# This setting is only available for Mac
-GOFMPT := $(BIN)/gofumpt
-GOFMPT_VERSION := v0.4.0
-ifeq "$(UNAME_OS)" "Darwin"
-	GOFMPT_BIN=gofumpt_$(GOFMPT_VERSION)_darwin_amd64
-endif
-
-$(GOFMPT): | $(BIN) ## Install gofumpt
-	@curl -sSfL "https://github.com/mvdan/gofumpt/releases/download/$(GOFMPT_VERSION)/$(GOFMPT_BIN)" \
-		-o "$(BIN)/gofumpt"
-	@chmod +x "$(BIN)/gofumpt"
+.PHONY: all
+all: update fmt lint vulncheck tidy test
 
 .PHONY: fmt
-fmt: | $(GOFMPT) ## format files via gofumpt and list impacted files
-	@$(BIN)/gofumpt -l -w . ./legacy
+fmt:
+	@echo "-- Formatting Go files --"
+	gofmt -w -s . && \
+	gofmt -w -s legacy && \
+	goimports -local github.com/belong-inc/go-hubspot -w .
 
 .PHONY: generate
 generate: ## generate go code (e.g. make generate OBJECT=Contact FILEPATH=contact.csv)
 	@cd $(TOOLS)/model_generator && go run model_gen.go $(OBJECT) $(FILEPATH)
 	$(MAKE) fmt
+
+.PHONY: lint
+lint:
+	@echo "-- Lint check for Go files --"
+	go mod tidy
+	golangci-lint run
+	CGO_ENABLED=0 go vet ./...
+
+.PHONY: staticcheck
+staticcheck:
+	$(STATICCHECK) -checks=all ./...
+
+.PHONY: vulncheck
+vulncheck:
+	$(GOVULNCHECK) ./...
+
+.PHONY: update
+update:
+	go get -u ./...
+
+.PHONY: tidy
+tidy:
+	@echo "-- Tidying Go modules --"
+	go mod tidy
+
+.PHONY: clean
+clean:
+	@echo " -- Cleaning Go files --"
+	@go clean -cache -testcache -modcache
+	@rm $(GO_DIR)/*.zip
+
+.PHONY: build
+build:
+	@echo "-- Building binaries --"
+	go build -v ./...
+
+.PHONY:
+test: build
+	@echo "-- Running tests --"
+	CGO_ENABLED=1 go test ./...

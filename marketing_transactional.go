@@ -21,14 +21,14 @@ var _ TransactionalService = (*TransactionalServiceOp)(nil)
 type SendSingleEmailMessage struct {
 	To      string   `json:"to"`
 	From    string   `json:"from,omitempty"`
-	SendId  string   `json:"sendId,omitempty"`
+	SendID  string   `json:"sendID,omitempty"`
 	ReplyTo []string `json:"replyTo,omitempty"`
 	Cc      []string `json:"cc,omitempty"`
 	Bcc     []string `json:"bcc,omitempty"`
 }
 
 type SendSingleEmailProperties struct {
-	EmailId           int64                   `json:"emailId"`
+	EmailID           int64                   `json:"emailID"`
 	Message           *SendSingleEmailMessage `json:"message"`
 	ContactProperties *Contact                `json:"contactProperties,omitempty"`
 	CustomProperties  interface{}             `json:"customProperties,omitempty"`
@@ -36,7 +36,7 @@ type SendSingleEmailProperties struct {
 
 type SendSingleEmailResponse struct {
 	RequestedAt string `json:"requestedAt"`
-	StatusId    string `json:"statusId"`
+	StatusID    string `json:"statusID"`
 	Status      string `json:"status"`
 }
 

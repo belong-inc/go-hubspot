@@ -5,8 +5,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/belong-inc/go-hubspot"
 	"github.com/google/go-cmp/cmp"
+
+	"github.com/belong-inc/go-hubspot"
 )
 
 func TestDealServiceOp_Create(t *testing.T) {
@@ -71,7 +72,7 @@ func TestDealServiceOp_Create(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusBadRequest,
 					Header: http.Header{},
-					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
+					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationID": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
 				}),
 			},
 			args: args{
@@ -167,7 +168,7 @@ func TestDealServiceOp_Update(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusBadRequest,
 					Header: http.Header{},
-					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
+					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationID": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
 				}),
 			},
 			args: args{
@@ -348,7 +349,7 @@ func TestDealServiceOp_Get(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusBadRequest,
 					Header: http.Header{},
-					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
+					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationID": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
 				}),
 			},
 			args: args{
@@ -445,7 +446,7 @@ func TestDealServiceOp_AssociateAnotherObj(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusBadRequest,
 					Header: http.Header{},
-					Body:   []byte(`{"status":"error","message":"test is not a valid association type between deals and contacts","correlationId":"correlation_id","context":{"type":["test"],"fromObjectType":["deals"],"toObjectType":["contacts"]},"category":"VALIDATION_ERROR","subCategory":"crm.associations.INVALID_ASSOCIATION_TYPE"}`),
+					Body:   []byte(`{"status":"error","message":"test is not a valid association type between deals and contacts","correlationID":"correlation_id","context":{"type":["test"],"fromObjectType":["deals"],"toObjectType":["contacts"]},"category":"VALIDATION_ERROR","subCategory":"crm.associations.INVALID_ASSOCIATION_TYPE"}`),
 				}),
 			},
 			args: args{

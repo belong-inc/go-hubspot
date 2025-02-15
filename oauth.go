@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -12,6 +12,7 @@ import (
 )
 
 const (
+	//nolint:gosec
 	oauthTokenPath = "oauth/v1/token"
 
 	GrantTypeRefreshToken = "refresh_token"
@@ -60,14 +61,14 @@ func (otm *OAuthTokenManager) fetchTokenFromHubSpot() (tokenByte []byte, err err
 	defer res.Body.Close()
 
 	if isErrorStatusCode(res.StatusCode) {
-		b, err := ioutil.ReadAll(res.Body)
+		b, err := io.ReadAll(res.Body)
 		if err != nil {
 			return nil, err
 		}
 		return nil, fmt.Errorf("failed to authorize: %s", string(b))
 	}
 
-	return ioutil.ReadAll(res.Body)
+	return io.ReadAll(res.Body)
 }
 
 func (otm *OAuthTokenManager) refreshToken(tokenByte []byte) (newToken *OAuthToken, err error) {

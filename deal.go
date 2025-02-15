@@ -1,5 +1,14 @@
 package hubspot
 
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+	"os"
+)
+
 const (
 	dealBasePath = "deals"
 )
@@ -13,6 +22,7 @@ type DealService interface {
 	Create(deal interface{}) (*ResponseResource, error)
 	Update(dealID string, deal interface{}) (*ResponseResource, error)
 	AssociateAnotherObj(dealID string, conf *AssociationConfig) (*ResponseResource, error)
+	SearchDeals(dealName string) (*Deal, error)
 }
 
 // DealServiceOp handles communication with the product related methods of the HubSpot API.
@@ -22,6 +32,25 @@ type DealServiceOp struct {
 }
 
 var _ DealService = (*DealServiceOp)(nil)
+
+// DealSearchRequest represents the request body for searching deals.
+type DealSearchRequest struct {
+	FilterGroups []FilterGroup `json:"filterGroups,omitempty"`
+}
+
+// DealSearchResponse represents the structure of the response from the deal search endpoint.
+type DealSearchResponse struct {
+	Total   int            `json:"total,omitempty"`
+	Results []DealResponse `json:"results,omitempty"`
+}
+
+type DealResponse struct {
+	ID         string `json:"id,omitempty"`
+	Properties Deal   `json:"properties,omitempty"`
+	CreatedAt  string `json:"createdAt,omitempty"`
+	UpdatedAt  string `json:"updatedAt,omitempty"`
+	Archived   bool   `json:"archived,omitempty"`
+}
 
 // Deal represents a HubSpot deal.
 type Deal struct {
@@ -136,4 +165,91 @@ func (s *DealServiceOp) AssociateAnotherObj(dealID string, conf *AssociationConf
 		return nil, err
 	}
 	return resource, nil
+}
+
+// SearchDeals searches for deals by deal name.
+func (s *DealServiceOp) SearchDeals(dealName string) (*Deal, error) {
+	req := &DealSearchRequest{
+		FilterGroups: []FilterGroup{
+			{
+				Filters: []Filter{
+					{
+						PropertyName: "dealname",
+						Operator:     "EQ",
+						Value:        dealName,
+					},
+				},
+			},
+		},
+	}
+
+	// Send the POST request to HubSpot API
+	resource, err := searchHubSpotDeals(req)
+	if err != nil {
+		return nil, fmt.Errorf("error searching deals: %w", err)
+	}
+
+	// Send the POST request to HubSpot API
+	// if err := s.client.Post(dealBasePath+"/search", req, resource); err != nil {
+	// 	fmt.Printf("response: %v\n\n Error: %v", resource, err)
+	// 	return nil, err
+	// }
+
+	return resource, err
+}
+
+// SearchHubSpotDeals searches for deals based on the provided criteria
+func searchHubSpotDeals(req *DealSearchRequest) (*Deal, error) {
+	// Marshal the search criteria to JSON
+	jsonData, err := json.Marshal(req)
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal search criteria: %w", err)
+	}
+
+	// Define the API endpoint
+	url := "https://api.hubapi.com/crm/v3/objects/deals/search"
+
+	// Create a new HTTP client
+	client := &http.Client{}
+
+	// Create a POST request with headers and body
+	reqwst, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(jsonData))
+	if err != nil {
+		return nil, fmt.Errorf("failed to create HTTP request: %w", err)
+	}
+
+	reqwst.Header.Set("Authorization", fmt.Sprintf("Bearer %s", os.Getenv("HUBSPOT_ACCESS_TOKEN")))
+	reqwst.Header.Set("Content-Type", "application/json")
+
+	// Send the request and handle the response
+	resp, err := client.Do(reqwst)
+	if err != nil {
+		return nil, fmt.Errorf("failed to send HTTP request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	// Check for successful response status code
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("API request failed with status code: %d, body: %s", resp.StatusCode, string(body))
+	}
+
+	// Log the raw response body
+	rawBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read response body: %w", err)
+	}
+
+	// Decode the response body
+	var data DealSearchResponse
+	if err := json.Unmarshal(rawBody, &data); err != nil {
+		return nil, fmt.Errorf("failed to decode response body: %w", err)
+	}
+
+	if len(data.Results) == 0 {
+		return nil, fmt.Errorf("no deals found")
+	}
+
+	deal := data.Results[0].Properties
+	return &deal, nil
 }

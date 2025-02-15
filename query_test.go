@@ -3,8 +3,9 @@ package hubspot_test
 import (
 	"testing"
 
-	"github.com/belong-inc/go-hubspot"
 	"github.com/google/go-cmp/cmp"
+
+	"github.com/belong-inc/go-hubspot"
 )
 
 func TestRequestQueryOption_setupProperties(t *testing.T) {
@@ -95,9 +96,10 @@ func TestRequestQueryOption_setupProperties(t *testing.T) {
 			},
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var o *hubspot.RequestQueryOption = nil
+			var o *hubspot.RequestQueryOption
 			if tt.fields != nil {
 				o = &hubspot.RequestQueryOption{
 					Properties:           tt.fields.Properties,

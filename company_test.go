@@ -5,8 +5,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/belong-inc/go-hubspot"
 	"github.com/google/go-cmp/cmp"
+
+	"github.com/belong-inc/go-hubspot"
 )
 
 func TestCompanyServiceOp_Create(t *testing.T) {
@@ -71,7 +72,7 @@ func TestCompanyServiceOp_Create(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusBadRequest,
 					Header: http.Header{},
-					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
+					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationID": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
 				}),
 			},
 			args: args{
@@ -166,7 +167,7 @@ func TestCompanyServiceOp_Update(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusBadRequest,
 					Header: http.Header{},
-					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
+					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationID": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
 				}),
 			},
 			args: args{
@@ -256,7 +257,7 @@ func TestCompanyServiceOp_Get(t *testing.T) {
 						Name:               hubspot.NewString("Biglytics"),
 						Phone:              hubspot.NewString("(877)929-0687"),
 						State:              hubspot.NewString("Massachusetts"),
-						HsCreatedByUserId:  hubspot.NewInt(0),
+						HsCreatedByUserID:  hubspot.NewInt(0),
 					},
 					CustomName: hubspot.NewString("biglytics"),
 					CustomDate: &createdAt,
@@ -301,7 +302,7 @@ func TestCompanyServiceOp_Get(t *testing.T) {
 						Name:               hubspot.NewString("Biglytics"),
 						Phone:              hubspot.NewString("(877)929-0687"),
 						State:              hubspot.NewString("Massachusetts"),
-						HsCreatedByUserId:  hubspot.NewInt(0),
+						HsCreatedByUserID:  hubspot.NewInt(0),
 					},
 					CustomName: hubspot.NewString("biglytics"),
 					CustomDate: &createdAt,
@@ -318,7 +319,7 @@ func TestCompanyServiceOp_Get(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusBadRequest,
 					Header: http.Header{},
-					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
+					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationID": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
 				}),
 			},
 			args: args{
@@ -386,7 +387,7 @@ func TestCompanyServiceOp_Delete(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusBadRequest,
 					Header: http.Header{},
-					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
+					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationID": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
 				}),
 			},
 			args: args{

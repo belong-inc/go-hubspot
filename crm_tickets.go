@@ -10,10 +10,10 @@ const (
 // Reference: https://developers.hubspot.com/docs/api/crm/tickets
 type CrmTicketsServivce interface {
 	List(option *RequestQueryOption) (*CrmTicketsList, error)
-	Get(ticketId string, option *RequestQueryOption) (*CrmTicket, error)
+	Get(ticketID string, option *RequestQueryOption) (*CrmTicket, error)
 	Create(reqData *CrmTicketCreateRequest) (*CrmTicket, error)
-	Archive(ticketId string) error
-	Update(ticketId string, reqData *CrmTicketUpdateRequest) (*CrmTicket, error)
+	Archive(ticketID string) error
+	Update(ticketID string, reqData *CrmTicketUpdateRequest) (*CrmTicket, error)
 	Search(reqData *CrmTicketSearchRequest) (*CrmTicketsList, error)
 }
 
@@ -26,7 +26,7 @@ type CrmTicketsServivceOp struct {
 var _ CrmTicketsServivce = (*CrmTicketsServivceOp)(nil)
 
 type CrmTicket struct {
-	Id                    *HsStr                 `json:"id,omitempty"`
+	ID                    *HsStr                 `json:"id,omitempty"`
 	Properties            map[string]interface{} `json:"properties,omitempty"`
 	PropertiesWithHistory map[string]interface{} `json:"propertiesWithHistory,omitempty"`
 	CreatedAt             *HsTime                `json:"createdAt,omitempty"`
@@ -58,9 +58,9 @@ func (s *CrmTicketsServivceOp) List(option *RequestQueryOption) (*CrmTicketsList
 	return &resource, nil
 }
 
-func (s *CrmTicketsServivceOp) Get(ticketId string, option *RequestQueryOption) (*CrmTicket, error) {
+func (s *CrmTicketsServivceOp) Get(ticketID string, option *RequestQueryOption) (*CrmTicket, error) {
 	var resource CrmTicket
-	path := fmt.Sprintf("%s/%s", s.crmTicketsPath, ticketId)
+	path := fmt.Sprintf("%s/%s", s.crmTicketsPath, ticketID)
 	if err := s.client.Get(path, &resource, option); err != nil {
 		return nil, err
 	}
@@ -68,12 +68,12 @@ func (s *CrmTicketsServivceOp) Get(ticketId string, option *RequestQueryOption) 
 }
 
 type CrmTicketAssociationTarget struct {
-	Id *HsStr `json:"id,omitempty"`
+	ID *HsStr `json:"id,omitempty"`
 }
 
 type CrmTicketAssociationType struct {
 	AssociationCategory *HsStr `json:"associationCategory,omitempty"`
-	AssociationTypeId   *HsInt `json:"associationTypeId,omitempty"`
+	AssociationTypeID   *HsInt `json:"associationTypeID,omitempty"`
 }
 
 type CrmTicketAssociation struct {
@@ -96,14 +96,14 @@ func (s *CrmTicketsServivceOp) Create(reqData *CrmTicketCreateRequest) (*CrmTick
 	return &resource, nil
 }
 
-func (s *CrmTicketsServivceOp) Archive(ticketId string) error {
-	path := fmt.Sprintf("%s/%s", s.crmTicketsPath, ticketId)
+func (s *CrmTicketsServivceOp) Archive(ticketID string) error {
+	path := fmt.Sprintf("%s/%s", s.crmTicketsPath, ticketID)
 	return s.client.Delete(path, nil)
 }
 
-func (s *CrmTicketsServivceOp) Update(ticketId string, reqData *CrmTicketUpdateRequest) (*CrmTicket, error) {
+func (s *CrmTicketsServivceOp) Update(ticketID string, reqData *CrmTicketUpdateRequest) (*CrmTicket, error) {
 	var resource CrmTicket
-	path := fmt.Sprintf("%s/%s", s.crmTicketsPath, ticketId)
+	path := fmt.Sprintf("%s/%s", s.crmTicketsPath, ticketID)
 	if err := s.client.Patch(path, reqData, &resource); err != nil {
 		return nil, err
 	}

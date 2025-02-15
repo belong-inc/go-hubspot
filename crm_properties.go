@@ -23,8 +23,8 @@ type CrmProperty struct {
 	Description          *HsStr                       `json:"description,omitempty"`
 	GroupName            *HsStr                       `json:"groupName,omitempty"`
 	Options              []*CrmPropertyOptions        `json:"options,omitempty"`
-	CreatedUserId        *HsStr                       `json:"createdUserId,omitempty"`
-	UpdatedUserId        *HsStr                       `json:"updatedUserId,omitempty"`
+	CreatedUserID        *HsStr                       `json:"createdUserID,omitempty"`
+	UpdatedUserID        *HsStr                       `json:"updatedUserID,omitempty"`
 	ReferencedObjectType *HsStr                       `json:"referencedObjectType,omitempty"`
 	DisplayOrder         *HsInt                       `json:"displayOrder,omitempty"`
 	Calculated           *HsBool                      `json:"calculated,omitempty"`

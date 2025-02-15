@@ -3,15 +3,16 @@ package hubspot_test
 import (
 	"bytes"
 	"errors"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"reflect"
 	"testing"
 	"time"
 
-	hubspot "github.com/belong-inc/go-hubspot"
 	"github.com/google/go-cmp/cmp"
+
+	hubspot "github.com/belong-inc/go-hubspot"
 )
 
 var (
@@ -80,55 +81,55 @@ func TestNewClient(t *testing.T) {
 		{
 			name: "Success new client and set private app token",
 			args: args{
-				setAuthMethod: hubspot.SetPrivateAppToken("token"),
+				setAuthMethod: hubspot.SetPrivateAppToken("token", "secret"),
 			},
 			settings: settings{
 				client:     http.DefaultClient,
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetPrivateAppToken("token"),
+				authMethod: hubspot.SetPrivateAppToken("token", "secret"),
 			},
 			wantErr: nil,
 		},
 		{
 			name: "Success new client with custom http client",
 			args: args{
-				setAuthMethod: hubspot.SetPrivateAppToken("token"),
+				setAuthMethod: hubspot.SetPrivateAppToken("token", "secret"),
 				opts:          []hubspot.Option{hubspot.WithHTTPClient(&http.Client{Timeout: 100 * time.Second})},
 			},
 			settings: settings{
 				client:     &http.Client{Timeout: 100 * time.Second},
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetPrivateAppToken("token"),
+				authMethod: hubspot.SetPrivateAppToken("token", "secret"),
 			},
 			wantErr: nil,
 		},
 		{
 			name: "Success new client with custom base url",
 			args: args{
-				setAuthMethod: hubspot.SetPrivateAppToken("token"),
+				setAuthMethod: hubspot.SetPrivateAppToken("token", "secret"),
 				opts:          []hubspot.Option{hubspot.WithBaseURL(&url.URL{Scheme: "http", Host: "example.com"})},
 			},
 			settings: settings{
 				client:     http.DefaultClient,
 				baseURL:    &url.URL{Scheme: "http", Host: "example.com"},
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetPrivateAppToken("token"),
+				authMethod: hubspot.SetPrivateAppToken("token", "secret"),
 			},
 			wantErr: nil,
 		},
 		{
 			name: "Success new client with custom api version",
 			args: args{
-				setAuthMethod: hubspot.SetPrivateAppToken("token"),
+				setAuthMethod: hubspot.SetPrivateAppToken("token", "secret"),
 				opts:          []hubspot.Option{hubspot.WithAPIVersion("v0")},
 			},
 			settings: settings{
 				client:     http.DefaultClient,
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: "v0",
-				authMethod: hubspot.SetPrivateAppToken("token"),
+				authMethod: hubspot.SetPrivateAppToken("token", "secret"),
 			},
 			wantErr: nil,
 		},
@@ -141,9 +142,10 @@ func TestNewClient(t *testing.T) {
 			wantErr:  errors.New("the authentication method is not set"),
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var want *hubspot.Client = nil
+			var want *hubspot.Client
 			if tt.wantErr == nil {
 				want = &hubspot.Client{
 					HTTPClient: tt.settings.client,
@@ -157,8 +159,8 @@ func TestNewClient(t *testing.T) {
 			}
 
 			got, err := hubspot.NewClient(tt.args.setAuthMethod, tt.args.opts...)
-			if !reflect.DeepEqual(tt.wantErr, err) {
-				t.Errorf("NewClient() error mismatch: want %s got %s", tt.wantErr, err)
+			if (tt.wantErr == nil && err != nil) || (tt.wantErr != nil && err == nil) || (tt.wantErr != nil && err != nil && tt.wantErr.Error() != err.Error()) {
+				t.Errorf("NewClient() error mismatch: want %v got %v", tt.wantErr, err)
 				return
 			}
 			if !reflect.DeepEqual(want, got) {
@@ -299,7 +301,7 @@ func TestClient_NewRequest(t *testing.T) {
 				client:     hubspot.NewMockHTTPClient(&hubspot.MockConfig{}),
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetPrivateAppToken("token"),
+				authMethod: hubspot.SetPrivateAppToken("token", "secret"),
 				crm:        nil,
 			},
 			args: args{
@@ -342,7 +344,7 @@ func TestClient_NewRequest(t *testing.T) {
 			} else {
 				got, err = c.NewRequest(tt.args.method, tt.args.path, tt.args.body, tt.args.option, "application/json")
 			}
-			if !reflect.DeepEqual(tt.wantErr, err) {
+			if !errors.Is(tt.wantErr, err) {
 				t.Errorf("NewRequest() error mismatch: want %s got %s", tt.wantErr, err)
 				return
 			}
@@ -358,7 +360,7 @@ func TestClient_NewRequest(t *testing.T) {
 				t.Errorf("NewRequest() header mismatch: want %s got %s", tt.want.header, got.Header)
 				return
 			}
-			b, _ := ioutil.ReadAll(got.Body)
+			b, _ := io.ReadAll(got.Body)
 			if string(tt.want.body) != string(b) {
 				t.Errorf("NewRequest() body mismatch: want %s got %s", string(tt.want.body), string(b))
 			}
@@ -398,7 +400,7 @@ func TestClient_CreateAndDo(t *testing.T) {
 				}),
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetPrivateAppToken("test"),
+				authMethod: hubspot.SetPrivateAppToken("test", "test"),
 				crm:        nil,
 			},
 			args: args{
@@ -436,7 +438,7 @@ func TestClient_CreateAndDo(t *testing.T) {
 				}),
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetPrivateAppToken("test"),
+				authMethod: hubspot.SetPrivateAppToken("test", "test"),
 				crm:        nil,
 			},
 			args: args{
@@ -481,7 +483,7 @@ func TestClient_CreateAndDo(t *testing.T) {
 			tt.settings.authMethod(c)
 
 			err := c.CreateAndDo(tt.args.method, tt.args.relPath, "application/json", tt.args.data, tt.args.option, tt.args.resource)
-			if !reflect.DeepEqual(tt.wantErr, err) {
+			if !errors.Is(err, tt.wantErr) {
 				t.Errorf("CreateAndDo() error mismatch: want %s got %s", tt.wantErr, err)
 				return
 			}
@@ -515,7 +517,7 @@ func TestCheckResponseError(t *testing.T) {
 			args: args{
 				r: &http.Response{
 					StatusCode: http.StatusBadRequest,
-					Body:       ioutil.NopCloser(bytes.NewBuffer([]byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`))),
+					Body:       io.NopCloser(bytes.NewBuffer([]byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`))),
 				},
 			},
 			wantErr: &hubspot.APIError{
@@ -533,7 +535,7 @@ func TestCheckResponseError(t *testing.T) {
 			args: args{
 				r: &http.Response{
 					StatusCode: http.StatusBadRequest,
-					Body:       ioutil.NopCloser(bytes.NewBuffer([]byte(`{"status": "error","message": "Property values were not valid: [{\"isValid\":false,\"message\":\"Email address bcooper@example.con is invalid\",\"error\":\"INVALID_EMAIL\",\"name\":\"email\"}]","correlationId":"aeb5f871-7f07-4993-9211-075dc63e7cbf","category":"VALIDATION_ERROR"}`))),
+					Body:       io.NopCloser(bytes.NewBuffer([]byte(`{"status": "error","message": "Property values were not valid: [{\"isValid\":false,\"message\":\"Email address bcooper@example.con is invalid\",\"error\":\"INVALID_EMAIL\",\"name\":\"email\"}]","correlationId":"aeb5f871-7f07-4993-9211-075dc63e7cbf","category":"VALIDATION_ERROR"}`))),
 				},
 			},
 			wantErr: &hubspot.APIError{
@@ -557,7 +559,7 @@ func TestCheckResponseError(t *testing.T) {
 			args: args{
 				r: &http.Response{
 					StatusCode: http.StatusBadRequest,
-					Body:       ioutil.NopCloser(bytes.NewBuffer([]byte(`{"status": "error","message": "Property values were not valid: [{\"isValid\":false,\"message\":\"Email address bcooper@example.con is invalid\",\"error\":\"INVALID_EMAIL\",\"name\":\"email\"},{'json':unexpected}]","correlationId":"aeb5f871-7f07-4993-9211-075dc63e7cbf","category":"VALIDATION_ERROR"}`))),
+					Body:       io.NopCloser(bytes.NewBuffer([]byte(`{"status": "error","message": "Property values were not valid: [{\"isValid\":false,\"message\":\"Email address bcooper@example.con is invalid\",\"error\":\"INVALID_EMAIL\",\"name\":\"email\"},{'json':unexpected}]","correlationId":"aeb5f871-7f07-4993-9211-075dc63e7cbf","category":"VALIDATION_ERROR"}`))),
 				},
 			},
 			wantErr: &hubspot.APIError{

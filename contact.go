@@ -14,6 +14,7 @@ type ContactService interface {
 	Update(contactID string, contact interface{}) (*ResponseResource, error)
 	Delete(contactID string) error
 	AssociateAnotherObj(contactID string, conf *AssociationConfig) (*ResponseResource, error)
+	SearchByEmail(email string) (*ContactSearchResponse, error)
 }
 
 // ContactServiceOp handles communication with the product related methods of the HubSpot API.
@@ -23,6 +24,29 @@ type ContactServiceOp struct {
 }
 
 var _ ContactService = (*ContactServiceOp)(nil)
+
+// ContactSearchRequest represents the request body for searching contacts.
+type ContactSearchRequest struct {
+	FilterGroups []FilterGroup `json:"filterGroups"`
+}
+
+// FilterGroup represents a group of filters.
+type FilterGroup struct {
+	Filters []Filter `json:"filters"`
+}
+
+// Filter represents a single filter.
+type Filter struct {
+	PropertyName string   `json:"propertyName"`
+	Operator     string   `json:"operator"`
+	Values       []string `json:"values,omitempty"`
+	Value        string   `json:"value,omitempty"`
+}
+
+// ContactSearchResponse represents the response from searching contacts.
+type ContactSearchResponse struct {
+	Results []Contact `json:"results"`
+}
 
 type Contact struct {
 	Address                                     *HsStr  `json:"address,omitempty"`
@@ -365,5 +389,29 @@ func (s *ContactServiceOp) AssociateAnotherObj(contactID string, conf *Associati
 	if err := s.client.Put(s.contactPath+"/"+contactID+"/"+conf.makeAssociationPath(), nil, resource); err != nil {
 		return nil, err
 	}
+	return resource, nil
+}
+
+// SearchByEmail searches for a contact by email.
+func (s *ContactServiceOp) SearchByEmail(email string) (*ContactSearchResponse, error) {
+	req := &ContactSearchRequest{
+		FilterGroups: []FilterGroup{
+			{
+				Filters: []Filter{
+					{
+						PropertyName: "email",
+						Operator:     "EQ",
+						Value:        email,
+					},
+				},
+			},
+		},
+	}
+
+	resource := &ContactSearchResponse{}
+	if err := s.client.Post(s.contactPath+"/search", req, resource); err != nil {
+		return nil, err
+	}
+
 	return resource, nil
 }

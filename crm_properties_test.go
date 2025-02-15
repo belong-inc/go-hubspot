@@ -9,7 +9,7 @@ import (
 
 func TestListCrmProperties(t *testing.T) {
 	t.SkipNow()
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
 	// Use crm_schemas:TestCreate() to generate this...
 	res, err := cli.CRM.Properties.List("cars")
 	if err != nil {
@@ -24,7 +24,7 @@ func TestListCrmProperties(t *testing.T) {
 func TestGetCrmProperty(t *testing.T) {
 	t.SkipNow()
 
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
 	// Use crm_schemas:TestCreate() to generate this...
 	res, err := cli.CRM.Properties.Get("cars", "model")
 	if err != nil {
@@ -37,7 +37,7 @@ func TestGetCrmProperty(t *testing.T) {
 
 func TestCreateProperty(t *testing.T) {
 	t.SkipNow()
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
 	newProp := &CrmProperty{
 		Name:      NewString("mileage"),
 		Label:     NewString("Mileage Label"),
@@ -55,7 +55,7 @@ func TestCreateProperty(t *testing.T) {
 
 func TestUpdateProperty(t *testing.T) {
 	t.SkipNow()
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
 
 	updateProp := make(map[string]interface{})
 	updateProp["label"] = fmt.Sprintf("Updated Label %s", time.Now().String())
@@ -73,7 +73,7 @@ func TestUpdateProperty(t *testing.T) {
 
 func TestDeleteProperty(t *testing.T) {
 	t.SkipNow()
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
 	err := cli.CRM.Properties.Delete("cars", "mileage")
 	if err != nil {
 		t.Error(err)

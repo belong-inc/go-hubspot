@@ -31,9 +31,9 @@ type CrmImportErrorsOptions struct {
 	Limit int    `url:"limit,omitempty"`
 }
 
-func (s *CrmImportsServiceOp) Errors(importId int64, option *CrmImportErrorsOptions) (interface{}, error) {
+func (s *CrmImportsServiceOp) Errors(importID int64, option *CrmImportErrorsOptions) (interface{}, error) {
 	resource := make(map[string]interface{})
-	path := fmt.Sprintf("%s/%d/errors", s.crmImportsPath, importId)
+	path := fmt.Sprintf("%s/%d/errors", s.crmImportsPath, importID)
 	if err := s.client.Get(path, &resource, option); err != nil {
 		return nil, err
 	}
@@ -54,18 +54,18 @@ func (s *CrmImportsServiceOp) Active(option *CrmActiveImportOptions) (interface{
 	return resource, nil
 }
 
-func (s *CrmImportsServiceOp) Get(importId int64) (interface{}, error) {
+func (s *CrmImportsServiceOp) Get(importID int64) (interface{}, error) {
 	resource := make(map[string]interface{})
-	path := fmt.Sprintf("%s/%d", s.crmImportsPath, importId)
+	path := fmt.Sprintf("%s/%d", s.crmImportsPath, importID)
 	if err := s.client.Get(path, &resource, nil); err != nil {
 		return nil, err
 	}
 	return resource, nil
 }
 
-func (s *CrmImportsServiceOp) Cancel(importId int64) (interface{}, error) {
+func (s *CrmImportsServiceOp) Cancel(importID int64) (interface{}, error) {
 	resource := make(map[string]interface{})
-	path := fmt.Sprintf("%s/%d/cancel", s.crmImportsPath, importId)
+	path := fmt.Sprintf("%s/%d/cancel", s.crmImportsPath, importID)
 	if err := s.client.Post(path, &resource, nil); err != nil {
 		return nil, err
 	}

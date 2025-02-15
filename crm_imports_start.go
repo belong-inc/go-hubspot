@@ -31,10 +31,10 @@ type CrmImportFileConfig struct {
 }
 
 type CrmImportColumnMapping struct {
-	ColumnObjectTypeId string `json:"columnObjectTypeId"`
+	ColumnObjectTypeID string `json:"columnObjectTypeID"`
 	ColumnName         string `json:"columnName"`
 	PropertyName       string `json:"propertyName"`
-	IdColumnType       string `json:"idColumnType,omitempty"`
+	IDColumnType       string `json:"idColumnType,omitempty"`
 }
 
 func addJSONtoMultipart(writer *multipart.Writer, importRequest *CrmImportConfig) error {

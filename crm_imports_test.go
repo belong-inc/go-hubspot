@@ -8,8 +8,8 @@ import (
 	"testing"
 )
 
-func TestGetActiveImports(t *testing.T) {
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
+func TestGetActiveImports(_ *testing.T) {
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
 	res, err := cli.CRM.Imports.Active(&CrmActiveImportOptions{
 		Before: "",
 		After:  "",
@@ -19,22 +19,22 @@ func TestGetActiveImports(t *testing.T) {
 	fmt.Printf("%+v\n", err)
 }
 
-func TestGetImportById(t *testing.T) {
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
+func TestGetImportByID(_ *testing.T) {
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
 	res, err := cli.CRM.Imports.Get(32331356)
 	fmt.Printf("%+v\n", res)
 	fmt.Printf("%+v\n", err)
 }
 
-func TestCancelImportById(t *testing.T) {
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
+func TestCancelImportByID(_ *testing.T) {
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
 	res, err := cli.CRM.Imports.Cancel(32331339)
 	fmt.Printf("%+v\n", res)
 	fmt.Printf("%+v\n", err)
 }
 
-func TestImportErrorsById(t *testing.T) {
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
+func TestImportErrorsByID(_ *testing.T) {
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
 	res, err := cli.CRM.Imports.Errors(12342, &CrmImportErrorsOptions{
 		After: "abcd",
 		Limit: 1234,
@@ -75,18 +75,18 @@ func createTestMetadataConfig() *CrmImportConfig {
 					HasHeader: true,
 					ColumnMappings: []CrmImportColumnMapping{
 						{
-							ColumnObjectTypeId: "0-1",
+							ColumnObjectTypeID: "0-1",
 							ColumnName:         "email",
 							PropertyName:       "email",
-							IdColumnType:       "HUBSPOT_ALTERNATE_ID",
+							IDColumnType:       "HUBSPOT_ALTERNATE_ID",
 						},
 						{
-							ColumnObjectTypeId: "0-1",
+							ColumnObjectTypeID: "0-1",
 							ColumnName:         "firstname",
 							PropertyName:       "firstname",
 						},
 						{
-							ColumnObjectTypeId: "0-1",
+							ColumnObjectTypeID: "0-1",
 							ColumnName:         "lastname",
 							PropertyName:       "lastname",
 						},
@@ -98,8 +98,8 @@ func createTestMetadataConfig() *CrmImportConfig {
 	return result
 }
 
-func TestImportStart(t *testing.T) {
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
+func TestImportStart(_ *testing.T) {
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
 	res, err := cli.CRM.Imports.Start(createTestMetadataConfig())
 	fmt.Printf("%+v\n", res)
 	fmt.Printf("%+v\n", err)
