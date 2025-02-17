@@ -21,6 +21,25 @@ type DealServiceOp struct {
 	client   *Client
 }
 
+// DealSearchRequest represents the request body for searching deals.
+type DealSearchRequest struct {
+	FilterGroups []FilterGroup `json:"filterGroups,omitempty"`
+}
+
+// DealSearchResponse represents the structure of the response from the deal search endpoint.
+type DealSearchResponse struct {
+	Total   int            `json:"total,omitempty"`
+	Results []DealResponse `json:"results,omitempty"`
+}
+
+type DealResponse struct {
+	ID         string `json:"id,omitempty"`
+	Properties Deal   `json:"properties,omitempty"`
+	CreatedAt  string `json:"createdAt,omitempty"`
+	UpdatedAt  string `json:"updatedAt,omitempty"`
+	Archived   bool   `json:"archived,omitempty"`
+}
+
 var _ DealService = (*DealServiceOp)(nil)
 
 // Deal represents a HubSpot deal.
@@ -135,5 +154,30 @@ func (s *DealServiceOp) AssociateAnotherObj(dealID string, conf *AssociationConf
 	if err := s.client.Put(s.dealPath+"/"+dealID+"/"+conf.makeAssociationPath(), nil, resource); err != nil {
 		return nil, err
 	}
+	return resource, nil
+}
+
+// SearchDeals searches for deals by deal name.
+func (s *DealServiceOp) SearchDeals(dealName string) (*DealSearchResponse, error) {
+	resource := &DealSearchResponse{Total: 0, Results: []DealResponse{}}
+	req := &DealSearchRequest{
+		FilterGroups: []FilterGroup{
+			{
+				Filters: []Filter{
+					{
+						PropertyName: "dealname",
+						Operator:     "EQ",
+						Value:        dealName,
+					},
+				},
+			},
+		},
+	}
+
+	// Send the POST request to HubSpot API
+	if err := s.client.Post(dealBasePath+"/search", req, resource); err != nil {
+		return nil, err
+	}
+
 	return resource, nil
 }
