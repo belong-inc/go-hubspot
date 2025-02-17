@@ -93,7 +93,7 @@ func (c *Client) NewRequest(method, path string, body, option interface{}, conte
 		return nil, err
 	}
 
-	var requestBody []byte = nil
+	var requestBody []byte
 
 	if body != nil {
 		if !strings.HasPrefix(contentType, "multipart") {
@@ -146,7 +146,7 @@ func (c *Client) NewRequest(method, path string, body, option interface{}, conte
 // The `data`, `options` and `resource` arguments are optional and only relevant in certain situations.
 // If the data argument is non-nil, it will be used as the body of the request for POST and PUT requests.
 // The options argument is used for specifying request options such as search parameters.
-// The resource argument is marshalled data returned from HubSpot.
+// The resource argument is marshaled data returned from HubSpot.
 // If the resource contains a pointer to data, the data will be overwritten with the content of the response.
 func (c *Client) CreateAndDo(method, relPath, contentType string, data, option, resource interface{}) error {
 	if strings.HasPrefix(relPath, "/") {

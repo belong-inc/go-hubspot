@@ -2,7 +2,7 @@ package hubspot
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 )
@@ -30,17 +30,17 @@ func NewMockClient(conf *MockConfig) *Client {
 		apiVersion: defaultAPIVersion,
 	}
 	cli.CRM = newCRM(cli)
-	SetPrivateAppToken("token")(cli)
+	SetPrivateAppToken("token", "secret")(cli)
 
 	return cli
 }
 
 func NewMockHTTPClient(conf *MockConfig) *http.Client {
 	return &http.Client{
-		Transport: RoundTripFunc(func(req *http.Request) *http.Response {
+		Transport: RoundTripFunc(func(_ *http.Request) *http.Response {
 			return &http.Response{
 				StatusCode: conf.Status,
-				Body:       ioutil.NopCloser(bytes.NewBuffer(conf.Body)),
+				Body:       io.NopCloser(bytes.NewBuffer(conf.Body)),
 				Header:     conf.Header,
 			}
 		}),

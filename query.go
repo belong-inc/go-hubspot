@@ -21,7 +21,9 @@ func (o *RequestQueryOption) setupProperties(defaultFields []string) *RequestQue
 	if o != nil {
 		opts = *o
 	}
-	opts.Properties = append(defaultFields, opts.CustomProperties...)
+
+	opts.Properties = defaultFields
+	opts.Properties = append(opts.Properties, opts.CustomProperties...)
 	return &opts
 }
 

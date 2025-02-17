@@ -5,8 +5,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/belong-inc/go-hubspot"
 	"github.com/google/go-cmp/cmp"
+
+	"github.com/belong-inc/go-hubspot"
 )
 
 func TestContactServiceOp_Create(t *testing.T) {
@@ -70,7 +71,7 @@ func TestContactServiceOp_Create(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusBadRequest,
 					Header: http.Header{},
-					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
+					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationID": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
 				}),
 			},
 			args: args{
@@ -164,7 +165,7 @@ func TestContactServiceOp_Update(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusBadRequest,
 					Header: http.Header{},
-					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
+					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationID": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
 				}),
 			},
 			args: args{
@@ -571,7 +572,7 @@ func TestContactServiceOp_Get(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusBadRequest,
 					Header: http.Header{},
-					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
+					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationID": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
 				}),
 			},
 			args: args{
@@ -640,7 +641,7 @@ func TestContactServiceOp_Delete(t *testing.T) {
 				client: hubspot.NewMockClient(&hubspot.MockConfig{
 					Status: http.StatusBadRequest,
 					Header: http.Header{},
-					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
+					Body:   []byte(`{"message": "Invalid input (details will vary based on the error)","correlationID": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`),
 				}),
 			},
 			args: args{

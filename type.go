@@ -114,11 +114,13 @@ func (hi *HsInt) UnmarshalJSON(b []byte) error {
 	if len(b) == 0 || string(b) == `""` {
 		return nil // NOTE: Initialization is performed on 0.
 	}
-	i, err := strconv.Atoi(strings.Replace(string(b), `"`, ``, -1))
+
+	i, err := strconv.Atoi(strings.ReplaceAll(string(b), `"`, ""))
 	if err != nil {
 		return err
 	}
 	*hi = HsInt(i)
+
 	return nil
 }
 

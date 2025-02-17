@@ -9,8 +9,8 @@ const (
 )
 
 type CrmSchemaAssociation struct {
-	FromObjectTypeId   *HsStr  `json:"fromObjectTypeId"`
-	ToObjectTypeId     *HsStr  `json:"toObjectTypeId"`
+	FromObjectTypeID   *HsStr  `json:"fromObjectTypeID"`
+	ToObjectTypeID     *HsStr  `json:"toObjectTypeID"`
 	Name               *HsStr  `json:"name"`
 	ID                 *HsStr  `json:"id"`
 	CreatedAt          *HsTime `json:"createdAt"`
@@ -36,7 +36,7 @@ type CrmSchema struct {
 	FullyQualifiedName         *HsStr                  `json:"fullyQualifiedName,omitempty"`
 	CreatedAt                  *HsTime                 `json:"createdAt,omitempty"`
 	UpdatedAt                  *HsTime                 `json:"updatedAt,omitempty"`
-	ObjectTypeId               *HsStr                  `json:"objectTypeId,omitempty"`
+	ObjectTypeID               *HsStr                  `json:"objectTypeID,omitempty"`
 	Properties                 []*CrmProperty          `json:"properties,omitempty"`
 	Associations               []*CrmSchemaAssociation `json:"associations,omitempty"`
 	Name                       *HsStr                  `json:"name,omitempty"`
@@ -45,7 +45,7 @@ type CrmSchema struct {
 	Restorable                 *HsBool                 `json:"restorable,omitempty"`
 	SearchableProperties       []*HsStr                `json:"searchableProperties,omitempty"`
 	SecondaryDisplayProperties []*HsStr                `json:"secondaryDisplayProperties,omitempty"`
-	PortalId                   *HsInt                  `json:"portalId"`
+	PortalID                   *HsInt                  `json:"portalID"`
 }
 
 // CrmSchemasService is an interface of CRM schemas endpoints of the HubSpot API.
