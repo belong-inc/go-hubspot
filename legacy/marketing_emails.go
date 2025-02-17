@@ -5,8 +5,8 @@ const (
 )
 
 type (
-	ChildCss = map[string]interface{}
-	Css      = map[string]interface{}
+	ChildCSS = map[string]interface{}
+	CSS      = map[string]interface{}
 )
 
 type BlogRssSettings struct {
@@ -83,14 +83,14 @@ type Stats struct {
 }
 
 type Body struct {
-	Html string `json:"html,omitempty"`
+	HTML string `json:"html,omitempty"`
 }
 
 type Column1 struct {
 	Body      *Body       `json:"body,omitempty"`
-	ChildCss  *ChildCss   `json:"child_css,omitempty"`
-	Css       *Css        `json:"css,omitempty"`
-	Id        string      `json:"id,omitempty"`
+	ChildCSS  *ChildCSS   `json:"child_css,omitempty"`
+	CSS       *CSS        `json:"css,omitempty"`
+	ID        string      `json:"id,omitempty"`
 	Label     string      `json:"label,omitempty"`
 	Name      string      `json:"name,omitempty"`
 	SmartType interface{} `json:"smart_type,omitempty"`
@@ -99,9 +99,9 @@ type Column1 struct {
 
 type HsEmailBody struct {
 	Body      *Body       `json:"body,omitempty"`
-	ChildCss  *ChildCss   `json:"child_css,omitempty"`
-	Css       *Css        `json:"css,omitempty"`
-	Id        string      `json:"id,omitempty"`
+	ChildCSS  *ChildCSS   `json:"child_css,omitempty"`
+	CSS       *CSS        `json:"css,omitempty"`
+	ID        string      `json:"id,omitempty"`
 	Label     string      `json:"label,omitempty"`
 	Name      string      `json:"name,omitempty"`
 	SmartType interface{} `json:"smart_type,omitempty"`
@@ -110,9 +110,9 @@ type HsEmailBody struct {
 
 type LogoImage struct {
 	Body      *Body       `json:"body,omitempty"`
-	ChildCss  *ChildCss   `json:"child_css,omitempty"`
-	Css       *Css        `json:"css,omitempty"`
-	Id        string      `json:"id,omitempty"`
+	ChildCSS  *ChildCSS   `json:"child_css,omitempty"`
+	CSS       *CSS        `json:"css,omitempty"`
+	ID        string      `json:"id,omitempty"`
 	Label     string      `json:"label,omitempty"`
 	Name      string      `json:"name,omitempty"`
 	SmartType interface{} `json:"smart_type,omitempty"`
@@ -121,9 +121,9 @@ type LogoImage struct {
 
 type PreviewText struct {
 	Body      *Body       `json:"body,omitempty"`
-	ChildCss  *ChildCss   `json:"child_css,omitempty"`
-	Css       *Css        `json:"css,omitempty"`
-	Id        string      `json:"id,omitempty"`
+	ChildCSS  *ChildCSS   `json:"child_css,omitempty"`
+	CSS       *CSS        `json:"css,omitempty"`
+	ID        string      `json:"id,omitempty"`
 	Label     string      `json:"label,omitempty"`
 	Name      string      `json:"name,omitempty"`
 	SmartType interface{} `json:"smart_type,omitempty"`
@@ -145,22 +145,22 @@ type StatisticsResponse struct {
 	AbSuccessMetric                      interface{}            `json:"abSuccessMetric,omitempty"`
 	AbTestPercentage                     int64                  `json:"abTestPercentage,omitempty"`
 	AbVariation                          bool                   `json:"abVariation,omitempty"`
-	AbsoluteUrl                          string                 `json:"absoluteUrl,omitempty"`
-	AllEmailCampaignIds                  []int64                `json:"allEmailCampaignIds,omitempty"`
-	AnalyticsPageId                      string                 `json:"analyticsPageId,omitempty"`
+	AbsoluteURL                          string                 `json:"absoluteURL,omitempty"`
+	AllEmailCampaignIDs                  []int64                `json:"allEmailCampaignIDs,omitempty"`
+	AnalyticsPageID                      string                 `json:"analyticsPageID,omitempty"`
 	AnalyticsPageType                    string                 `json:"analyticsPageType,omitempty"`
 	Archived                             bool                   `json:"archived,omitempty"`
 	AuthorAt                             int64                  `json:"authorAt,omitempty"`
 	AuthorName                           string                 `json:"authorName,omitempty"`
-	AuthorUserId                         int64                  `json:"authorUserId,omitempty"`
+	AuthorUserID                         int64                  `json:"authorUserID,omitempty"`
 	BlogEmailType                        string                 `json:"blogEmailType,omitempty"`
 	BlogRssSettings                      *BlogRssSettings       `json:"blogRssSettings,omitempty"`
-	CanSpamSettingsId                    int64                  `json:"canSpamSettingsId,omitempty"`
-	CategoryId                           int64                  `json:"categoryId,omitempty"`
+	CanSpamSettingsID                    int64                  `json:"canSpamSettingsID,omitempty"`
+	CategoryID                           int64                  `json:"categoryID,omitempty"`
 	ContentTypeCategory                  int64                  `json:"contentTypeCategory,omitempty"`
 	CreatePage                           bool                   `json:"createPage,omitempty"`
 	Created                              int64                  `json:"created,omitempty"`
-	CreatedById                          int64                  `json:"createdById,omitempty"`
+	CreatedByID                          int64                  `json:"createdByID,omitempty"`
 	CurrentState                         string                 `json:"currentState,omitempty"`
 	CurrentlyPublished                   bool                   `json:"currentlyPublished,omitempty"`
 	CustomReplyTo                        string                 `json:"customReplyTo,omitempty"`
@@ -172,19 +172,19 @@ type StatisticsResponse struct {
 	EmailType                            string                 `json:"emailType,omitempty"`
 	EmailbodyPlaintext                   string                 `json:"emailbodyPlaintext,omitempty"`
 	FeedbackEmailCategory                interface{}            `json:"feedbackEmailCategory,omitempty"`
-	FeedbackSurveyId                     interface{}            `json:"feedbackSurveyId,omitempty"`
+	FeedbackSurveyID                     interface{}            `json:"feedbackSurveyID,omitempty"`
 	FlexAreas                            map[string]interface{} `json:"flexAreas,omitempty"`
 	FreezeDate                           int64                  `json:"freezeDate,omitempty"`
 	FromName                             string                 `json:"fromName,omitempty"`
 	HsEmailBody                          string                 `json:"hsEmailBody,omitempty"`
-	HtmlTitle                            string                 `json:"htmlTitle,omitempty"`
-	Id                                   int64                  `json:"id,omitempty"`
+	HTMLTitle                            string                 `json:"htmlTitle,omitempty"`
+	ID                                   int64                  `json:"id,omitempty"`
 	IsGraymailSuppressionEnabled         bool                   `json:"isGraymailSuppressionEnabled,omitempty"`
 	IsLocalTimezoneSend                  bool                   `json:"isLocalTimezoneSend,omitempty"`
 	IsPublished                          bool                   `json:"isPublished,omitempty"`
 	IsRecipientFatigueSuppressionEnabled interface{}            `json:"isRecipientFatigueSuppressionEnabled,omitempty"`
 	LayoutSections                       map[string]interface{} `json:"layoutSections,omitempty"`
-	LeadFlowId                           interface{}            `json:"leadFlowId,omitempty"`
+	LeadFlowID                           interface{}            `json:"leadFlowID,omitempty"`
 	LiveDomain                           string                 `json:"liveDomain,omitempty"`
 	MailingListsExcluded                 []interface{}          `json:"mailingListsExcluded,omitempty"`
 	MailingListsIncluded                 []int64                `json:"mailingListsIncluded,omitempty"`
@@ -193,16 +193,16 @@ type StatisticsResponse struct {
 	Name                                 string                 `json:"name,omitempty"`
 	PageExpiryEnabled                    bool                   `json:"pageExpiryEnabled,omitempty"`
 	PageRedirected                       bool                   `json:"pageRedirected,omitempty"`
-	PastMabExperimentIds                 []interface{}          `json:"pastMabExperimentIds,omitempty"`
-	PortalId                             int64                  `json:"portalId,omitempty"`
+	PastMabExperimentIDs                 []interface{}          `json:"pastMabExperimentIDs,omitempty"`
+	PortalID                             int64                  `json:"portalID,omitempty"`
 	PreviewKey                           string                 `json:"previewKey,omitempty"`
-	PrimaryEmailCampaignId               int64                  `json:"primaryEmailCampaignId,omitempty"`
-	PrimaryRichTextModuleHtml            string                 `json:"primaryRichTextModuleHtml,omitempty"`
+	PrimaryEmailCampaignID               int64                  `json:"primaryEmailCampaignID,omitempty"`
+	PrimaryRichTextModuleHTML            string                 `json:"primaryRichTextModuleHTML,omitempty"`
 	ProcessingStatus                     string                 `json:"processingStatus,omitempty"`
 	PublishDate                          int64                  `json:"publishDate,omitempty"`
 	PublishedAt                          int64                  `json:"publishedAt,omitempty"`
-	PublishedById                        int64                  `json:"publishedById,omitempty"`
-	PublishedUrl                         string                 `json:"publishedUrl,omitempty"`
+	PublishedByID                        int64                  `json:"publishedByID,omitempty"`
+	PublishedURL                         string                 `json:"publishedURL,omitempty"`
 	ReplyTo                              string                 `json:"replyTo,omitempty"`
 	ResolvedDomain                       string                 `json:"resolvedDomain,omitempty"`
 	RssEmailAuthorLineTemplate           string                 `json:"rssEmailAuthorLineTemplate,omitempty"`
@@ -213,9 +213,9 @@ type StatisticsResponse struct {
 	RssEmailEntryTemplate                string                 `json:"rssEmailEntryTemplate,omitempty"`
 	RssEmailEntryTemplateEnabled         bool                   `json:"rssEmailEntryTemplateEnabled,omitempty"`
 	RssEmailImageMaxWidth                int64                  `json:"rssEmailImageMaxWidth,omitempty"`
-	RssEmailUrl                          string                 `json:"rssEmailUrl,omitempty"`
+	RssEmailURL                          string                 `json:"rssEmailURL,omitempty"`
 	RssToEmailTiming                     *RssToEmailTiming      `json:"rssToEmailTiming,omitempty"`
-	RssUrl                               string                 `json:"rssUrl,omitempty"`
+	RssURL                               string                 `json:"rssURL,omitempty"`
 	Selected                             int64                  `json:"selected,omitempty"`
 	Slug                                 string                 `json:"slug,omitempty"`
 	SmartEmailFields                     *SmartEmailFields      `json:"smartEmailFields,omitempty"`
@@ -225,15 +225,15 @@ type StatisticsResponse struct {
 	Subcategory                          string                 `json:"subcategory,omitempty"`
 	Subject                              string                 `json:"subject,omitempty"`
 	Subscription                         int64                  `json:"subscription,omitempty"`
-	SubscriptionBlogId                   int64                  `json:"subscriptionBlogId,omitempty"`
+	SubscriptionBlogID                   int64                  `json:"subscriptionBlogID,omitempty"`
 	SubscriptionName                     string                 `json:"subscriptionName,omitempty"`
 	TeamPerms                            []interface{}          `json:"teamPerms,omitempty"`
 	TemplatePath                         string                 `json:"templatePath,omitempty"`
 	Transactional                        bool                   `json:"transactional,omitempty"`
 	UnpublishedAt                        int64                  `json:"unpublishedAt,omitempty"`
 	Updated                              int64                  `json:"updated,omitempty"`
-	UpdatedById                          int64                  `json:"updatedById,omitempty"`
-	Url                                  string                 `json:"url,omitempty"`
+	UpdatedByID                          int64                  `json:"updatedByID,omitempty"`
+	URL                                  string                 `json:"url,omitempty"`
 	UseRssHeadlineAsSubject              bool                   `json:"useRssHeadlineAsSubject,omitempty"`
 	UserPerms                            []interface{}          `json:"userPerms,omitempty"`
 	VidsExcluded                         []interface{}          `json:"vidsExcluded,omitempty"`
