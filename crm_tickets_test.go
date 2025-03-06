@@ -8,7 +8,7 @@ import (
 
 func TestListTickets(t *testing.T) {
 	t.SkipNow()
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 	opt := &RequestQueryOption{}
 	opt.Properties = []string{"Content"}
 	res, err := cli.CRM.Tickets.List(opt)
@@ -21,7 +21,7 @@ func TestListTickets(t *testing.T) {
 
 func TestGetCrmTicket(t *testing.T) {
 	t.SkipNow()
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 	opt := &RequestQueryOption{}
 	opt.Properties = []string{"Content", "associated_contact_lifecycle_stage", "hubspot_owner_id"}
 	res, err := cli.CRM.Tickets.Get("1594949554", opt)
@@ -33,7 +33,7 @@ func TestGetCrmTicket(t *testing.T) {
 
 func TestCreateCrmTicket(t *testing.T) {
 	t.SkipNow()
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 	props := make(map[string]interface{})
 	props["hs_pipeline"] = "30440034"
 	props["hs_pipeline_stage"] = "69304142"
@@ -53,7 +53,7 @@ func TestCreateCrmTicket(t *testing.T) {
 
 func TestDeleteCrmTicket(t *testing.T) {
 	t.SkipNow()
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 	err := cli.CRM.Tickets.Archive("1594967688")
 	if err != nil {
 		t.Error(err)
@@ -62,7 +62,7 @@ func TestDeleteCrmTicket(t *testing.T) {
 
 func TestUpdateCrmTicket(t *testing.T) {
 	t.SkipNow()
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 	props := make(map[string]interface{})
 	props["hs_ticket_priority"] = "HIGH"
 	req := &CrmTicketCreateRequest{
@@ -78,7 +78,7 @@ func TestUpdateCrmTicket(t *testing.T) {
 func TestSearchCrmTicket(t *testing.T) {
 	t.SkipNow()
 
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	req := &CrmTicketSearchRequest{
 		FilterGroups: []*CrmTicketSearchFilterGroup{

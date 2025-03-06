@@ -60,7 +60,7 @@ func TestNewClient(t *testing.T) {
 			args: args{
 				setAuthMethod: hubspot.SetOAuth(&hubspot.OAuthConfig{
 					GrantType:    "grant-type",
-					ClientId:     "client-id",
+					ClientID:     "client-id",
 					ClientSecret: "client-secret",
 					RefreshToken: "refresh-token",
 				}),
@@ -71,7 +71,7 @@ func TestNewClient(t *testing.T) {
 				apiVersion: hubspot.ExportAPIVersion,
 				authMethod: hubspot.SetOAuth(&hubspot.OAuthConfig{
 					GrantType:    "grant-type",
-					ClientId:     "client-id",
+					ClientID:     "client-id",
 					ClientSecret: "client-secret",
 					RefreshToken: "refresh-token",
 				}),
@@ -172,7 +172,7 @@ func TestNewClient(t *testing.T) {
 
 func TestClient_NewRequest(t *testing.T) {
 	type body struct {
-		Id   string `json:"id"`
+		ID   string `json:"id"`
 		Name string `json:"name"`
 	}
 
@@ -243,7 +243,7 @@ func TestClient_NewRequest(t *testing.T) {
 				method: http.MethodPost,
 				path:   "objects/test",
 				body: &body{
-					Id:   "001",
+					ID:   "001",
 					Name: "example",
 				},
 				option: nil,
@@ -269,7 +269,7 @@ func TestClient_NewRequest(t *testing.T) {
 				apiVersion: hubspot.ExportAPIVersion,
 				authMethod: hubspot.SetOAuth(&hubspot.OAuthConfig{
 					GrantType:    "grant-type",
-					ClientId:     "client-id",
+					ClientID:     "client-id",
 					ClientSecret: "client-secret",
 					RefreshToken: "refresh-token",
 				}),
@@ -279,7 +279,7 @@ func TestClient_NewRequest(t *testing.T) {
 				method: http.MethodPost,
 				path:   "objects/test",
 				body: &body{
-					Id:   "001",
+					ID:   "001",
 					Name: "example",
 				},
 				option: nil,
@@ -308,7 +308,7 @@ func TestClient_NewRequest(t *testing.T) {
 				method: http.MethodPost,
 				path:   "objects/test",
 				body: &body{
-					Id:   "001",
+					ID:   "001",
 					Name: "example",
 				},
 				option: nil,
@@ -411,13 +411,13 @@ func TestClient_CreateAndDo(t *testing.T) {
 				resource: &hubspot.ResponseResource{Properties: &hubspot.Deal{}},
 			},
 			want: &hubspot.ResponseResource{
-				Id:       "512",
+				ID:       "512",
 				Archived: false,
 				Properties: &hubspot.Deal{
 					Amount:           hubspot.NewString("1500.00"),
 					DealName:         hubspot.NewString("Custom data integrations"),
 					DealStage:        hubspot.NewString("presentation scheduled"),
-					DealOwnerId:      hubspot.NewString("910901"),
+					DealOwnerID:      hubspot.NewString("910901"),
 					PipeLine:         hubspot.NewString("default"),
 					CreateDate:       &createdAt,
 					CloseDate:        &closeDate,
@@ -448,20 +448,20 @@ func TestClient_CreateAndDo(t *testing.T) {
 					Amount:      hubspot.NewString("1500.00"),
 					DealName:    hubspot.NewString("Custom data integrations"),
 					DealStage:   hubspot.NewString("presentation scheduled"),
-					DealOwnerId: hubspot.NewString("910901"),
+					DealOwnerID: hubspot.NewString("910901"),
 					PipeLine:    hubspot.NewString("default"),
 				},
 				option:   nil,
 				resource: &hubspot.ResponseResource{Properties: &hubspot.Deal{}},
 			},
 			want: &hubspot.ResponseResource{
-				Id:       "512",
+				ID:       "512",
 				Archived: false,
 				Properties: &hubspot.Deal{
 					Amount:           hubspot.NewString("1500.00"),
 					DealName:         hubspot.NewString("Custom data integrations"),
 					DealStage:        hubspot.NewString("presentation scheduled"),
-					DealOwnerId:      hubspot.NewString("910901"),
+					DealOwnerID:      hubspot.NewString("910901"),
 					PipeLine:         hubspot.NewString("default"),
 					CreateDate:       &createdAt,
 					CloseDate:        &closeDate,
@@ -517,13 +517,13 @@ func TestCheckResponseError(t *testing.T) {
 			args: args{
 				r: &http.Response{
 					StatusCode: http.StatusBadRequest,
-					Body:       io.NopCloser(bytes.NewBuffer([]byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`))),
+					Body:       io.NopCloser(bytes.NewBuffer([]byte(`{"message": "Invalid input (details will vary based on the error)","correlationID": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`))),
 				},
 			},
 			wantErr: &hubspot.APIError{
 				HTTPStatusCode: http.StatusBadRequest,
 				Message:        "Invalid input (details will vary based on the error)",
-				CorrelationId:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
+				CorrelationID:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
 				Category:       hubspot.ValidationError,
 				Links: hubspot.ErrLinks{
 					KnowledgeBase: "https://www.hubspot.com/products/service/knowledge-base",
@@ -535,13 +535,13 @@ func TestCheckResponseError(t *testing.T) {
 			args: args{
 				r: &http.Response{
 					StatusCode: http.StatusBadRequest,
-					Body:       io.NopCloser(bytes.NewBuffer([]byte(`{"status": "error","message": "Property values were not valid: [{\"isValid\":false,\"message\":\"Email address bcooper@example.con is invalid\",\"error\":\"INVALID_EMAIL\",\"name\":\"email\"}]","correlationId":"aeb5f871-7f07-4993-9211-075dc63e7cbf","category":"VALIDATION_ERROR"}`))),
+					Body:       io.NopCloser(bytes.NewBuffer([]byte(`{"status": "error","message": "Property values were not valid: [{\"isValid\":false,\"message\":\"Email address bcooper@example.con is invalid\",\"error\":\"INVALID_EMAIL\",\"name\":\"email\"}]","correlationID":"aeb5f871-7f07-4993-9211-075dc63e7cbf","category":"VALIDATION_ERROR"}`))),
 				},
 			},
 			wantErr: &hubspot.APIError{
 				HTTPStatusCode: http.StatusBadRequest,
 				Message:        `Property values were not valid: [{"isValid":false,"message":"Email address bcooper@example.con is invalid","error":"INVALID_EMAIL","name":"email"}]`,
-				CorrelationId:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
+				CorrelationID:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
 				Category:       hubspot.ValidationError,
 				Status:         "error",
 				Details: []hubspot.ErrDetail{
@@ -559,13 +559,13 @@ func TestCheckResponseError(t *testing.T) {
 			args: args{
 				r: &http.Response{
 					StatusCode: http.StatusBadRequest,
-					Body:       io.NopCloser(bytes.NewBuffer([]byte(`{"status": "error","message": "Property values were not valid: [{\"isValid\":false,\"message\":\"Email address bcooper@example.con is invalid\",\"error\":\"INVALID_EMAIL\",\"name\":\"email\"},{'json':unexpected}]","correlationId":"aeb5f871-7f07-4993-9211-075dc63e7cbf","category":"VALIDATION_ERROR"}`))),
+					Body:       io.NopCloser(bytes.NewBuffer([]byte(`{"status": "error","message": "Property values were not valid: [{\"isValid\":false,\"message\":\"Email address bcooper@example.con is invalid\",\"error\":\"INVALID_EMAIL\",\"name\":\"email\"},{'json':unexpected}]","correlationID":"aeb5f871-7f07-4993-9211-075dc63e7cbf","category":"VALIDATION_ERROR"}`))),
 				},
 			},
 			wantErr: &hubspot.APIError{
 				HTTPStatusCode: http.StatusBadRequest,
 				Message:        `Property values were not valid: [{"isValid":false,"message":"Email address bcooper@example.con is invalid","error":"INVALID_EMAIL","name":"email"},{'json':unexpected}]`,
-				CorrelationId:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
+				CorrelationID:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
 				Category:       hubspot.ValidationError,
 				Status:         "error",
 				Details: []hubspot.ErrDetail{

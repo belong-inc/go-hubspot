@@ -17,7 +17,7 @@ type ExampleContact struct {
 }
 
 func ExampleContactServiceOp_Create() {
-	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	example := &ExampleContact{
 		email:     "hubspot@example.com",
@@ -54,7 +54,7 @@ func ExampleContactServiceOp_Create() {
 }
 
 func ExampleContactServiceOp_Update() {
-	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	example := &ExampleContact{
 		email:     "hubspot@example.com",
@@ -92,7 +92,7 @@ func ExampleContactServiceOp_Update() {
 }
 
 func ExampleContactServiceOp_Get() {
-	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	res, err := cli.CRM.Contact.Get("contact001", &hubspot.Contact{}, nil)
 	if err != nil {
@@ -113,7 +113,7 @@ func ExampleContactServiceOp_Get() {
 }
 
 func ExampleContactServiceOp_AssociateAnotherObj() {
-	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	res, err := cli.CRM.Contact.AssociateAnotherObj("contact001", &hubspot.AssociationConfig{
 		ToObject:   hubspot.ObjectTypeDeal,
@@ -222,7 +222,7 @@ func ExampleDealServiceOp_Create_oauth() {
 }
 
 func ExampleDealServiceOp_Create_privateapp() {
-	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	example := &ExampleDeal{
 		amount:  "1500.00",
@@ -264,7 +264,7 @@ type CustomDeal struct {
 }
 
 func ExampleDealServiceOp_Create_custom() {
-	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	example := &ExampleDeal{
 		amount:  "1500.00",
@@ -303,7 +303,7 @@ func ExampleDealServiceOp_Create_custom() {
 }
 
 func ExampleDealServiceOp_Update() {
-	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	example := &ExampleDeal{
 		amount:  "1500.00",
@@ -339,7 +339,7 @@ func ExampleDealServiceOp_Update() {
 }
 
 func ExampleDealServiceOp_Get() {
-	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	res, err := cli.CRM.Deal.Get("deal001", &hubspot.Deal{}, nil)
 	if err != nil {
@@ -360,7 +360,7 @@ func ExampleDealServiceOp_Get() {
 }
 
 func ExampleDealServiceOp_Get_custom() {
-	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	res, err := cli.CRM.Deal.Get("deal001", &CustomDeal{}, &hubspot.RequestQueryOption{
 		CustomProperties: []string{
@@ -386,7 +386,7 @@ func ExampleDealServiceOp_Get_custom() {
 }
 
 func ExampleDealServiceOp_AssociateAnotherObj() {
-	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	res, err := cli.CRM.Deal.AssociateAnotherObj("deal001", &hubspot.AssociationConfig{
 		ToObject:   hubspot.ObjectTypeContact,
@@ -411,7 +411,7 @@ func ExampleDealServiceOp_AssociateAnotherObj() {
 }
 
 func ExampleMarketingEmailOp_GetStatistics() {
-	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	emailID := 0 // Set proper value.
 	res, err := cli.Marketing.Email.GetStatistics(emailID, &hubspot.Statistics{})
@@ -433,7 +433,7 @@ func ExampleMarketingEmailOp_GetStatistics() {
 }
 
 func ExampleMarketingEmailOp_ListStatistics() {
-	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	statistics := make([]hubspot.Statistics, 0, 50)
 	res, err := cli.Marketing.Email.ListStatistics(&hubspot.BulkStatisticsResponse{Objects: statistics}, &hubspot.BulkRequestQueryOption{Limit: 10})
@@ -455,7 +455,7 @@ func ExampleMarketingEmailOp_ListStatistics() {
 }
 
 func ExampleTransactionalServiceOp_SendSingleEmail() {
-	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	res, err := cli.Marketing.Transactional.SendSingleEmail(&hubspot.SendSingleEmailProperties{
 		EmailID: 0, // Set proper value.

@@ -19,21 +19,21 @@ func TestGetActiveImports(_ *testing.T) {
 	fmt.Printf("%+v\n", err)
 }
 
-func TestGetImportById(_ *testing.T) {
+func TestGetImportByID(_ *testing.T) {
 	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 	res, err := cli.CRM.Imports.Get(32331356)
 	fmt.Printf("%+v\n", res)
 	fmt.Printf("%+v\n", err)
 }
 
-func TestCancelImportById(_ *testing.T) {
+func TestCancelImportByID(_ *testing.T) {
 	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 	res, err := cli.CRM.Imports.Cancel(32331339)
 	fmt.Printf("%+v\n", res)
 	fmt.Printf("%+v\n", err)
 }
 
-func TestImportErrorsById(_ *testing.T) {
+func TestImportErrorsByID(_ *testing.T) {
 	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 	res, err := cli.CRM.Imports.Errors(12342, &CrmImportErrorsOptions{
 		After: "abcd",
@@ -75,18 +75,18 @@ func createTestMetadataConfig() *CrmImportConfig {
 					HasHeader: true,
 					ColumnMappings: []CrmImportColumnMapping{
 						{
-							ColumnObjectTypeId: "0-1",
+							ColumnObjectTypeID: "0-1",
 							ColumnName:         "email",
 							PropertyName:       "email",
-							IdColumnType:       "HUBSPOT_ALTERNATE_Id",
+							IDColumnType:       "HUBSPOT_ALTERNATE_ID",
 						},
 						{
-							ColumnObjectTypeId: "0-1",
+							ColumnObjectTypeID: "0-1",
 							ColumnName:         "firstname",
 							PropertyName:       "firstname",
 						},
 						{
-							ColumnObjectTypeId: "0-1",
+							ColumnObjectTypeID: "0-1",
 							ColumnName:         "lastname",
 							PropertyName:       "lastname",
 						},

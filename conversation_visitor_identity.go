@@ -1,28 +1,28 @@
 package hubspot
 
-type IDentificationTokenResponse struct {
+type IdentificationTokenResponse struct {
 	Token string `json:"token"`
 }
 
-type IDentificationTokenRequest struct {
+type IdentificationTokenRequest struct {
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
 	Email     string `json:"email"`
 }
 
-type VisitorIDentificationService interface {
-	GenerateIDentificationToken(option IDentificationTokenRequest) (*IDentificationTokenResponse, error)
+type VisitorIdentificationService interface {
+	GenerateIdentificationToken(option IdentificationTokenRequest) (*IdentificationTokenResponse, error)
 }
 
-type VisitorIDentificationServiceOp struct {
+type VisitorIdentificationServiceOp struct {
 	client   *Client
 	basePath string
 }
 
-var _ VisitorIDentificationService = (*VisitorIDentificationServiceOp)(nil)
+var _ VisitorIdentificationService = (*VisitorIdentificationServiceOp)(nil)
 
-func (s *VisitorIDentificationServiceOp) GenerateIDentificationToken(option IDentificationTokenRequest) (*IDentificationTokenResponse, error) {
-	response := &IDentificationTokenResponse{}
+func (s *VisitorIdentificationServiceOp) GenerateIdentificationToken(option IdentificationTokenRequest) (*IdentificationTokenResponse, error) {
+	response := &IdentificationTokenResponse{}
 	path := s.basePath + "/tokens/create"
 	if err := s.client.Post(path, option, response); err != nil {
 		return nil, err

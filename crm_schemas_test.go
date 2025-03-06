@@ -9,7 +9,7 @@ import (
 func TestGetSchemas(t *testing.T) {
 	t.SkipNow()
 
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 	res, err := cli.CRM.Schemas.List()
 	if err != nil {
 		t.Error(err)
@@ -118,7 +118,7 @@ func TestCreateSchema(t *testing.T) {
 		t.Error(err)
 	}
 
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 	res, err := cli.CRM.Schemas.Create(req)
 	if err != nil {
 		t.Error(err)
@@ -131,7 +131,7 @@ func TestCreateSchema(t *testing.T) {
 
 func TestGetSchema(t *testing.T) {
 	t.SkipNow()
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 	res, err := cli.CRM.Schemas.Get("cars")
 	if err != nil {
 		t.Error(err)
@@ -143,7 +143,7 @@ func TestGetSchema(t *testing.T) {
 
 func TestDeleteSchema(t *testing.T) {
 	t.SkipNow()
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	res, err := cli.CRM.Schemas.Get("cars")
 	if err != nil {
@@ -167,7 +167,7 @@ func TestUpdateSchema(t *testing.T) {
 	req := make(map[string]interface{})
 	req["primaryDisplayProperty"] = "year"
 
-	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN"), os.Getenv("PRIVATE_APP_SECRET")))
+	cli, _ := NewClient(SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	res, err := cli.CRM.Schemas.Get("cars")
 	if err != nil {

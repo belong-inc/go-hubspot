@@ -1,18 +1,18 @@
 package hubspot
 
 const (
-	visitorIDentificationBasePath = "/conversations/v3/visitor-identification"
+	visitorIdentificationBasePath = "/conversations/v3/visitor-identification"
 )
 
 type Conversation struct {
-	VisitorIDentification VisitorIDentificationService
+	VisitorIdentification VisitorIdentificationService
 }
 
 func newConversation(c *Client) *Conversation {
 	return &Conversation{
-		VisitorIDentification: &VisitorIDentificationServiceOp{
+		VisitorIdentification: &VisitorIdentificationServiceOp{
 			client:   c,
-			basePath: visitorIDentificationBasePath,
+			basePath: visitorIdentificationBasePath,
 		},
 	}
 }
