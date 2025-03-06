@@ -2,7 +2,7 @@ package hubspot
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 )
@@ -40,7 +40,7 @@ func NewMockHTTPClient(conf *MockConfig) *http.Client {
 		Transport: RoundTripFunc(func(req *http.Request) *http.Response {
 			return &http.Response{
 				StatusCode: conf.Status,
-				Body:       ioutil.NopCloser(bytes.NewBuffer(conf.Body)),
+				Body:       io.NopCloser(bytes.NewBuffer(conf.Body)),
 				Header:     conf.Header,
 			}
 		}),

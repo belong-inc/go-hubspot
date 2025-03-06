@@ -3,15 +3,16 @@ package hubspot_test
 import (
 	"bytes"
 	"errors"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"reflect"
 	"testing"
 	"time"
 
-	hubspot "github.com/belong-inc/go-hubspot"
 	"github.com/google/go-cmp/cmp"
+
+	hubspot "github.com/belong-inc/go-hubspot"
 )
 
 var (
@@ -358,7 +359,7 @@ func TestClient_NewRequest(t *testing.T) {
 				t.Errorf("NewRequest() header mismatch: want %s got %s", tt.want.header, got.Header)
 				return
 			}
-			b, _ := ioutil.ReadAll(got.Body)
+			b, _ := io.ReadAll(got.Body)
 			if string(tt.want.body) != string(b) {
 				t.Errorf("NewRequest() body mismatch: want %s got %s", string(tt.want.body), string(b))
 			}
@@ -515,7 +516,7 @@ func TestCheckResponseError(t *testing.T) {
 			args: args{
 				r: &http.Response{
 					StatusCode: http.StatusBadRequest,
-					Body:       ioutil.NopCloser(bytes.NewBuffer([]byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`))),
+					Body:       io.NopCloser(bytes.NewBuffer([]byte(`{"message": "Invalid input (details will vary based on the error)","correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf","category": "VALIDATION_ERROR","links": {"knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"}}`))),
 				},
 			},
 			wantErr: &hubspot.APIError{
@@ -533,7 +534,7 @@ func TestCheckResponseError(t *testing.T) {
 			args: args{
 				r: &http.Response{
 					StatusCode: http.StatusBadRequest,
-					Body:       ioutil.NopCloser(bytes.NewBuffer([]byte(`{"status": "error","message": "Property values were not valid: [{\"isValid\":false,\"message\":\"Email address bcooper@example.con is invalid\",\"error\":\"INVALID_EMAIL\",\"name\":\"email\"}]","correlationId":"aeb5f871-7f07-4993-9211-075dc63e7cbf","category":"VALIDATION_ERROR"}`))),
+					Body:       io.NopCloser(bytes.NewBuffer([]byte(`{"status": "error","message": "Property values were not valid: [{\"isValid\":false,\"message\":\"Email address bcooper@example.con is invalid\",\"error\":\"INVALID_EMAIL\",\"name\":\"email\"}]","correlationId":"aeb5f871-7f07-4993-9211-075dc63e7cbf","category":"VALIDATION_ERROR"}`))),
 				},
 			},
 			wantErr: &hubspot.APIError{
@@ -557,7 +558,7 @@ func TestCheckResponseError(t *testing.T) {
 			args: args{
 				r: &http.Response{
 					StatusCode: http.StatusBadRequest,
-					Body:       ioutil.NopCloser(bytes.NewBuffer([]byte(`{"status": "error","message": "Property values were not valid: [{\"isValid\":false,\"message\":\"Email address bcooper@example.con is invalid\",\"error\":\"INVALID_EMAIL\",\"name\":\"email\"},{'json':unexpected}]","correlationId":"aeb5f871-7f07-4993-9211-075dc63e7cbf","category":"VALIDATION_ERROR"}`))),
+					Body:       io.NopCloser(bytes.NewBuffer([]byte(`{"status": "error","message": "Property values were not valid: [{\"isValid\":false,\"message\":\"Email address bcooper@example.con is invalid\",\"error\":\"INVALID_EMAIL\",\"name\":\"email\"},{'json':unexpected}]","correlationId":"aeb5f871-7f07-4993-9211-075dc63e7cbf","category":"VALIDATION_ERROR"}`))),
 				},
 			},
 			wantErr: &hubspot.APIError{
