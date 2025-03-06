@@ -24,7 +24,14 @@ jobs:
           go-version: ${{ matrix.go-version }}
           check-latest: true
           cache-dependency-path: "**/*.sum"
-      
+
+      - name: golangci-lint checker
+        uses: golangci/golangci-lint-action@971e284b6050e8a5849b72094c50ab08da042db8 # v6.1.1
+        with:
+          version: latest
+          working-directory: .
+          only-new-issues: true
+  
       - name: lint
         run: make lint
 
