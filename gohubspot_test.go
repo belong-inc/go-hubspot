@@ -60,7 +60,7 @@ func TestNewClient(t *testing.T) {
 			args: args{
 				setAuthMethod: hubspot.SetOAuth(&hubspot.OAuthConfig{
 					GrantType:    "grant-type",
-					ClientID:     "client-id",
+					ClientId:     "client-id",
 					ClientSecret: "client-secret",
 					RefreshToken: "refresh-token",
 				}),
@@ -71,7 +71,7 @@ func TestNewClient(t *testing.T) {
 				apiVersion: hubspot.ExportAPIVersion,
 				authMethod: hubspot.SetOAuth(&hubspot.OAuthConfig{
 					GrantType:    "grant-type",
-					ClientID:     "client-id",
+					ClientId:     "client-id",
 					ClientSecret: "client-secret",
 					RefreshToken: "refresh-token",
 				}),
@@ -81,55 +81,55 @@ func TestNewClient(t *testing.T) {
 		{
 			name: "Success new client and set private app token",
 			args: args{
-				setAuthMethod: hubspot.SetPrivateAppToken("token", "secret"),
+				setAuthMethod: hubspot.SetPrivateAppToken("token"),
 			},
 			settings: settings{
 				client:     http.DefaultClient,
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetPrivateAppToken("token", "secret"),
+				authMethod: hubspot.SetPrivateAppToken("token"),
 			},
 			wantErr: nil,
 		},
 		{
 			name: "Success new client with custom http client",
 			args: args{
-				setAuthMethod: hubspot.SetPrivateAppToken("token", "secret"),
+				setAuthMethod: hubspot.SetPrivateAppToken("token"),
 				opts:          []hubspot.Option{hubspot.WithHTTPClient(&http.Client{Timeout: 100 * time.Second})},
 			},
 			settings: settings{
 				client:     &http.Client{Timeout: 100 * time.Second},
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetPrivateAppToken("token", "secret"),
+				authMethod: hubspot.SetPrivateAppToken("token"),
 			},
 			wantErr: nil,
 		},
 		{
 			name: "Success new client with custom base url",
 			args: args{
-				setAuthMethod: hubspot.SetPrivateAppToken("token", "secret"),
+				setAuthMethod: hubspot.SetPrivateAppToken("token"),
 				opts:          []hubspot.Option{hubspot.WithBaseURL(&url.URL{Scheme: "http", Host: "example.com"})},
 			},
 			settings: settings{
 				client:     http.DefaultClient,
 				baseURL:    &url.URL{Scheme: "http", Host: "example.com"},
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetPrivateAppToken("token", "secret"),
+				authMethod: hubspot.SetPrivateAppToken("token"),
 			},
 			wantErr: nil,
 		},
 		{
 			name: "Success new client with custom api version",
 			args: args{
-				setAuthMethod: hubspot.SetPrivateAppToken("token", "secret"),
+				setAuthMethod: hubspot.SetPrivateAppToken("token"),
 				opts:          []hubspot.Option{hubspot.WithAPIVersion("v0")},
 			},
 			settings: settings{
 				client:     http.DefaultClient,
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: "v0",
-				authMethod: hubspot.SetPrivateAppToken("token", "secret"),
+				authMethod: hubspot.SetPrivateAppToken("token"),
 			},
 			wantErr: nil,
 		},
@@ -172,7 +172,7 @@ func TestNewClient(t *testing.T) {
 
 func TestClient_NewRequest(t *testing.T) {
 	type body struct {
-		ID   string `json:"id"`
+		Id   string `json:"id"`
 		Name string `json:"name"`
 	}
 
@@ -243,7 +243,7 @@ func TestClient_NewRequest(t *testing.T) {
 				method: http.MethodPost,
 				path:   "objects/test",
 				body: &body{
-					ID:   "001",
+					Id:   "001",
 					Name: "example",
 				},
 				option: nil,
@@ -269,7 +269,7 @@ func TestClient_NewRequest(t *testing.T) {
 				apiVersion: hubspot.ExportAPIVersion,
 				authMethod: hubspot.SetOAuth(&hubspot.OAuthConfig{
 					GrantType:    "grant-type",
-					ClientID:     "client-id",
+					ClientId:     "client-id",
 					ClientSecret: "client-secret",
 					RefreshToken: "refresh-token",
 				}),
@@ -279,7 +279,7 @@ func TestClient_NewRequest(t *testing.T) {
 				method: http.MethodPost,
 				path:   "objects/test",
 				body: &body{
-					ID:   "001",
+					Id:   "001",
 					Name: "example",
 				},
 				option: nil,
@@ -301,14 +301,14 @@ func TestClient_NewRequest(t *testing.T) {
 				client:     hubspot.NewMockHTTPClient(&hubspot.MockConfig{}),
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetPrivateAppToken("token", "secret"),
+				authMethod: hubspot.SetPrivateAppToken("token"),
 				crm:        nil,
 			},
 			args: args{
 				method: http.MethodPost,
 				path:   "objects/test",
 				body: &body{
-					ID:   "001",
+					Id:   "001",
 					Name: "example",
 				},
 				option: nil,
@@ -400,7 +400,7 @@ func TestClient_CreateAndDo(t *testing.T) {
 				}),
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetPrivateAppToken("test", "test"),
+				authMethod: hubspot.SetPrivateAppToken("test"),
 				crm:        nil,
 			},
 			args: args{
@@ -411,13 +411,13 @@ func TestClient_CreateAndDo(t *testing.T) {
 				resource: &hubspot.ResponseResource{Properties: &hubspot.Deal{}},
 			},
 			want: &hubspot.ResponseResource{
-				ID:       "512",
+				Id:       "512",
 				Archived: false,
 				Properties: &hubspot.Deal{
 					Amount:           hubspot.NewString("1500.00"),
 					DealName:         hubspot.NewString("Custom data integrations"),
 					DealStage:        hubspot.NewString("presentation scheduled"),
-					DealOwnerID:      hubspot.NewString("910901"),
+					DealOwnerId:      hubspot.NewString("910901"),
 					PipeLine:         hubspot.NewString("default"),
 					CreateDate:       &createdAt,
 					CloseDate:        &closeDate,
@@ -438,7 +438,7 @@ func TestClient_CreateAndDo(t *testing.T) {
 				}),
 				baseURL:    hubspot.ExportBaseURL,
 				apiVersion: hubspot.ExportAPIVersion,
-				authMethod: hubspot.SetPrivateAppToken("test", "test"),
+				authMethod: hubspot.SetPrivateAppToken("test"),
 				crm:        nil,
 			},
 			args: args{
@@ -448,20 +448,20 @@ func TestClient_CreateAndDo(t *testing.T) {
 					Amount:      hubspot.NewString("1500.00"),
 					DealName:    hubspot.NewString("Custom data integrations"),
 					DealStage:   hubspot.NewString("presentation scheduled"),
-					DealOwnerID: hubspot.NewString("910901"),
+					DealOwnerId: hubspot.NewString("910901"),
 					PipeLine:    hubspot.NewString("default"),
 				},
 				option:   nil,
 				resource: &hubspot.ResponseResource{Properties: &hubspot.Deal{}},
 			},
 			want: &hubspot.ResponseResource{
-				ID:       "512",
+				Id:       "512",
 				Archived: false,
 				Properties: &hubspot.Deal{
 					Amount:           hubspot.NewString("1500.00"),
 					DealName:         hubspot.NewString("Custom data integrations"),
 					DealStage:        hubspot.NewString("presentation scheduled"),
-					DealOwnerID:      hubspot.NewString("910901"),
+					DealOwnerId:      hubspot.NewString("910901"),
 					PipeLine:         hubspot.NewString("default"),
 					CreateDate:       &createdAt,
 					CloseDate:        &closeDate,
@@ -523,7 +523,7 @@ func TestCheckResponseError(t *testing.T) {
 			wantErr: &hubspot.APIError{
 				HTTPStatusCode: http.StatusBadRequest,
 				Message:        "Invalid input (details will vary based on the error)",
-				CorrelationID:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
+				CorrelationId:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
 				Category:       hubspot.ValidationError,
 				Links: hubspot.ErrLinks{
 					KnowledgeBase: "https://www.hubspot.com/products/service/knowledge-base",
@@ -541,7 +541,7 @@ func TestCheckResponseError(t *testing.T) {
 			wantErr: &hubspot.APIError{
 				HTTPStatusCode: http.StatusBadRequest,
 				Message:        `Property values were not valid: [{"isValid":false,"message":"Email address bcooper@example.con is invalid","error":"INVALID_EMAIL","name":"email"}]`,
-				CorrelationID:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
+				CorrelationId:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
 				Category:       hubspot.ValidationError,
 				Status:         "error",
 				Details: []hubspot.ErrDetail{
@@ -565,7 +565,7 @@ func TestCheckResponseError(t *testing.T) {
 			wantErr: &hubspot.APIError{
 				HTTPStatusCode: http.StatusBadRequest,
 				Message:        `Property values were not valid: [{"isValid":false,"message":"Email address bcooper@example.con is invalid","error":"INVALID_EMAIL","name":"email"},{'json':unexpected}]`,
-				CorrelationID:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
+				CorrelationId:  "aeb5f871-7f07-4993-9211-075dc63e7cbf",
 				Category:       hubspot.ValidationError,
 				Status:         "error",
 				Details: []hubspot.ErrDetail{

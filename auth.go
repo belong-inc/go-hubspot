@@ -32,11 +32,10 @@ func SetAPIKey(key string) AuthMethod {
 	}
 }
 
-func SetPrivateAppToken(token, secret string) AuthMethod {
+func SetPrivateAppToken(token string) AuthMethod {
 	return func(c *Client) {
 		c.authenticator = &PrivateAppToken{
-			accessToken:  token,
-			clientSecret: secret,
+			accessToken: token,
 		}
 	}
 }
@@ -66,8 +65,7 @@ func (a *APIKey) SetAuthentication(r *http.Request) error {
 }
 
 type PrivateAppToken struct {
-	accessToken  string
-	clientSecret string
+	accessToken string
 }
 
 func (p *PrivateAppToken) SetAuthentication(r *http.Request) error {
