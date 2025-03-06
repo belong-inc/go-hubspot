@@ -1,9 +1,9 @@
 run:
   timeout: 2m
-  skip-dirs:
-    - scripts
+  go: "1.23" # Set Go version to 1.23
 
 linters:
+  disable-all: true
   enable:
     - goimports
     - govet
@@ -15,4 +15,3 @@ linters:
     - gofumpt
     - goconst
     - unconvert
-  disable-all: true

@@ -5,8 +5,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/belong-inc/go-hubspot"
 	"github.com/google/go-cmp/cmp"
+
+	"github.com/belong-inc/go-hubspot"
 )
 
 func TestContactServiceOp_Create(t *testing.T) {
