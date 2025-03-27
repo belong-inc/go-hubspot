@@ -42,6 +42,12 @@ const (
 
 	AssociationTypeCompanyToContact AssociationType = "company_to_contact"
 	AssociationTypeCompanyToDeal    AssociationType = "company_to_deal"
+
+	AssociationTypeNoteToDeal       AssociationType = "note_to_deal"
+	AssociationTypeNoteToContact    AssociationType = "note_to_contact"
+	AssociationTypeNoteToCompany    AssociationType = "note_to_company"
+	AssociationTypeNoteToEngagement AssociationType = "note_to_engagement"
+	AssociationTypeNoteToTicket     AssociationType = "note_to_ticket"
 )
 
 type AssociationConfig struct {
