@@ -29,7 +29,6 @@ type Note struct {
 	HsCreateDate   *HsTime `json:"hs_createdate,omitempty"`
 	HsObjectID     *HsStr  `json:"hs_object_id,omitempty"`
 	HsNoteBody     *HsStr  `json:"hs_note_body,omitempty"`
-	HsNoteTitle    *HsStr  `json:"hs_note_title,omitempty"`
 	HsTimestamp    *HsStr  `json:"hs_timestamp,omitempty"`
 	HubspotOwnerID *HsStr  `json:"hubspot_owner_id,omitempty"`
 }
