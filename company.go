@@ -14,6 +14,8 @@ type CompanyService interface {
 	Update(companyID string, company interface{}) (*ResponseResource, error)
 	Delete(companyID string) error
 	AssociateAnotherObj(companyID string, conf *AssociationConfig) (*ResponseResource, error)
+	SearchByDomain(domain string) (*CompanySearchResponse, error)
+	SearchByName(name string) (*CompanySearchResponse, error)
 }
 
 // CompanyServiceOp handles communication with the product related methods of the HubSpot API.
@@ -73,5 +75,67 @@ func (s *CompanyServiceOp) AssociateAnotherObj(companyID string, conf *Associati
 	if err := s.client.Put(s.companyPath+"/"+companyID+"/"+conf.makeAssociationPath(), nil, resource); err != nil {
 		return nil, err
 	}
+	return resource, nil
+}
+
+// CompanySearchResponse represents the response from searching companies.
+type CompanySearchResponse struct {
+	Total   int64           `json:"total"`
+	Results []CompanyResult `json:"results"`
+}
+
+type CompanyResult struct {
+	ID         string  `json:"id"`
+	Properties Company `json:"properties"`
+	CreatedAt  string  `json:"createdAt"`
+	UpdatedAt  string  `json:"updatedAt"`
+	Archived   bool    `json:"archived"`
+}
+
+// SearchByDomain searches for a company by domain.
+func (s *CompanyServiceOp) SearchByDomain(domain string) (*CompanySearchResponse, error) {
+	req := &ContactSearchRequest{
+		FilterGroups: []FilterGroup{
+			{
+				Filters: []Filter{
+					{
+						PropertyName: "domain",
+						Operator:     "EQ",
+						Value:        domain,
+					},
+				},
+			},
+		},
+	}
+
+	resource := &CompanySearchResponse{}
+	if err := s.client.Post(s.companyPath+"/search", req, resource); err != nil {
+		return nil, err
+	}
+
+	return resource, nil
+}
+
+// SearchByName searches for a company by name.
+func (s *CompanyServiceOp) SearchByName(name string) (*CompanySearchResponse, error) {
+	req := &ContactSearchRequest{
+		FilterGroups: []FilterGroup{
+			{
+				Filters: []Filter{
+					{
+						PropertyName: "name",
+						Operator:     "EQ",
+						Value:        name,
+					},
+				},
+			},
+		},
+	}
+
+	resource := &CompanySearchResponse{}
+	if err := s.client.Post(s.companyPath+"/search", req, resource); err != nil {
+		return nil, err
+	}
+
 	return resource, nil
 }

@@ -45,9 +45,17 @@ type Filter struct {
 
 // ContactSearchResponse represents the response from searching contacts.
 type ContactSearchResponse struct {
-	Results []Contact `json:"results"`
+	Total   int64           `json:"total"`
+	Results []ContactResult `json:"results"`
 }
 
+type ContactResult struct {
+	ID         string  `json:"id"`
+	Properties Contact `json:"properties"`
+	CreatedAt  string  `json:"createdAt"`
+	UpdatedAt  string  `json:"updatedAt"`
+	Archived   bool    `json:"archived"`
+}
 type Contact struct {
 	Address                                     *HsStr  `json:"address,omitempty"`
 	AnnualRevenue                               *HsStr  `json:"annualrevenue,omitempty"`
