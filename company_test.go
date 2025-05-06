@@ -1,7 +1,9 @@
 package hubspot_test
 
 import (
+	"fmt"
 	"net/http"
+	"os"
 	"reflect"
 	"testing"
 
@@ -483,5 +485,33 @@ func TestCompanyServiceOp_AssociateAnotherObj(t *testing.T) {
 				t.Errorf("AssociateAnotherObj() response mismatch (-want +got):%s", diff)
 			}
 		})
+	}
+}
+
+func TestCompanyServiceOp_Search(t *testing.T) {
+	t.SkipNow()
+	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
+
+	req := &hubspot.CompanySearchRequest{
+		FilterGroups: []hubspot.FilterGroup{
+			{
+				Filters: []hubspot.Filter{
+					{
+						PropertyName: "twitterhandle",
+						Value:        "tweetiepie",
+						Operator:     "EQ",
+					},
+				},
+			},
+		},
+	}
+
+	res, err := cli.CRM.Company.Search(req)
+	if err != nil {
+		t.Error(err)
+	}
+
+	for _, result := range res.Results {
+		fmt.Printf("%+v\n", result)
 	}
 }
