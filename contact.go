@@ -15,6 +15,7 @@ type ContactService interface {
 	Delete(contactID string) error
 	AssociateAnotherObj(contactID string, conf *AssociationConfig) (*ResponseResource, error)
 	SearchByEmail(email string) (*ContactSearchResponse, error)
+	Search(req *ContactSearchRequest) (*ContactSearchResponse, error)
 }
 
 // ContactServiceOp handles communication with the product related methods of the HubSpot API.
@@ -421,5 +422,14 @@ func (s *ContactServiceOp) SearchByEmail(email string) (*ContactSearchResponse, 
 		return nil, err
 	}
 
+	return resource, nil
+}
+
+// Search searches for a contact by any given property filters, including custom properties.
+func (s *ContactServiceOp) Search(req *ContactSearchRequest) (*ContactSearchResponse, error) {
+	resource := &ContactSearchResponse{}
+	if err := s.client.Post(s.contactPath+"/search", req, resource); err != nil {
+		return nil, err
+	}
 	return resource, nil
 }

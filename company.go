@@ -16,6 +16,7 @@ type CompanyService interface {
 	AssociateAnotherObj(companyID string, conf *AssociationConfig) (*ResponseResource, error)
 	SearchByDomain(domain string) (*CompanySearchResponse, error)
 	SearchByName(name string) (*CompanySearchResponse, error)
+	Search(req *CompanySearchRequest) (*CompanySearchResponse, error)
 }
 
 // CompanyServiceOp handles communication with the product related methods of the HubSpot API.
@@ -78,6 +79,10 @@ func (s *CompanyServiceOp) AssociateAnotherObj(companyID string, conf *Associati
 	return resource, nil
 }
 
+type CompanySearchRequest struct {
+	FilterGroups []FilterGroup `json:"filterGroups"`
+}
+
 // CompanySearchResponse represents the response from searching companies.
 type CompanySearchResponse struct {
 	Total   int64           `json:"total"`
@@ -137,5 +142,14 @@ func (s *CompanyServiceOp) SearchByName(name string) (*CompanySearchResponse, er
 		return nil, err
 	}
 
+	return resource, nil
+}
+
+// Search searches for a company by any given property filters, including custom properties.
+func (s *CompanyServiceOp) Search(req *CompanySearchRequest) (*CompanySearchResponse, error) {
+	resource := &CompanySearchResponse{}
+	if err := s.client.Post(s.companyPath+"/search", req, resource); err != nil {
+		return nil, err
+	}
 	return resource, nil
 }
