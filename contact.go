@@ -31,19 +31,6 @@ type ContactSearchRequest struct {
 	FilterGroups []FilterGroup `json:"filterGroups"`
 }
 
-// FilterGroup represents a group of filters.
-type FilterGroup struct {
-	Filters []Filter `json:"filters"`
-}
-
-// Filter represents a single filter.
-type Filter struct {
-	PropertyName string   `json:"propertyName"`
-	Operator     string   `json:"operator"`
-	Values       []string `json:"values,omitempty"`
-	Value        string   `json:"value,omitempty"`
-}
-
 // ContactSearchResponse represents the response from searching contacts.
 type ContactSearchResponse struct {
 	Total   int64           `json:"total"`
@@ -351,7 +338,7 @@ var defaultContactFields = []string{
 
 // Get gets a contact.
 // In order to bind the get content, a structure must be specified as an argument.
-// Also, if you want to gets a custom field, you need to specify the field name.
+// Also, if you want to get a custom field, you need to specify the field name.
 // If you specify a non-existent field, it will be ignored.
 // e.g. &hubspot.RequestQueryOption{ Properties: []string{"custom_a", "custom_b"}}
 func (s *ContactServiceOp) Get(contactID string, contact interface{}, option *RequestQueryOption) (*ResponseResource, error) {
@@ -402,8 +389,9 @@ func (s *ContactServiceOp) AssociateAnotherObj(contactID string, conf *Associati
 }
 
 // SearchByEmail searches for a contact by email.
+// EXPERIMENTAL: This method is experimental and the interface may change in the future to support custom properties.
 func (s *ContactServiceOp) SearchByEmail(email string) (*ContactSearchResponse, error) {
-	req := &ContactSearchRequest{
+	filter := &ContactSearchRequest{
 		FilterGroups: []FilterGroup{
 			{
 				Filters: []Filter{
@@ -416,16 +404,11 @@ func (s *ContactServiceOp) SearchByEmail(email string) (*ContactSearchResponse, 
 			},
 		},
 	}
-
-	resource := &ContactSearchResponse{}
-	if err := s.client.Post(s.contactPath+"/search", req, resource); err != nil {
-		return nil, err
-	}
-
-	return resource, nil
+	return s.Search(filter)
 }
 
 // Search searches for a contact by any given property filters, including custom properties.
+// EXPERIMENTAL: This method is experimental and the interface may change in the future to support custom properties.
 func (s *ContactServiceOp) Search(req *ContactSearchRequest) (*ContactSearchResponse, error) {
 	resource := &ContactSearchResponse{}
 	if err := s.client.Post(s.contactPath+"/search", req, resource); err != nil {

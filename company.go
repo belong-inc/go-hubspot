@@ -29,7 +29,7 @@ var _ CompanyService = (*CompanyServiceOp)(nil)
 
 // Get gets a Company.
 // In order to bind the get content, a structure must be specified as an argument.
-// Also, if you want to gets a custom field, you need to specify the field name.
+// Also, if you want to get a custom field, you need to specify the field name.
 // If you specify a non-existent field, it will be ignored.
 // e.g. &hubspot.RequestQueryOption{ Properties: []string{"custom_a", "custom_b"}}
 func (s *CompanyServiceOp) Get(companyID string, company interface{}, option *RequestQueryOption) (*ResponseResource, error) {
@@ -98,8 +98,9 @@ type CompanyResult struct {
 }
 
 // SearchByDomain searches for a company by domain.
+// EXPERIMENTAL: This method is experimental and the interface may change in the future to support custom properties.
 func (s *CompanyServiceOp) SearchByDomain(domain string) (*CompanySearchResponse, error) {
-	req := &ContactSearchRequest{
+	filter := &CompanySearchRequest{
 		FilterGroups: []FilterGroup{
 			{
 				Filters: []Filter{
@@ -112,18 +113,13 @@ func (s *CompanyServiceOp) SearchByDomain(domain string) (*CompanySearchResponse
 			},
 		},
 	}
-
-	resource := &CompanySearchResponse{}
-	if err := s.client.Post(s.companyPath+"/search", req, resource); err != nil {
-		return nil, err
-	}
-
-	return resource, nil
+	return s.Search(filter)
 }
 
 // SearchByName searches for a company by name.
+// EXPERIMENTAL: This method is experimental and the interface may change in the future to support custom properties.
 func (s *CompanyServiceOp) SearchByName(name string) (*CompanySearchResponse, error) {
-	req := &ContactSearchRequest{
+	filter := &CompanySearchRequest{
 		FilterGroups: []FilterGroup{
 			{
 				Filters: []Filter{
@@ -136,16 +132,11 @@ func (s *CompanyServiceOp) SearchByName(name string) (*CompanySearchResponse, er
 			},
 		},
 	}
-
-	resource := &CompanySearchResponse{}
-	if err := s.client.Post(s.companyPath+"/search", req, resource); err != nil {
-		return nil, err
-	}
-
-	return resource, nil
+	return s.Search(filter)
 }
 
 // Search searches for a company by any given property filters, including custom properties.
+// EXPERIMENTAL: This method is experimental and the interface may change in the future to support custom properties.
 func (s *CompanyServiceOp) Search(req *CompanySearchRequest) (*CompanySearchResponse, error) {
 	resource := &CompanySearchResponse{}
 	if err := s.client.Post(s.companyPath+"/search", req, resource); err != nil {
