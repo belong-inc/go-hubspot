@@ -25,7 +25,7 @@ type DealServiceOp struct {
 
 // DealSearchRequest represents the request body for searching deals.
 type DealSearchRequest struct {
-	FilterGroups []FilterGroup `json:"filterGroups,omitempty"`
+	SearchOptions
 }
 
 // DealSearchResponse represents the structure of the response from the deal search endpoint.
@@ -162,20 +162,22 @@ func (s *DealServiceOp) AssociateAnotherObj(dealID string, conf *AssociationConf
 // SearchByName searches for deals by deal name.
 // EXPERIMENTAL: This method is experimental and the interface may change in the future to support custom properties.
 func (s *DealServiceOp) SearchByName(dealName string) (*DealSearchResponse, error) {
-	filter := &DealSearchRequest{
-		FilterGroups: []FilterGroup{
-			{
-				Filters: []Filter{
-					{
-						PropertyName: "dealname",
-						Operator:     EQ,
-						Value:        dealName,
+	req := &DealSearchRequest{
+		SearchOptions: SearchOptions{
+			FilterGroups: []FilterGroup{
+				{
+					Filters: []Filter{
+						{
+							PropertyName: "dealname",
+							Operator:     EQ,
+							Value:        NewString(dealName),
+						},
 					},
 				},
 			},
 		},
 	}
-	return s.Search(filter)
+	return s.Search(req)
 }
 
 // Search searches for deals based on the provided search request.

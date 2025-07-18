@@ -21,15 +21,37 @@ const (
 	NotContainsToken Operator = "NOT_CONTAINS_TOKEN" // Doesn't contain a token.
 )
 
+// SearchOptions represents the options for searching HubSpot objects.
+type SearchOptions struct {
+	FilterGroups []FilterGroup `json:"filterGroups,omitempty"` // A list of filter groups, each containing one or more filters.
+	Sorts        []Sort        `json:"sorts,omitempty"`
+	Query        string        `json:"query,omitempty"`
+	Properties   []string      `json:"properties,omitempty"`
+	Limit        int           `json:"limit,omitempty"` // The maximum number of entries per page is 200, the default is 10.
+	After        int           `json:"after,omitempty"` // The offset for pagination, used to retrieve the next page of results.
+}
+
 // FilterGroup represents a group of filters for HubSpot search requests.
 type FilterGroup struct {
-	Filters []Filter `json:"filters"`
+	Filters []Filter `json:"filters,omitempty"`
 }
 
 // Filter represents a single filter for HubSpot search requests.
 type Filter struct {
 	PropertyName string   `json:"propertyName"`
 	Operator     Operator `json:"operator"`
-	Values       []string `json:"values,omitempty"`
-	Value        string   `json:"value,omitempty"`
+	Values       []HsStr  `json:"values,omitempty"`
+	Value        *HsStr   `json:"value,omitempty"`
+}
+
+type SortDirection string
+
+const (
+	Asc  SortDirection = "ASCENDING"
+	Desc SortDirection = "DESCENDING"
+)
+
+type Sort struct {
+	PropertyName string        `json:"propertyName"`
+	Direction    SortDirection `json:"direction"`
 }

@@ -493,19 +493,20 @@ func TestCompanyServiceOp_Search(t *testing.T) {
 	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	req := &hubspot.CompanySearchRequest{
-		FilterGroups: []hubspot.FilterGroup{
-			{
-				Filters: []hubspot.Filter{
-					{
-						PropertyName: "twitterhandle",
-						Value:        "tweetiepie",
-						Operator:     "EQ",
+		SearchOptions: hubspot.SearchOptions{
+			FilterGroups: []hubspot.FilterGroup{
+				{
+					Filters: []hubspot.Filter{
+						{
+							PropertyName: "twitterhandle",
+							Operator:     hubspot.EQ,
+							Value:        hubspot.NewString("tweetiepie"),
+						},
 					},
 				},
 			},
 		},
 	}
-
 	res, err := cli.CRM.Company.Search(req)
 	if err != nil {
 		t.Error(err)

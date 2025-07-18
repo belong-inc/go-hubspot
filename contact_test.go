@@ -747,13 +747,15 @@ func TestContactServiceOp_Search(t *testing.T) {
 	cli, _ := hubspot.NewClient(hubspot.SetPrivateAppToken(os.Getenv("PRIVATE_APP_TOKEN")))
 
 	req := &hubspot.ContactSearchRequest{
-		FilterGroups: []hubspot.FilterGroup{
-			{
-				Filters: []hubspot.Filter{
-					{
-						PropertyName: "work_email",
-						Value:        "test@test.com",
-						Operator:     "EQ",
+		SearchOptions: hubspot.SearchOptions{
+			FilterGroups: []hubspot.FilterGroup{
+				{
+					Filters: []hubspot.Filter{
+						{
+							PropertyName: "work_email",
+							Operator:     hubspot.EQ,
+							Value:        hubspot.NewString("test@test.com"),
+						},
 					},
 				},
 			},

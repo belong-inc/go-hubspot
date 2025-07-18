@@ -80,7 +80,7 @@ func (s *CompanyServiceOp) AssociateAnotherObj(companyID string, conf *Associati
 }
 
 type CompanySearchRequest struct {
-	FilterGroups []FilterGroup `json:"filterGroups"`
+	SearchOptions
 }
 
 // CompanySearchResponse represents the response from searching companies.
@@ -101,13 +101,15 @@ type CompanyResult struct {
 // EXPERIMENTAL: This method is experimental and the interface may change in the future to support custom properties.
 func (s *CompanyServiceOp) SearchByDomain(domain string) (*CompanySearchResponse, error) {
 	filter := &CompanySearchRequest{
-		FilterGroups: []FilterGroup{
-			{
-				Filters: []Filter{
-					{
-						PropertyName: "domain",
-						Operator:     "EQ",
-						Value:        domain,
+		SearchOptions: SearchOptions{
+			FilterGroups: []FilterGroup{
+				{
+					Filters: []Filter{
+						{
+							PropertyName: "domain",
+							Operator:     EQ,
+							Value:        NewString(domain),
+						},
 					},
 				},
 			},
@@ -120,13 +122,15 @@ func (s *CompanyServiceOp) SearchByDomain(domain string) (*CompanySearchResponse
 // EXPERIMENTAL: This method is experimental and the interface may change in the future to support custom properties.
 func (s *CompanyServiceOp) SearchByName(name string) (*CompanySearchResponse, error) {
 	filter := &CompanySearchRequest{
-		FilterGroups: []FilterGroup{
-			{
-				Filters: []Filter{
-					{
-						PropertyName: "name",
-						Operator:     "EQ",
-						Value:        name,
+		SearchOptions: SearchOptions{
+			FilterGroups: []FilterGroup{
+				{
+					Filters: []Filter{
+						{
+							PropertyName: "name",
+							Operator:     EQ,
+							Value:        NewString(name),
+						},
 					},
 				},
 			},

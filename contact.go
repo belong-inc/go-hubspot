@@ -28,7 +28,7 @@ var _ ContactService = (*ContactServiceOp)(nil)
 
 // ContactSearchRequest represents the request body for searching contacts.
 type ContactSearchRequest struct {
-	FilterGroups []FilterGroup `json:"filterGroups"`
+	SearchOptions
 }
 
 // ContactSearchResponse represents the response from searching contacts.
@@ -391,20 +391,22 @@ func (s *ContactServiceOp) AssociateAnotherObj(contactID string, conf *Associati
 // SearchByEmail searches for a contact by email.
 // EXPERIMENTAL: This method is experimental and the interface may change in the future to support custom properties.
 func (s *ContactServiceOp) SearchByEmail(email string) (*ContactSearchResponse, error) {
-	filter := &ContactSearchRequest{
-		FilterGroups: []FilterGroup{
-			{
-				Filters: []Filter{
-					{
-						PropertyName: "email",
-						Operator:     "EQ",
-						Value:        email,
+	req := &ContactSearchRequest{
+		SearchOptions: SearchOptions{
+			FilterGroups: []FilterGroup{
+				{
+					Filters: []Filter{
+						{
+							PropertyName: "email",
+							Operator:     EQ,
+							Value:        NewString(email),
+						},
 					},
 				},
 			},
 		},
 	}
-	return s.Search(filter)
+	return s.Search(req)
 }
 
 // Search searches for a contact by any given property filters, including custom properties.
