@@ -6,9 +6,9 @@ const (
 	crmTicketsBasePath = "tickets"
 )
 
-// CrmTicketsServivce is an interface of CRM tickets endpoints of the HubSpot API.
+// CrmTicketsService is an interface of CRM tickets endpoints of the HubSpot API.
 // Reference: https://developers.hubspot.com/docs/api/crm/tickets
-type CrmTicketsServivce interface {
+type CrmTicketsService interface {
 	List(option *RequestQueryOption) (*CrmTicketsList, error)
 	Get(ticketId string, option *RequestQueryOption) (*CrmTicket, error)
 	Create(reqData *CrmTicketCreateRequest) (*CrmTicket, error)
@@ -17,13 +17,13 @@ type CrmTicketsServivce interface {
 	Search(reqData *CrmTicketSearchRequest) (*CrmTicketsList, error)
 }
 
-// CrmTicketsServivceOp handles communication with the CRM tickets endpoints of the HubSpot API.
-type CrmTicketsServivceOp struct {
+// CrmTicketsServiceOp handles communication with the CRM tickets endpoints of the HubSpot API.
+type CrmTicketsServiceOp struct {
 	client         *Client
 	crmTicketsPath string
 }
 
-var _ CrmTicketsServivce = (*CrmTicketsServivceOp)(nil)
+var _ CrmTicketsService = (*CrmTicketsServiceOp)(nil)
 
 type CrmTicket struct {
 	Id                    *HsStr                 `json:"id,omitempty"`
@@ -50,7 +50,7 @@ type CrmTicketsList struct {
 	Paging  *CrmTicketsPaging `json:"paging,omitempty"`
 }
 
-func (s *CrmTicketsServivceOp) List(option *RequestQueryOption) (*CrmTicketsList, error) {
+func (s *CrmTicketsServiceOp) List(option *RequestQueryOption) (*CrmTicketsList, error) {
 	var resource CrmTicketsList
 	if err := s.client.Get(s.crmTicketsPath, &resource, option); err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (s *CrmTicketsServivceOp) List(option *RequestQueryOption) (*CrmTicketsList
 	return &resource, nil
 }
 
-func (s *CrmTicketsServivceOp) Get(ticketId string, option *RequestQueryOption) (*CrmTicket, error) {
+func (s *CrmTicketsServiceOp) Get(ticketId string, option *RequestQueryOption) (*CrmTicket, error) {
 	var resource CrmTicket
 	path := fmt.Sprintf("%s/%s", s.crmTicketsPath, ticketId)
 	if err := s.client.Get(path, &resource, option); err != nil {
@@ -88,7 +88,7 @@ type CrmTicketCreateRequest struct {
 
 type CrmTicketUpdateRequest = CrmTicketCreateRequest
 
-func (s *CrmTicketsServivceOp) Create(reqData *CrmTicketCreateRequest) (*CrmTicket, error) {
+func (s *CrmTicketsServiceOp) Create(reqData *CrmTicketCreateRequest) (*CrmTicket, error) {
 	var resource CrmTicket
 	if err := s.client.Post(s.crmTicketsPath, reqData, &resource); err != nil {
 		return nil, err
@@ -96,12 +96,12 @@ func (s *CrmTicketsServivceOp) Create(reqData *CrmTicketCreateRequest) (*CrmTick
 	return &resource, nil
 }
 
-func (s *CrmTicketsServivceOp) Archive(ticketId string) error {
+func (s *CrmTicketsServiceOp) Archive(ticketId string) error {
 	path := fmt.Sprintf("%s/%s", s.crmTicketsPath, ticketId)
 	return s.client.Delete(path, nil)
 }
 
-func (s *CrmTicketsServivceOp) Update(ticketId string, reqData *CrmTicketUpdateRequest) (*CrmTicket, error) {
+func (s *CrmTicketsServiceOp) Update(ticketId string, reqData *CrmTicketUpdateRequest) (*CrmTicket, error) {
 	var resource CrmTicket
 	path := fmt.Sprintf("%s/%s", s.crmTicketsPath, ticketId)
 	if err := s.client.Patch(path, reqData, &resource); err != nil {
@@ -131,7 +131,7 @@ type CrmTicketSearchRequest struct {
 	FilterGroups []*CrmTicketSearchFilterGroup `json:"filterGroups,omitempty"`
 }
 
-func (s *CrmTicketsServivceOp) Search(reqData *CrmTicketSearchRequest) (*CrmTicketsList, error) {
+func (s *CrmTicketsServiceOp) Search(reqData *CrmTicketSearchRequest) (*CrmTicketsList, error) {
 	var resource CrmTicketsList
 	path := fmt.Sprintf("%s/search", s.crmTicketsPath)
 	if err := s.client.Post(path, reqData, &resource); err != nil {

@@ -16,7 +16,7 @@ type CRM struct {
 	Note       NoteService
 	Schemas    CrmSchemasService
 	Properties CrmPropertiesService
-	Tickets    CrmTicketsServivce
+	Tickets    CrmTicketsService
 }
 
 func newCRM(c *Client) *CRM {
@@ -50,7 +50,7 @@ func newCRM(c *Client) *CRM {
 			crmPropertiesPath: fmt.Sprintf("%s/%s", crmPath, crmPropertiesPath),
 			client:            c,
 		},
-		Tickets: &CrmTicketsServivceOp{
+		Tickets: &CrmTicketsServiceOp{
 			crmTicketsPath: fmt.Sprintf("%s/%s/%s", crmPath, objectsBasePath, crmTicketsBasePath),
 			client:         c,
 		},
