@@ -100,7 +100,7 @@ type CompanyResult struct {
 // SearchByDomain searches for a company by domain.
 // EXPERIMENTAL: This method is experimental and the interface may change in the future to support custom properties.
 func (s *CompanyServiceOp) SearchByDomain(domain string) (*CompanySearchResponse, error) {
-	filter := &CompanySearchRequest{
+	req := &CompanySearchRequest{
 		SearchOptions: SearchOptions{
 			FilterGroups: []FilterGroup{
 				{
@@ -115,13 +115,13 @@ func (s *CompanyServiceOp) SearchByDomain(domain string) (*CompanySearchResponse
 			},
 		},
 	}
-	return s.Search(filter)
+	return s.Search(req)
 }
 
 // SearchByName searches for a company by name.
 // EXPERIMENTAL: This method is experimental and the interface may change in the future to support custom properties.
 func (s *CompanyServiceOp) SearchByName(name string) (*CompanySearchResponse, error) {
-	filter := &CompanySearchRequest{
+	req := &CompanySearchRequest{
 		SearchOptions: SearchOptions{
 			FilterGroups: []FilterGroup{
 				{
@@ -136,7 +136,7 @@ func (s *CompanyServiceOp) SearchByName(name string) (*CompanySearchResponse, er
 			},
 		},
 	}
-	return s.Search(filter)
+	return s.Search(req)
 }
 
 // Search searches for a company by any given property filters, including custom properties.
