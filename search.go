@@ -42,6 +42,7 @@ type Filter struct {
 	Operator     Operator `json:"operator"`
 	Values       []HsStr  `json:"values,omitempty"`
 	Value        *HsStr   `json:"value,omitempty"`
+	HighValue    *HsStr   `json:"highValue,omitempty"`
 }
 
 type SortDirection string
