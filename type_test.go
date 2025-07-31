@@ -1,6 +1,7 @@
 package hubspot_test
 
 import (
+	"encoding/json"
 	"testing"
 	"time"
 
@@ -116,6 +117,70 @@ func TestHsTime_ToTime(t *testing.T) {
 			got := tt.ht.ToTime()
 			if diff := cmp.Diff(tt.want, got, cmpTimeOption); diff != "" {
 				t.Errorf("ToTime() mismatch (-want +got):%s", diff)
+			}
+		})
+	}
+}
+
+func TestHsTime_UnmarshalJSON(t *testing.T) {
+	tests := []struct {
+		name    string
+		input   string
+		want    *hubspot.HsTime
+		wantErr bool
+	}{
+		{
+			name:  "Unix timestamp in milliseconds",
+			input: `1645920000000`, // 2022-02-27 00:00:00 UTC
+			want:  hubspot.NewTime(time.Date(2022, time.February, 27, 0, 0, 0, 0, time.UTC)),
+		},
+		{
+			name:  "Unix timestamp with fractional milliseconds",
+			input: `1645920123456`, // 2022-02-27 00:02:03.456 UTC
+			want:  hubspot.NewTime(time.Date(2022, time.February, 27, 0, 2, 3, 456000000, time.UTC)),
+		},
+		{
+			name:  "ISO 8601 date string",
+			input: `"2022-02-28T00:00:00Z"`,
+			want:  hubspot.NewTime(time.Date(2022, time.February, 28, 0, 0, 0, 0, time.UTC)),
+		},
+		{
+			name:  "ISO 8601 date string with timezone",
+			input: `"2022-02-28T15:30:45+09:00"`,
+			want:  hubspot.NewTime(time.Date(2022, time.February, 28, 6, 30, 45, 0, time.UTC)),
+		},
+		{
+			name:  "Date string without timezone (RFC3339)",
+			input: `"2022-02-28T00:00:00.000Z"`,
+			want:  hubspot.NewTime(time.Date(2022, time.February, 28, 0, 0, 0, 0, time.UTC)),
+		},
+		{
+			name:  "Empty string",
+			input: `""`,
+			want:  &hubspot.HsTime{},
+		},
+		{
+			name:  "Null value",
+			input: `null`,
+			want:  &hubspot.HsTime{},
+		},
+		{
+			name:  "Zero unix timestamp",
+			input: `0`,
+			want:  hubspot.NewTime(time.Unix(0, 0)),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var ht hubspot.HsTime
+			if err := json.Unmarshal([]byte(tt.input), &ht); err != nil {
+				t.Errorf("UnmarshalJSON() unexpected error: %v", err)
+				return
+			}
+			want := time.Time(*tt.want)
+			got := time.Time(ht)
+			if !want.Equal(got) {
+				t.Errorf("UnmarshalJSON() mismatch: want %v, got %v", want, got)
 			}
 		})
 	}
