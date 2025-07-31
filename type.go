@@ -64,15 +64,25 @@ func NewTime(t time.Time) *HsTime {
 // UnmarshalJSON implemented json.Unmarshaler.
 // This is because there are cases where the Time value returned by HubSpot is null or empty string.
 // The time.Time does not support Parse with empty string.
+// Supports both unix timestamps (milliseconds) and ISO 8601 date strings.
 func (ht *HsTime) UnmarshalJSON(b []byte) error {
-	if len(b) == 0 || string(b) == `""` {
-		return nil // NOTE: Initialization is performed on empty string.
+	if len(b) == 0 || string(b) == `""` || string(b) == "null" {
+		return nil // NOTE: Initialization is performed on empty string or null.
 	}
-	v := &time.Time{}
-	if err := json.Unmarshal(b, v); err != nil {
-		return err
+
+	if strings.Contains(string(b), "-") {
+		v := &time.Time{}
+		if err := json.Unmarshal(b, v); err != nil {
+			return err
+		}
+		*ht = HsTime(*v)
+		return nil
 	}
-	*ht = HsTime(*v)
+	if unix, err := strconv.ParseInt(string(b), 10, 64); err == nil {
+		t := time.Unix(unix/1000, (unix%1000)*1000000).UTC()
+		*ht = HsTime(t)
+		return nil
+	}
 	return nil
 }
 
