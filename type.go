@@ -68,11 +68,20 @@ func (ht *HsTime) UnmarshalJSON(b []byte) error {
 	if len(b) == 0 || string(b) == `""` {
 		return nil // NOTE: Initialization is performed on empty string.
 	}
-	v := &time.Time{}
-	if err := json.Unmarshal(b, v); err != nil {
-		return err
+
+	if strings.Contains(string(b), "-") {
+		v := &time.Time{}
+		if err := json.Unmarshal(b, v); err != nil {
+			return err
+		}
+		*ht = HsTime(*v)
 	}
-	*ht = HsTime(*v)
+	if unix, err := strconv.ParseInt(string(b), 10, 64); err == nil {
+		seconds := unix / 1000
+		nanoseconds := (unix % 1000) * 1000000
+		t := time.Unix(seconds, nanoseconds)
+		*ht = HsTime(t)
+	}
 	return nil
 }
 
